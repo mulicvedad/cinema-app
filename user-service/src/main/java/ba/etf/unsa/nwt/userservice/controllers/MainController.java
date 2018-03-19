@@ -1,16 +1,14 @@
-package ba.etf.unsa.nwt.userservice.Controllers;
+package ba.etf.unsa.nwt.userservice.controllers;
 
-import ba.etf.unsa.nwt.userservice.Models.Role;
-import ba.etf.unsa.nwt.userservice.Models.User;
-import ba.etf.unsa.nwt.userservice.Repositories.RoleRepository;
-import ba.etf.unsa.nwt.userservice.Repositories.UserRepository;
+import ba.etf.unsa.nwt.userservice.models.Role;
+import ba.etf.unsa.nwt.userservice.models.User;
+import ba.etf.unsa.nwt.userservice.repositories.RoleRepository;
+import ba.etf.unsa.nwt.userservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.Optional;
 
 
 @Controller

@@ -1,4 +1,4 @@
-package ba.etf.unsa.nwt.userservice.Models;
+package ba.etf.unsa.nwt.userservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
