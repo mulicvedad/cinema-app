@@ -11,7 +11,11 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
+
+    @OneToMany(mappedBy = "role")
+    @JsonIgnore
     private Collection<User> users;
 
     public Role() {}
@@ -34,8 +38,6 @@ public class Role {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "role")
-    @JsonIgnore
     public Collection<User> getUsers() {
         return users;
     }

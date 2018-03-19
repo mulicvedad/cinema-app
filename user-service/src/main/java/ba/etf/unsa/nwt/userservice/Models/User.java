@@ -1,5 +1,7 @@
 package ba.etf.unsa.nwt.userservice.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,7 +10,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
+
     private String firstName;
     private String lastName;
     private String username;
@@ -33,8 +39,6 @@ public class User {
         this.id = id;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     public Role getRole() {
         return role;
     }
