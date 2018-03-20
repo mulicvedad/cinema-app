@@ -1,8 +1,6 @@
 package ba.unsa.etf.nwt.movieservice;
 
-import ba.unsa.etf.nwt.movieservice.model.Genre;
-import ba.unsa.etf.nwt.movieservice.model.Movie;
-import ba.unsa.etf.nwt.movieservice.model.Review;
+import ba.unsa.etf.nwt.movieservice.model.*;
 import ba.unsa.etf.nwt.movieservice.repository.GenreRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +25,29 @@ public class MovieServiceApplication {
 	public CommandLineRunner demo() {
 		return (args) -> {
 			Genre genre1 = new Genre("Drama");
-			Movie movie1 = new Movie("Lady Bird",
+            MoviePerson moviePerson = new MoviePerson("Greta", "Gerwig");
+            MovieRole role = new MovieRole("Director");
+
+			Movie movie = new Movie("Lady Bird",
 					Timestamp.valueOf("2017-11-03 10:10:10.0"),
 					"In 2002, an artistically inclined seventeen-year-old girl comes of age in Sacramento, California.",
 					"/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
 					new HashSet<Genre>(){{
 						add(genre1);
 					}});
+            MoviePersonRole moviePersonRole = new MoviePersonRole(moviePerson, movie, role);
 
-			Review review = new Review(movie1, 1L, "Great movie!");
+            Review review = new Review(movie, 1L, "Great movie!");
 
-			movie1.setReviews(new HashSet<Review>(){{
+			movie.setReviews(new HashSet<Review>(){{
 				add(review);
 			}});
 
-			movieRepository.save(movie1);
+			movie.setMoviePersonRoles(new HashSet<MoviePersonRole>(){{
+			    add(moviePersonRole);
+            }});
+
+            movieRepository.save(movie);
 		};
 	}
 }

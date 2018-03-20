@@ -28,6 +28,11 @@ public class Movie {
             mappedBy = "movie")
     private Set<Review> reviews = new HashSet<>();
 
+
+    @OneToMany(mappedBy = "movie", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<MoviePersonRole> moviePersonRoles = new HashSet<>();
+
+
     public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath) {
         this.title = title;
         this.releaseDate = releaseDate;
@@ -50,6 +55,16 @@ public class Movie {
         this.posterPath = posterPath;
         this.genres = genres;
         this.reviews = reviews;
+    }
+
+    public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath, Set<Genre> genres, Set<Review> reviews, Set<MoviePersonRole> moviePersonRoles) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.plot = plot;
+        this.posterPath = posterPath;
+        this.genres = genres;
+        this.reviews = reviews;
+        this.moviePersonRoles = moviePersonRoles;
     }
 
     public Long getId() {
@@ -108,6 +123,14 @@ public class Movie {
         this.reviews = reviews;
     }
 
+    public Set<MoviePersonRole> getMoviePersonRoles() {
+        return moviePersonRoles;
+    }
+
+    public void setMoviePersonRoles(Set<MoviePersonRole> moviePersonRoles) {
+        this.moviePersonRoles = moviePersonRoles;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -118,6 +141,7 @@ public class Movie {
                 ", posterPath='" + posterPath + '\'' +
                 ", genres=" + genres +
                 ", reviews=" + reviews +
+                ", moviePersonRoles=" + moviePersonRoles +
                 '}';
     }
 }
