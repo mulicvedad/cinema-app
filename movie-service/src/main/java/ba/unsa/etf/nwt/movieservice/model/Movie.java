@@ -3,12 +3,13 @@ package ba.unsa.etf.nwt.movieservice.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     private String title;
@@ -20,7 +21,12 @@ public class Movie {
     @JoinTable(name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
-    private Set<Genre> genres;
+    private Set<Genre> genres = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "movie")
+    private Set<Review> reviews = new HashSet<>();
 
     public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath) {
         this.title = title;
@@ -35,6 +41,15 @@ public class Movie {
         this.plot = plot;
         this.posterPath = posterPath;
         this.genres = genres;
+    }
+
+    public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath, Set<Genre> genres, Set<Review> reviews) {
+        this.title = title;
+        this.releaseDate = releaseDate;
+        this.plot = plot;
+        this.posterPath = posterPath;
+        this.genres = genres;
+        this.reviews = reviews;
     }
 
     public Long getId() {
@@ -77,13 +92,20 @@ public class Movie {
         this.posterPath = posterPath;
     }
 
-
     public Set<Genre> getGenres() {
         return genres;
     }
 
     public void setGenres(Set<Genre> genres) {
         this.genres = genres;
+    }
+
+    public Set<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
@@ -95,6 +117,7 @@ public class Movie {
                 ", plot='" + plot + '\'' +
                 ", posterPath='" + posterPath + '\'' +
                 ", genres=" + genres +
+                ", reviews=" + reviews +
                 '}';
     }
 }
