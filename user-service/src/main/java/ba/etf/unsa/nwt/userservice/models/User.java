@@ -5,6 +5,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class User {
@@ -14,7 +16,7 @@ public class User {
     @NotNull(message = "User ID cannot be null")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
@@ -24,11 +26,12 @@ public class User {
     private String passwordHash;
     private String email;
 
-    public User(Role role, String firstName, String lastName, String passwordHash, String email)
+    public User(Role role, String firstName, String lastName, String username, String passwordHash, String email)
     {
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.passwordHash = passwordHash;
         this.email = email;
     }
@@ -102,5 +105,15 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Map getUserDetails()
+    {
+        Map<Object, Object> map = new HashMap<>();
+        map.put("firstName", firstName);
+        map.put("lastName", lastName);
+        map.put("username", username);
+        map.put("email", email);
+        return map;
     }
 }
