@@ -77,6 +77,7 @@ public class User {
 
     @NotBlank(message = "Username cannot be null or whitespace")
     @Size(max = 50, message = "Username cannot be longer than 50 characters")
+    @Column(unique = true)
     public String getUsername() {
         return username;
     }
@@ -99,6 +100,7 @@ public class User {
     @NotBlank(message = "Email cannot be null or whitespace")
     @Size(max = 100, message = "Email cannot be longer than 100 characters")
     @Email(message = "Email should be valid")
+    @Column(unique = true)
     public String getEmail() {
         return email;
     }
