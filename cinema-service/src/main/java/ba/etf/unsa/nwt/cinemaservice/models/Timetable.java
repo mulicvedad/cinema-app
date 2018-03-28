@@ -29,6 +29,7 @@ public class Timetable extends BaseModel {
         this.startDateTime = startDateTime;
     }
 
+
     @NotNull(message = "Table timetable: Column end_datetime cannot be null")
     @Column(name = "end_datetime")
     public Date getEndDateTime() {

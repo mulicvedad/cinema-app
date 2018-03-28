@@ -21,7 +21,6 @@ public class Reservation extends BaseModel{
         this.seats = seats;
     }
 
-    @NotNull(message = "Table reservation: Column cinema_showing_id cannot be null")
     @ManyToOne
     @JoinColumn(name = "cinema_showing_id")
     public CinemaShowing getCinemaShowing() {

@@ -97,6 +97,7 @@ public class DbLoader implements CommandLineRunner {
     public void addSeats(int num) {
         for (int i = 1; i < num; i++) {
             cinemaSeatService.save(new CinemaSeat(roomService.get((long)i).get(),1 + i, 3 + i, "X" + i ));
+
         }
     }
 }

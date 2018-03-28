@@ -2,12 +2,11 @@ package ba.etf.unsa.nwt.cinemaservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.text.CollationElementIterator;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity

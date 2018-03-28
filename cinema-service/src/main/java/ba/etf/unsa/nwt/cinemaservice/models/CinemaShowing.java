@@ -23,7 +23,6 @@ public class CinemaShowing extends BaseModel{
     }
 
     @Column(name = "movie_id")
-    // @NotNull
     public Long getMovieId() {
         return movieId;
     }

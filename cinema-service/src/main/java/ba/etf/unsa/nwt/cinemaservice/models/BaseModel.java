@@ -1,7 +1,6 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
 public abstract class BaseModel {
