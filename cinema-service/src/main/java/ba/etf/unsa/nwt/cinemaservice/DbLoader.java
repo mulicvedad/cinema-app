@@ -50,18 +50,18 @@ public class DbLoader implements CommandLineRunner {
     }
 
     private void addNews(int num) {
-        for (int i = 0; i < num; i++)
+        for (int i = 1; i < num; i++)
             newsService.save(new News("Vijest #" + i, "Veoma bitne vijesti", null, new Date(),
                     null));
     }
 
     private void addReservations(int num) {
-        for (long i = 0; i < num; i++) {
+        for (long i = 1; i < num; i++) {
             final long idx = i;
-            reservationService.save(new Reservation(cinemaShowingService.get(i), i,
+            reservationService.save(new Reservation(cinemaShowingService.get(i).get(), i, reservationStatusService.get(idx).get(),
                     new ArrayList<CinemaSeat>(){
                         {
-                            add(cinemaSeatService.get(idx));
+                            add(cinemaSeatService.get(idx).get());
                         }
                     }
             ));
@@ -69,33 +69,34 @@ public class DbLoader implements CommandLineRunner {
     }
 
     private void addCinemaShowing(int num) {
-        for (long i = 0; i < num; i++)
-            cinemaShowingService.save(new CinemaShowing(i, timetableService.get(i), showingTypeService.get(i), roomService.get(i)));
+        for (long i = 1; i < num; i++)
+            cinemaShowingService.save(new CinemaShowing(i, timetableService.get(i).get(), showingTypeService.get(i).get(),
+                    roomService.get(i).get()));
     }
 
     private void addReservationStatuses(int num) {
-        for (int i = 0; i < num; i++)
+        for (int i = 1; i < num; i++)
             reservationStatusService.save(new ReservationStatus("Status #" + i));
     }
 
     private void addShowingTypes(int num) {
-        for (int i = 0; i < num; i++)
+        for (int i = 1; i < num; i++)
             showingTypeService.save(new ShowingType("Type no. " + i));
     }
 
     private void populateTimetable(int num) {
-        for (int i = 0; i < num; i++)
+        for (int i = 1; i < num; i++)
             timetableService.save(new Timetable(new Date(), new Date()));
     }
 
     public void addRooms(int num) {
-        for (int i = 0; i < num; i++)
+        for (int i = 1; i < num; i++)
             roomService.save(new Room("S" + i, 50 + i * 10, "Hall no. " + i));
     }
 
     public void addSeats(int num) {
-        for (int i = 0; i < num; i++) {
-            cinemaSeatService.save(new CinemaSeat(roomService.get((long)i),1 + i, 3 + i, "X" + i ));
+        for (int i = 1; i < num; i++) {
+            cinemaSeatService.save(new CinemaSeat(roomService.get((long)i).get(),1 + i, 3 + i, "X" + i ));
         }
     }
 }

@@ -1,6 +1,12 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.text.CollationElementIterator;
 import java.util.Collection;
 
@@ -22,6 +28,8 @@ public class Room extends BaseModel{
         this.description = description;
     }
 
+    @NotBlank(message = "Table room: Column title cannot be blank nor null")
+    @Size(max = 5000, message = "Table room: Column title cannot be longer than 30 characters")
     @Column(name = "title")
     public String getTitle() {
         return title;
@@ -31,6 +39,7 @@ public class Room extends BaseModel{
         this.title = title;
     }
 
+    @NotNull(message = "Table room: Column number_of_seats cannot be null")
     @Column(name = "number_of_seats")
     public Integer getNumSeats() {
         return numSeats;
@@ -40,6 +49,7 @@ public class Room extends BaseModel{
         this.numSeats = numSeats;
     }
 
+    @Size(max = 255, message = "Table room: Column description cannot be longer than 255 characters")
     @Column(name = "description")
     public String getDescription() {
         return description;
@@ -49,6 +59,7 @@ public class Room extends BaseModel{
         this.description = description;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "room")
     public Collection<CinemaSeat> getSeats() {
         return seats;
@@ -58,6 +69,7 @@ public class Room extends BaseModel{
         this.seats = seats;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "room")
     public Collection<CinemaShowing> getCinemaShowings() {
         return cinemaShowings;
