@@ -1,6 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,6 +19,7 @@ public class Timetable extends BaseModel {
         this.endDateTime = endDateTime;
     }
 
+    @NotNull(message = "Table timetable: Column start_datetime cannot be null")
     @Column(name = "start_datetime")
     public Date getStartDateTime() {
         return startDateTime;
@@ -27,6 +29,8 @@ public class Timetable extends BaseModel {
         this.startDateTime = startDateTime;
     }
 
+
+    @NotNull(message = "Table timetable: Column end_datetime cannot be null")
     @Column(name = "end_datetime")
     public Date getEndDateTime() {
         return endDateTime;

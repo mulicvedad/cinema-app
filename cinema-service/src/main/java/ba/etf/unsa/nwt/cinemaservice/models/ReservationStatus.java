@@ -1,6 +1,8 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Entity
@@ -15,6 +17,8 @@ public class ReservationStatus extends BaseModel {
         this.statusTitle = statusTitle;
     }
 
+    @NotBlank(message = "Table reservation_status: Column status_title cannot be blank nor null")
+    @Size(max = 30, message = "Table reservation_status: Column status_title cannot be longer than 30 characters")
     @Column(name = "status_title")
     public String getStatusTitle() {
         return statusTitle;

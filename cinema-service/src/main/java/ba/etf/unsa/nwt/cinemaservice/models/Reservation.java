@@ -1,6 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -13,9 +14,10 @@ public class Reservation extends BaseModel{
 
     protected Reservation() {}
 
-    public Reservation(CinemaShowing cinemaShowing, Long userId, Collection<CinemaSeat> seats) {
+    public Reservation(CinemaShowing cinemaShowing, Long userId, ReservationStatus reservationStatus, Collection<CinemaSeat> seats) {
         this.cinemaShowing = cinemaShowing;
         this.userId = userId;
+        this.status = reservationStatus;
         this.seats = seats;
     }
 
@@ -29,6 +31,7 @@ public class Reservation extends BaseModel{
         this.cinemaShowing = cinemaShowing;
     }
 
+    // @NotNull(message = "Table reservation: Column user_id cannot be null")
     @Column(name = "user_id")
     public Long getUserId() {
         return userId;
@@ -54,6 +57,7 @@ public class Reservation extends BaseModel{
         this.seats = seats;
     }
 
+    @NotNull(message = "Table reservation: Column reservation_status_id cannot be null")
     @ManyToOne
     @JoinColumn(name = "reservation_status_id")
     public ReservationStatus getStatus() {

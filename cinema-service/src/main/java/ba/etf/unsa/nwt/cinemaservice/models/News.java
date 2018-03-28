@@ -1,7 +1,9 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
 import javax.persistence.*;
-import java.util.Collection;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -23,6 +25,7 @@ public class News extends BaseModel {
         this.cinemaShowing = cinemaShowing;
     }
 
+    @Size(max = 255, message = "Table news: Column title cannot be longer than 255 characters")
     @Column(name = "title")
     public String getTitle() {
         return title;
@@ -32,6 +35,8 @@ public class News extends BaseModel {
         this.title = title;
     }
 
+    @NotBlank(message = "Table news: Column content_text cannot be blank nor null")
+    @Size(max = 5000, message = "Table news: Column content_text cannot be longer than 5000 characters")
     @Column(name = "content_text")
     public String getContentText() {
         return contentText;
@@ -41,6 +46,7 @@ public class News extends BaseModel {
         this.contentText = contentText;
     }
 
+    @Size(max = 255, message = "Table news: Column image_url cannot be longer than 255 characters")
     @Column(name = "image_url")
     public String getImageUrl() {
         return imageUrl;
@@ -50,6 +56,7 @@ public class News extends BaseModel {
         this.imageUrl = imageUrl;
     }
 
+    @NotNull(message = "Table news: Column date_published cannot be null")
     @Column(name = "date_published")
     public Date getDatePublished() {
         return datePublished;
