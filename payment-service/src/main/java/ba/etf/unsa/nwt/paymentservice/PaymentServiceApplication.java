@@ -14,7 +14,7 @@ public class PaymentServiceApplication {
 		SpringApplication.run(PaymentServiceApplication.class, args);
 	}
 
-	@Bean
+/*	@Bean
 	public CommandLineRunner demo(ChargeRequestRepository repository) {
 		return (args) -> {
 			ChargeRequest chargeRequest = new ChargeRequest("Example Charge", 10,
@@ -27,5 +27,5 @@ public class PaymentServiceApplication {
 			repository.save(chargeRequest);
 			repository.save(chargeRequest2);
 		};
-	}
+	}*/
 }
