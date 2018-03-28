@@ -3,12 +3,9 @@ package ba.etf.unsa.nwt.userservice.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-<<<<<<< HEAD
-=======
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
->>>>>>> user-service-setup
 import java.util.Collection;
 
 @Entity
@@ -16,10 +13,7 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-<<<<<<< HEAD
-=======
     @NotNull(message = "Role ID cannot be null")
->>>>>>> user-service-setup
     private Long id;
 
     private String name;
@@ -39,12 +33,9 @@ public class Role {
         this.id = id;
     }
 
-<<<<<<< HEAD
     @Column(nullable = false, length=50)
-=======
     @NotBlank(message = "Role name cannot be null or whitespace")
     @Size(max = 50, message = "Role name cannot be longer than 50 characters")
->>>>>>> user-service-setup
     public String getName() {
         return name;
     }
