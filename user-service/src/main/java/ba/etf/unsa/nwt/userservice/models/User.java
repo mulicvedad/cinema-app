@@ -16,7 +16,7 @@ public class User {
     @NotNull(message = "User ID cannot be null")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
