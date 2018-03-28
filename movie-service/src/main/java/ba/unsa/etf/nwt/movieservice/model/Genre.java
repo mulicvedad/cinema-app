@@ -2,7 +2,6 @@ package ba.unsa.etf.nwt.movieservice.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Entity
 public class Genre {
@@ -11,20 +10,12 @@ public class Genre {
     private Long id;
     @NotNull
     private String name;
-    @ManyToMany(mappedBy = "genres")
-
-    private Set<Movie> movies;
 
     public Genre() {
     }
 
     public Genre(@NotNull String name) {
         this.name = name;
-    }
-
-    public Genre(@NotNull String name, Set<Movie> movies) {
-        this.name = name;
-        this.movies = movies;
     }
 
     public Long getId() {
@@ -43,11 +34,18 @@ public class Genre {
         this.name = name;
     }
 
-    public Set<Movie> getMovies() {
-        return movies;
+/*    public Movie getMovie() {
+        return movie;
     }
 
-    public void setMovies(Set<Movie> movies) {
-        this.movies = movies;
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }*/
+
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

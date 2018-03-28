@@ -27,25 +27,28 @@ public class MovieServiceApplication {
 			Genre genre1 = new Genre("Drama");
             MoviePerson moviePerson = new MoviePerson("Greta", "Gerwig");
             MovieRole role = new MovieRole("Director");
+            moviePerson.setRoles(new HashSet<MovieRole>(){{
+            	add(role);
+			}});
 
 			Movie movie = new Movie("Lady Bird",
 					Timestamp.valueOf("2017-11-03 10:10:10.0"),
 					"In 2002, an artistically inclined seventeen-year-old girl comes of age in Sacramento, California.",
-					"/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
-					new HashSet<Genre>(){{
-						add(genre1);
-					}});
-            MoviePersonRole moviePersonRole = new MoviePersonRole(moviePerson, movie, role);
+					"/kqjL17yufvn9OVLyXYpvtyrFfak.jpg");
 
-            Review review = new Review(movie, 1L, "Great movie!");
+			movie.setGenres(new HashSet<Genre>(){{
+				add(genre1);
+			}});
+
+            Review review = new Review(1L, "Great movie!");
 
 			movie.setReviews(new HashSet<Review>(){{
 				add(review);
 			}});
 
-			movie.setMoviePersonRoles(new HashSet<MoviePersonRole>(){{
-			    add(moviePersonRole);
-            }});
+			movie.setMoviePeople(new HashSet<MoviePerson>(){{
+				add(moviePerson);
+			}});
 
             movieRepository.save(movie);
 		};
