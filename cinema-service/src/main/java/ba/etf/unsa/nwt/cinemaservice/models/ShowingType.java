@@ -1,6 +1,8 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Entity
@@ -15,6 +17,8 @@ public class ShowingType extends BaseModel{
         this.title = title;
     }
 
+    @NotNull(message = "Table showing_type: Column title cannot be blank nor null")
+    @Size(max = 30, message = "Table showing_type: Column title cannot be longer than 30 characters")
     @Column(name = "title")
     public String getTitle() {
         return title;

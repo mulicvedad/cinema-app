@@ -1,6 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -22,6 +23,7 @@ public class CinemaShowing extends BaseModel{
     }
 
     @Column(name = "movie_id")
+    // @NotNull
     public Long getMovieId() {
         return movieId;
     }
@@ -30,6 +32,7 @@ public class CinemaShowing extends BaseModel{
         this.movieId = movieId;
     }
 
+    @NotNull(message = "Table cinema_showing: Column timetable_id cannot be null")
     @ManyToOne
     @JoinColumn(name = "timetable_id")
     public Timetable getTimetable() {
@@ -40,6 +43,7 @@ public class CinemaShowing extends BaseModel{
         this.timetable = timetable;
     }
 
+    @NotNull(message = "Table cinema_showing: Column showing_type_id cannot be null")
     @ManyToOne
     @JoinColumn(name = "showing_type_id")
     public ShowingType getShowingType() {
@@ -50,6 +54,7 @@ public class CinemaShowing extends BaseModel{
         this.showingType = showingType;
     }
 
+    @NotNull(message = "Table cinema_showing: Column room_id cannot be null")
     @ManyToOne
     @JoinColumn(name = "room_id")
     public Room getRoom() {
