@@ -1,12 +1,10 @@
 package ba.etf.unsa.nwt.paymentservice;
 
-import ba.etf.unsa.nwt.paymentservice.domain.ChargeRequest;
-import ba.etf.unsa.nwt.paymentservice.repository.ChargeRequestRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+@EnableDiscoveryClient
 @SpringBootApplication
 public class PaymentServiceApplication {
 
