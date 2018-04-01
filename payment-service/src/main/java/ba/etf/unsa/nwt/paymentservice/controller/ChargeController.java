@@ -1,14 +1,17 @@
 package ba.etf.unsa.nwt.paymentservice.controller;
 
 import ba.etf.unsa.nwt.paymentservice.domain.ChargeRequest;
+import ba.etf.unsa.nwt.paymentservice.domain.ChargeResponse;
 import ba.etf.unsa.nwt.paymentservice.service.ChargeRequestService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ChargeController {
@@ -17,17 +20,13 @@ public class ChargeController {
 	private ChargeRequestService paymentsService;
 
 	@PostMapping("/charge")
-	public String charge(ChargeRequest chargeRequest, Model model)
+	public ResponseEntity charge(@RequestBody ChargeRequest chargeRequest)
 			throws StripeException {
-		chargeRequest.setDescription("Example charge");
 		chargeRequest.setCurrency(ChargeRequest.Currency.EUR);
-		chargeRequest.setAmount(100);
 		Charge charge = paymentsService.charge(chargeRequest);
-		model.addAttribute("id", charge.getId());
-		model.addAttribute("status", charge.getStatus());
-		model.addAttribute("chargeId", charge.getId());
-		model.addAttribute("balance_transaction", charge.getBalanceTransaction());
-		return "result";
+		ChargeResponse chargeResponse = new ChargeResponse(charge.getId(),charge.getObject(),
+				charge.getStatus(),charge.getBalanceTransaction());
+		return ResponseEntity.ok(chargeResponse);
 	}
 
 	@ExceptionHandler(StripeException.class)
@@ -35,9 +34,4 @@ public class ChargeController {
 		model.addAttribute("error", ex.getMessage());
 		return "result";
 	}
-}
-
-class Chargewrapper{
-	ChargeRequest chargeRequest;
-	Model model;
 }
