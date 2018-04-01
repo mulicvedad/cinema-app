@@ -15,7 +15,7 @@ public class MoviePerson {
     @NotNull
     private String lastName;
 
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<MovieRole> roles = new HashSet<>();

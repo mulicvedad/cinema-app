@@ -6,8 +6,6 @@ import ba.unsa.etf.nwt.movieservice.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-
 @RestController
 @RequestMapping("/movie")
 public class MovieController {
@@ -25,9 +23,6 @@ public class MovieController {
 
     @PostMapping("/create")
     public void addNewMovie(@RequestBody MovieCreationRequest request) {
-        Movie movie = request.getMovie();
-        movie.setGenres(new HashSet<>(request.getGenres()));
-        movie.setMoviePeople(request.getMoviePeople());
-        movieService.addNewMovie(movie);
+        movieService.addNewMovie(request);
     }
 }

@@ -1,7 +1,6 @@
 package ba.unsa.etf.nwt.movieservice;
 
 import ba.unsa.etf.nwt.movieservice.model.*;
-import ba.unsa.etf.nwt.movieservice.repository.GenreRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
