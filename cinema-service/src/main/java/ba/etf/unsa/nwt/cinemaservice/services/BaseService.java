@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 public class BaseService<M extends BaseModel, R extends JpaRepository<M, Long>> {
+
     @Autowired
     protected R repo;
 
@@ -29,5 +30,9 @@ public class BaseService<M extends BaseModel, R extends JpaRepository<M, Long>> 
 
     public void delete(M m) {
         repo.delete(m);
+    }
+
+    public boolean exists(Long id) {
+        return repo.existsById(id);
     }
 }

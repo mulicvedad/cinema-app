@@ -9,6 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "news")
 public class News extends BaseModel {
+
     private String title;
     private String contentText;
     private String imageUrl;

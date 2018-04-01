@@ -8,6 +8,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "showing_type")
 public class ShowingType extends BaseModel{
+
     private String title;
     private Collection<CinemaShowing> cinemaShowings;
 
@@ -36,4 +37,5 @@ public class ShowingType extends BaseModel{
     public void setCinemaShowings(Collection<CinemaShowing> cinemaShowings) {
         this.cinemaShowings = cinemaShowings;
     }
+
 }

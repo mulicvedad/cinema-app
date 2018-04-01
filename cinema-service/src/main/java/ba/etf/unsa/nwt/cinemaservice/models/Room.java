@@ -12,6 +12,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "room")
 public class Room extends BaseModel{
+
     private String title;
     private Integer numSeats;
     private String description;
