@@ -7,12 +7,21 @@ import ba.unsa.etf.nwt.movieservice.repository.MovieRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MovieRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class MovieService {
+    private static final String DISCOVER_URL =
+            "https://api.themoviedb.org/3/discover/movie";
+    private static final String FIND_URL = "https://api.themoviedb.org/3/movie/";
+    private static final String API_KEY = "?api_key=5b5a9f89ddd9f24679aa33e73cdd0a7a";
+    private static final String POPULARITY_FILTER =
+            "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
+    private static final String FIND_URL_PARAMS = "&language=en-US";
+
     @Autowired private MovieRepository movieRepository;
     @Autowired private GenreRepository genreRepository;
     @Autowired private MoviePersonRepository moviePersonRepository;
@@ -74,5 +83,17 @@ public class MovieService {
             }
         }
         return roles;
+    }
+
+    public TmdbResponse getPopularMovies() {
+        String url = DISCOVER_URL + API_KEY + POPULARITY_FILTER;
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, TmdbResponse.class);
+    }
+
+    public Movie getMovieById(String id) {
+        String url = FIND_URL +  id + API_KEY + FIND_URL_PARAMS;
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, Movie.class);
     }
 }

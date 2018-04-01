@@ -1,5 +1,7 @@
 package ba.unsa.etf.nwt.movieservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,9 +18,10 @@ public class Movie {
     @Size(max = 255)
     private String title;
     @NotNull
+    @JsonProperty("release_date")
     private Timestamp releaseDate;
     @NotNull
-    private String plot;
+    private String overview;
     @NotNull
     private String posterPath;
 
@@ -39,17 +42,17 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath) {
+    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath) {
         this.title = title;
         this.releaseDate = releaseDate;
-        this.plot = plot;
+        this.overview = overview;
         this.posterPath = posterPath;
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath, Set<Genre> genres) {
+    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, Set<Genre> genres) {
         this.title = title;
         this.releaseDate = releaseDate;
-        this.plot = plot;
+        this.overview = overview;
         this.posterPath = posterPath;
         this.genres = genres;
     }
@@ -78,12 +81,12 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public String getPlot() {
-        return plot;
+    public String getOverview() {
+        return overview;
     }
 
-    public void setPlot(String plot) {
-        this.plot = plot;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public String getPosterPath() {
@@ -123,7 +126,7 @@ public class Movie {
         return "Movie{" +
                 "title='" + title + '\'' +
                 ", releaseDate=" + releaseDate +
-                ", plot='" + plot + '\'' +
+                ", overview='" + overview + '\'' +
                 ", posterPath='" + posterPath + '\'' +
                 '}';
     }
