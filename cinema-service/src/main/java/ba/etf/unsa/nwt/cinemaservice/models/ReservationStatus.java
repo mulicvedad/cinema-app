@@ -8,6 +8,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "reservation_status")
 public class ReservationStatus extends BaseModel {
+
     private String statusTitle;
     private Collection<Reservation> reservations;
 
@@ -36,4 +37,5 @@ public class ReservationStatus extends BaseModel {
     public void setReservations(Collection<Reservation> reservations) {
         this.reservations = reservations;
     }
+
 }
