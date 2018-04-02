@@ -225,4 +225,8 @@ dist
 **/client/*
 # End of https://www.gitignore.io/api/osx
 
+# Ignore local settings
+**/resources/*.properties
+!**/resources/application.properties
+
 

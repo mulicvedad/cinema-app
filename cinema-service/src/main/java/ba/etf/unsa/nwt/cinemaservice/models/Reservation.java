@@ -7,6 +7,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "reservation")
 public class Reservation extends BaseModel{
+
     private CinemaShowing cinemaShowing;
     private Long userId;
     private Collection<CinemaSeat> seats;
@@ -67,5 +68,6 @@ public class Reservation extends BaseModel{
     public void setStatus(ReservationStatus status) {
         this.status = status;
     }
+
 }
 

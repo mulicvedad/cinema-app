@@ -1,7 +1,10 @@
 package ba.unsa.etf.nwt.movieservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,59 +15,46 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @Size(max = 255)
     private String title;
+    @NotNull
+    @JsonProperty("release_date")
     private Timestamp releaseDate;
-    private String plot;
+    @NotNull
+    private String overview;
+    @NotNull
     private String posterPath;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "movie_genre",
-            joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))
+    @JoinTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            mappedBy = "movie")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "movie_review")
     private Set<Review> reviews = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "movie_person_role", joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_role_id"))
+    private Set<MoviePerson> moviePeople = new HashSet<>();
 
-    @OneToMany(mappedBy = "movie", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<MoviePersonRole> moviePersonRoles = new HashSet<>();
+    public Movie() {
+    }
 
-
-    public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath) {
+    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath) {
         this.title = title;
         this.releaseDate = releaseDate;
-        this.plot = plot;
+        this.overview = overview;
         this.posterPath = posterPath;
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath, Set<Genre> genres) {
+    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, Set<Genre> genres) {
         this.title = title;
         this.releaseDate = releaseDate;
-        this.plot = plot;
+        this.overview = overview;
         this.posterPath = posterPath;
         this.genres = genres;
-    }
-
-    public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath, Set<Genre> genres, Set<Review> reviews) {
-        this.title = title;
-        this.releaseDate = releaseDate;
-        this.plot = plot;
-        this.posterPath = posterPath;
-        this.genres = genres;
-        this.reviews = reviews;
-    }
-
-    public Movie(@NotNull String title, Timestamp releaseDate, String plot, String posterPath, Set<Genre> genres, Set<Review> reviews, Set<MoviePersonRole> moviePersonRoles) {
-        this.title = title;
-        this.releaseDate = releaseDate;
-        this.plot = plot;
-        this.posterPath = posterPath;
-        this.genres = genres;
-        this.reviews = reviews;
-        this.moviePersonRoles = moviePersonRoles;
     }
 
     public Long getId() {
@@ -91,12 +81,12 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public String getPlot() {
-        return plot;
+    public String getOverview() {
+        return overview;
     }
 
-    public void setPlot(String plot) {
-        this.plot = plot;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public String getPosterPath() {
@@ -123,25 +113,21 @@ public class Movie {
         this.reviews = reviews;
     }
 
-    public Set<MoviePersonRole> getMoviePersonRoles() {
-        return moviePersonRoles;
+    public Set<MoviePerson> getMoviePeople() {
+        return moviePeople;
     }
 
-    public void setMoviePersonRoles(Set<MoviePersonRole> moviePersonRoles) {
-        this.moviePersonRoles = moviePersonRoles;
+    public void setMoviePeople(Set<MoviePerson> moviePeople) {
+        this.moviePeople = moviePeople;
     }
 
     @Override
     public String toString() {
         return "Movie{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", releaseDate=" + releaseDate +
-                ", plot='" + plot + '\'' +
+                ", overview='" + overview + '\'' +
                 ", posterPath='" + posterPath + '\'' +
-                ", genres=" + genres +
-                ", reviews=" + reviews +
-                ", moviePersonRoles=" + moviePersonRoles +
                 '}';
     }
 }

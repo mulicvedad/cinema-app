@@ -7,6 +7,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "cinema_showing")
 public class CinemaShowing extends BaseModel{
+
     private Long movieId;
     private Timetable timetable;
     private ShowingType showingType;
@@ -72,4 +73,5 @@ public class CinemaShowing extends BaseModel{
     public void setReservations(Collection<Reservation> reservations) {
         this.reservations = reservations;
     }
+
 }

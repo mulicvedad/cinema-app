@@ -20,8 +20,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/cinema_seats")
 public class CinemaSeatController {
+
     @Autowired
     private CinemaSeatService cinemaSeatService;
+
     @Autowired
     private RoomService roomService;
 

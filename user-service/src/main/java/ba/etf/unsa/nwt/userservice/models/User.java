@@ -1,12 +1,19 @@
 package ba.etf.unsa.nwt.userservice.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull(message = "User ID cannot be null")
     private Long id;
 
     @ManyToOne
@@ -19,11 +26,12 @@ public class User {
     private String passwordHash;
     private String email;
 
-    public User(Role role, String firstName, String lastName, String passwordHash, String email)
+    public User(Role role, String firstName, String lastName, String username, String passwordHash, String email)
     {
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.passwordHash = passwordHash;
         this.email = email;
     }
@@ -45,7 +53,9 @@ public class User {
         this.role = role;
     }
 
-    @Column(name = "first_name", nullable = false, length = 50)
+    @NotBlank(message = "First name cannot be null or whitespace")
+    @Size(max = 50, message = "First name cannot be longer than 50 characters")
+    @Column(name = "first_name")
     public String getFirstName() {
         return firstName;
     }
@@ -53,7 +63,10 @@ public class User {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    @Column(name = "last_name", nullable = false, length = 50)
+
+    @NotBlank(message = "Last name cannot be null or whitespace")
+    @Size(max = 50, message = "Last name cannot be longer than 50 characters")
+    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -62,7 +75,9 @@ public class User {
         this.lastName = lastName;
     }
 
-    @Column(nullable = false, length = 50)
+    @NotBlank(message = "Username cannot be null or whitespace")
+    @Size(max = 50, message = "Username cannot be longer than 50 characters")
+    @Column(unique = true)
     public String getUsername() {
         return username;
     }
@@ -71,7 +86,9 @@ public class User {
         this.username = username;
     }
 
-    @Column(name="password_hash", nullable = false, length = 2000)
+    @NotBlank(message = "Password cannot be null or whitespace")
+    @Size(max = 2000, message = "Hashed password cannot be longer than 2000 characters")
+    @Column(name="password_hash")
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -80,12 +97,25 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    @Column(nullable = false, length = 100)
+    @NotBlank(message = "Email cannot be null or whitespace")
+    @Size(max = 100, message = "Email cannot be longer than 100 characters")
+    @Email(message = "Email should be valid")
+    @Column(unique = true)
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Map getUserDetails()
+    {
+        Map<Object, Object> map = new HashMap<>();
+        map.put("firstName", firstName);
+        map.put("lastName", lastName);
+        map.put("username", username);
+        map.put("email", email);
+        return map;
     }
 }
