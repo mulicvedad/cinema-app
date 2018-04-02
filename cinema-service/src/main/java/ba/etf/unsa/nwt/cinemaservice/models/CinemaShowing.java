@@ -1,5 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -9,6 +11,7 @@ import java.util.Collection;
 public class CinemaShowing extends BaseModel{
 
     private Long movieId;
+    private String movieTitle;
     private Timetable timetable;
     private ShowingType showingType;
     private Room room;
@@ -65,6 +68,7 @@ public class CinemaShowing extends BaseModel{
         this.room = room;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "cinemaShowing")
     public Collection<Reservation> getReservations() {
         return reservations;
@@ -72,6 +76,15 @@ public class CinemaShowing extends BaseModel{
 
     public void setReservations(Collection<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    @Column(name="movie_title")
+    public String getMovieTitle() {
+        return movieTitle;
+    }
+
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
     }
 
 }
