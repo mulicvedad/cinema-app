@@ -9,6 +9,7 @@ import ba.etf.unsa.nwt.userservice.models.User;
 import ba.etf.unsa.nwt.userservice.repositories.RoleRepository;
 import ba.etf.unsa.nwt.userservice.repositories.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,8 @@ public class UserRestController {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
     @GetMapping
     public Collection<User> getAllUsers()
     {
@@ -66,7 +69,8 @@ public class UserRestController {
         // Registration of new users is only possible for normal users
         Role role = roleRepository.findByName("ROLE_USER");
         User registeredUser = new User(role, user.getFirstName(), user.getLastName(), user.getUsername(), passwordHash, user.getEmail());
-        userRepository.save(registeredUser);
+        User us = userRepository.save(registeredUser);
+        rabbitTemplate.convertAndSend("users-exchange","users.created.#",us.getId() +";" +us.getUsername()+";"+registeredUser.getEmail()+";create");
         return ResponseEntity.ok(registeredUser);
     }
 
@@ -75,6 +79,7 @@ public class UserRestController {
     {
         try {
             userRepository.deleteById(id);
+            rabbitTemplate.convertAndSend("users-exchange", "users.deleted.#", id+";delete");
         }
         catch (EmptyResultDataAccessException e)
         {
@@ -100,7 +105,8 @@ public class UserRestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
         updatedUser.setEmail(user.getEmail());
-        userRepository.save(updatedUser);
+        User us = userRepository.save(updatedUser);
+        rabbitTemplate.convertAndSend("users-exchange", "users.updated.#", us.getId()+";"+us.getEmail()+";update");
         return ResponseEntity.ok().build();
     }
 
