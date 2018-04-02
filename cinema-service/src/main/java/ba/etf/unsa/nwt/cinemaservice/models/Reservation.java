@@ -10,6 +10,7 @@ public class Reservation extends BaseModel{
 
     private CinemaShowing cinemaShowing;
     private Long userId;
+    private String username;
     private Collection<CinemaSeat> seats;
     private ReservationStatus status;
 
@@ -67,6 +68,15 @@ public class Reservation extends BaseModel{
 
     public void setStatus(ReservationStatus status) {
         this.status = status;
+    }
+
+    @Column(name = "username")
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

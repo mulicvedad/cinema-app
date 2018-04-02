@@ -1,5 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -29,6 +31,7 @@ public class ReservationStatus extends BaseModel {
         this.statusTitle = statusTitle;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "status")
     public Collection<Reservation> getReservations() {
         return reservations;

@@ -1,5 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -41,6 +43,7 @@ public class Timetable extends BaseModel {
         this.endDateTime = endDateTime;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "timetable")
     public Collection<CinemaShowing> getCinemaShowings() {
         return cinemaShowings;
