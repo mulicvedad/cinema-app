@@ -11,6 +11,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "cinema_seat")
 public class CinemaSeat extends BaseModel {
+
     private Room room;
     private Integer rowNum;
     private Integer colNum;

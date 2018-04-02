@@ -1,5 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
@@ -8,6 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name = "timetable")
 public class Timetable extends BaseModel {
+
     private Date startDateTime;
     private Date endDateTime;
     private Collection<CinemaShowing> cinemaShowings;
@@ -40,6 +43,7 @@ public class Timetable extends BaseModel {
         this.endDateTime = endDateTime;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "timetable")
     public Collection<CinemaShowing> getCinemaShowings() {
         return cinemaShowings;
@@ -48,4 +52,5 @@ public class Timetable extends BaseModel {
     public void setCinemaShowings(Collection<CinemaShowing> cinemaShowings) {
         this.cinemaShowings = cinemaShowings;
     }
+
 }

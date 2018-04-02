@@ -1,6 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
 public class ErrorResponse {
+
     private String field;
     private String description;
 
@@ -24,4 +25,5 @@ public class ErrorResponse {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

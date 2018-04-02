@@ -1,5 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,6 +10,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "showing_type")
 public class ShowingType extends BaseModel{
+
     private String title;
     private Collection<CinemaShowing> cinemaShowings;
 
@@ -28,6 +31,7 @@ public class ShowingType extends BaseModel{
         this.title = title;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "showingType")
     public Collection<CinemaShowing> getCinemaShowings() {
         return cinemaShowings;
@@ -36,4 +40,5 @@ public class ShowingType extends BaseModel{
     public void setCinemaShowings(Collection<CinemaShowing> cinemaShowings) {
         this.cinemaShowings = cinemaShowings;
     }
+
 }
