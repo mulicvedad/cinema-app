@@ -11,4 +11,8 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
     public Collection<Reservation> findByUserId(Long userId) {
         return repo.findByUserId(userId);
     }
+    public void deleteReservationsByUser(Long id)
+    {
+        repo.deleteByUserId(id);
+    }
 }

@@ -6,7 +6,6 @@ import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
 import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponse;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaSeatService;
 import ba.etf.unsa.nwt.cinemaservice.services.RoomService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
