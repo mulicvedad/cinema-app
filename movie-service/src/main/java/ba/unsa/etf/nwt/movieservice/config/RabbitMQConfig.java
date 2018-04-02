@@ -1,4 +1,4 @@
-package ba.unsa.etf.nwt.movieservice;
+package ba.unsa.etf.nwt.movieservice.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -10,20 +10,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
     @Bean
-    public Queue usersQueue()
-    {
-        return new Queue("usersMovieQueue",false);
+    public Queue usersQueue() {
+        return new Queue("usersMovieQueue", false);
     }
+
     @Bean
-    public TopicExchange usersExchange()
-    {
+    public TopicExchange usersExchange() {
         return new TopicExchange("users-exchange");
     }
+
     @Bean
-    public Binding usersBinding(Queue usersQueue, TopicExchange usersExchange)
-    {
+    public Binding usersBinding(Queue usersQueue, TopicExchange usersExchange) {
         return BindingBuilder.bind(usersQueue).to(usersExchange).with("users.*");
-
     }
-
 }

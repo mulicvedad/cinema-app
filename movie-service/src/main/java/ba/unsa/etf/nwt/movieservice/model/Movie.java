@@ -11,9 +11,13 @@ import java.util.Set;
 
 @Entity
 public class Movie {
+    @JsonProperty("id")
+    private int tmdbId;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long movieId;
     @NotNull
     @Size(max = 255)
     private String title;
@@ -23,7 +27,9 @@ public class Movie {
     @NotNull
     private String overview;
     @NotNull
+    @JsonProperty("poster_path")
     private String posterPath;
+
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"),
@@ -58,11 +64,11 @@ public class Movie {
     }
 
     public Long getId() {
-        return id;
+        return movieId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.movieId = id;
     }
 
     public String getTitle() {

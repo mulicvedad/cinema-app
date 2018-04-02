@@ -5,12 +5,17 @@ import ba.unsa.etf.nwt.movieservice.repository.GenreRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MoviePersonRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MovieRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MovieRoleRepository;
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
+import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
@@ -22,10 +27,16 @@ public class MovieService {
             "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
     private static final String FIND_URL_PARAMS = "&language=en-US";
 
-    @Autowired private MovieRepository movieRepository;
-    @Autowired private GenreRepository genreRepository;
-    @Autowired private MoviePersonRepository moviePersonRepository;
-    @Autowired private MovieRoleRepository movieRoleRepository;
+    @Autowired
+    private MovieRepository movieRepository;
+    @Autowired
+    private GenreRepository genreRepository;
+    @Autowired
+    private MoviePersonRepository moviePersonRepository;
+    @Autowired
+    private MovieRoleRepository movieRoleRepository;
+    @Autowired
+    private RestTemplate restTemplate;
 
     public void addNewMovie(MovieCreationRequest movieRequest) {
         Movie movie = movieRequest.getMovie();
@@ -43,9 +54,9 @@ public class MovieService {
     private Set<Genre> getGenres(Set<Genre> genres) {
         Set<Genre> movieGenres = new HashSet<>();
 
-        for (Genre g: genres) {
+        for (Genre g : genres) {
             Genre foundGenre = genreRepository.findByName(g.getName());
-            if(foundGenre != null) {
+            if (foundGenre != null) {
                 movieGenres.add(foundGenre);
             } else {
                 movieGenres.add(g);
@@ -57,15 +68,15 @@ public class MovieService {
     private Set<MoviePerson> getPeople(HashSet<MoviePerson> moviePeople) {
         Set<MoviePerson> moviePersonSet = new HashSet<>();
 
-        for (MoviePerson mp: moviePeople) {
+        for (MoviePerson mp : moviePeople) {
             MoviePerson moviePerson = moviePersonRepository.findByFirstNameAndLastName(mp.getFirstName(), mp.getLastName());
-            if(moviePerson != null) {
+            if (moviePerson != null) {
                 moviePersonSet.add(moviePerson);
             } else {
-               Set<MovieRole> movieRoles = getMovieRoles(mp.getRoles());
-               mp.setRoles(movieRoles);
-               moviePersonRepository.save(mp);
-               moviePersonSet.add(mp);
+                Set<MovieRole> movieRoles = getMovieRoles(mp.getRoles());
+                mp.setRoles(movieRoles);
+                moviePersonRepository.save(mp);
+                moviePersonSet.add(mp);
             }
         }
 
@@ -74,9 +85,9 @@ public class MovieService {
 
     private Set<MovieRole> getMovieRoles(Set<MovieRole> movieRoles) {
         Set<MovieRole> roles = new HashSet<>();
-        for (MovieRole role: movieRoles) {
+        for (MovieRole role : movieRoles) {
             MovieRole movieRole = movieRoleRepository.findByRole(role.getRole());
-            if(movieRole != null) {
+            if (movieRole != null) {
                 roles.add(movieRole);
             } else {
                 roles.add(role);
@@ -85,15 +96,21 @@ public class MovieService {
         return roles;
     }
 
-    public TmdbResponse getPopularMovies() {
+    public List<String> getPopularMovies() {
         String url = DISCOVER_URL + API_KEY + POPULARITY_FILTER;
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, TmdbResponse.class);
+        List<Movie> mostPopularMovies = restTemplate.getForObject(url, TmdbResponse.class).getResults();
+        return mostPopularMovies
+                .stream()
+                .map(Movie::getTitle)
+                .collect(Collectors.toList());
     }
 
     public Movie getMovieById(String id) {
-        String url = FIND_URL +  id + API_KEY + FIND_URL_PARAMS;
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, Movie.class);
+        String url = FIND_URL + id + API_KEY + FIND_URL_PARAMS;
+        Movie m = restTemplate.getForObject(url, Movie.class);
+        if(movieRepository.findByTitle(m.getTitle()) == null) {
+            movieRepository.save(m);
+        }
+        return m;
     }
 }
