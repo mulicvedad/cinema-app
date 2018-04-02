@@ -35,4 +35,5 @@ public class BaseService<M extends BaseModel, R extends JpaRepository<M, Long>> 
     public boolean exists(Long id) {
         return repo.existsById(id);
     }
+
 }

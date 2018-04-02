@@ -10,16 +10,19 @@ import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 
 @RestController
@@ -33,6 +36,7 @@ public class ReservationController {
     RestTemplate restTemplate;
 
     @Autowired
+    @Qualifier("eurekaClient")
     EurekaClient eurekaClient;
 
     @Autowired
@@ -45,8 +49,10 @@ public class ReservationController {
     CinemaSeatService cinemaSeatService;
 
     @GetMapping
-    public ResponseEntity getAllReservations() {
-        return ResponseEntity.ok("Soon");
+    public Collection<Reservation> getAllReservations(@RequestParam(value = "userId", required = false) Long userId) {
+        if (userId != null)
+            return reservationService.findByUserId(userId);
+        return reservationService.all();
     }
 
     @PostMapping("/create")
