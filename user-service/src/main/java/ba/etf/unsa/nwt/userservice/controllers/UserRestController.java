@@ -21,7 +21,10 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.ServletException;
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import org.apache.logging.log4j.Logger;
 
 @RestController
 @RequestMapping("/users")
@@ -70,7 +73,8 @@ public class UserRestController {
         Role role = roleRepository.findByName("ROLE_USER");
         User registeredUser = new User(role, user.getFirstName(), user.getLastName(), user.getUsername(), passwordHash, user.getEmail());
         User us = userRepository.save(registeredUser);
-        rabbitTemplate.convertAndSend("users-exchange","users.created.#",us.getId() +";" +us.getUsername()+";"+registeredUser.getEmail()+";create");
+        // for now it's not needed to inform other services
+        // rabbitTemplate.convertAndSend("users-exchange","users.created.#",us.getId());
         return ResponseEntity.ok(registeredUser);
     }
 
@@ -79,7 +83,7 @@ public class UserRestController {
     {
         try {
             userRepository.deleteById(id);
-            rabbitTemplate.convertAndSend("users-exchange", "users.deleted.#", id+";delete");
+            rabbitTemplate.convertAndSend("users-exchange","users.deleted", id);
         }
         catch (EmptyResultDataAccessException e)
         {
@@ -106,7 +110,8 @@ public class UserRestController {
         }
         updatedUser.setEmail(user.getEmail());
         User us = userRepository.save(updatedUser);
-        rabbitTemplate.convertAndSend("users-exchange", "users.updated.#", us.getId()+";"+us.getEmail()+";update");
+        // for now it's not needed to inform other services about user changes
+        // rabbitTemplate.convertAndSend("users-exchange", "users.updated.#", us.getId()+";"+us.getEmail()+";update");
         return ResponseEntity.ok().build();
     }
 

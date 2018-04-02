@@ -6,4 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReservationService extends BaseService<Reservation, ReservationRepository> {
+    public void deleteReservationsByUser(Long id)
+    {
+        repo.deleteByUserId(id);
+    }
 }
