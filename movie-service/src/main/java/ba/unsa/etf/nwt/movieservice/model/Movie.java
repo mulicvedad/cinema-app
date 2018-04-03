@@ -11,24 +11,26 @@ import java.util.Set;
 
 @Entity
 public class Movie {
-    @JsonProperty("id")
-    private int tmdbId;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long movieId;
+    private Long id;
+
     @NotNull
     @Size(max = 255)
     private String title;
+
     @NotNull
     @JsonProperty("release_date")
     private Timestamp releaseDate;
+
     @NotNull
     private String overview;
+
     @NotNull
     @JsonProperty("poster_path")
     private String posterPath;
+
+    private Long tmdbId;
 
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -64,11 +66,11 @@ public class Movie {
     }
 
     public Long getId() {
-        return movieId;
+        return id;
     }
 
     public void setId(Long id) {
-        this.movieId = id;
+        this.id = id;
     }
 
     public String getTitle() {
@@ -125,6 +127,14 @@ public class Movie {
 
     public void setMoviePeople(Set<MoviePerson> moviePeople) {
         this.moviePeople = moviePeople;
+    }
+
+    public Long getTmdbId() {
+        return tmdbId;
+    }
+
+    public void setTmdbId(Long tmdbId) {
+        this.tmdbId = tmdbId;
     }
 
     @Override

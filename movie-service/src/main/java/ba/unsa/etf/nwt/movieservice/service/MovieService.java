@@ -5,10 +5,8 @@ import ba.unsa.etf.nwt.movieservice.repository.GenreRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MoviePersonRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MovieRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MovieRoleRepository;
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.EurekaClient;
-import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,10 +20,13 @@ public class MovieService {
     private static final String DISCOVER_URL =
             "https://api.themoviedb.org/3/discover/movie";
     private static final String FIND_URL = "https://api.themoviedb.org/3/movie/";
-    private static final String API_KEY = "?api_key=5b5a9f89ddd9f24679aa33e73cdd0a7a";
+    private static final String API_KEY = "?api_key=";
     private static final String POPULARITY_FILTER =
             "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
     private static final String FIND_URL_PARAMS = "&language=en-US";
+
+    @Value("${tmdb.apikey}")
+    private String apiKey;
 
     @Autowired
     private MovieRepository movieRepository;
@@ -97,7 +98,7 @@ public class MovieService {
     }
 
     public List<String> getPopularMovies() {
-        String url = DISCOVER_URL + API_KEY + POPULARITY_FILTER;
+        String url = DISCOVER_URL + API_KEY + apiKey + POPULARITY_FILTER;
         List<Movie> mostPopularMovies = restTemplate.getForObject(url, TmdbResponse.class).getResults();
         return mostPopularMovies
                 .stream()
@@ -106,9 +107,12 @@ public class MovieService {
     }
 
     public Movie getMovieById(String id) {
-        String url = FIND_URL + id + API_KEY + FIND_URL_PARAMS;
+        String url = FIND_URL + id + API_KEY + apiKey + FIND_URL_PARAMS;
         Movie m = restTemplate.getForObject(url, Movie.class);
-        if(movieRepository.findByTitle(m.getTitle()) == null) {
+        if(m != null && movieRepository.findByTitle(m.getTitle()) == null) {
+            m.setTmdbId(m.getId());
+            m.setId(null);
+            m.getGenres().forEach(g -> g.setId(null));
             movieRepository.save(m);
         }
         return m;
