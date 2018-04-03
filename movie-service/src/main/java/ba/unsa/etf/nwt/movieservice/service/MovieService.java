@@ -108,13 +108,19 @@ public class MovieService {
 
     public Movie getMovieById(String id) {
         String url = FIND_URL + id + API_KEY + apiKey + FIND_URL_PARAMS;
-        Movie m = restTemplate.getForObject(url, Movie.class);
-        if(m != null && movieRepository.findByTitle(m.getTitle()) == null) {
-            m.setTmdbId(m.getId());
-            m.setId(null);
-            m.getGenres().forEach(g -> g.setId(null));
-            movieRepository.save(m);
+        Movie movie = restTemplate.getForObject(url, Movie.class);
+        Movie existingMovie = movieRepository.findByTitle(movie.getTitle());
+        if(existingMovie == null) {
+            return createMovieFromTmdb(movie);
         }
-        return m;
+        return existingMovie;
+    }
+
+    private Movie createMovieFromTmdb(Movie movie) {
+        movie.setTmdbId(movie.getId());
+        movie.setId(null);
+        movie.getGenres().forEach(g -> g.setId(null));
+        addNewMovie(new MovieCreationRequest(movie, (HashSet<Genre>) movie.getGenres(), new HashSet<>()));
+        return movieRepository.findByTitle(movie.getTitle());
     }
 }
