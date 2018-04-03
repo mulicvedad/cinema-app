@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 
 @Service
 public class ReservationService extends BaseService<Reservation, ReservationRepository> {
-    
+
     @Autowired
     RestTemplate restTemplate;
 
