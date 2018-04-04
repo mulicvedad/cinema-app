@@ -3,7 +3,6 @@ package ba.etf.unsa.nwt.cinemaservice.controllers;
 import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
 import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponse;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
-import com.sun.org.apache.regexp.internal.RESyntaxException;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

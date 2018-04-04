@@ -30,7 +30,7 @@ public class DbLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        int num = 10;
+        int num = 4;
         if (roomService.count() == 0)
             addRooms(num);
         if (cinemaSeatService.count() == 0)

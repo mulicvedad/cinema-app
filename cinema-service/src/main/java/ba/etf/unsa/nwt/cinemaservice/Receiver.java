@@ -18,7 +18,7 @@ public class Receiver {
             value = "usersCinemaQueue", durable = "false"),
             exchange = @Exchange(value = "users-exchange", type = "topic")
     ))
-    public void deleteUser(Long id) throws ServletException
+    public void deleteUserInformation(Long id) throws ServletException
     {
             reservationService.deleteReservationsByUser(id);
     }
