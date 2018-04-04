@@ -79,7 +79,7 @@ public class UserRestController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity delete(@PathVariable("id") Long id) throws ServletException
+    public ResponseEntity deleteAccount(@PathVariable("id") Long id) throws ServletException
     {
         try {
             userRepository.deleteById(id);

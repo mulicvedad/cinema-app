@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReservationStatusService extends BaseService<ReservationStatus, ReservationStatusRepository> {
     public ReservationStatus getStatusForNewReservation() {
-        return repo.findByStatusTitle("NEW");
+        return repo.findByStatusTitle("new");
     }
+    public ReservationStatus getStatusForConfirmedReservation() {
+        return repo.findByStatusTitle("confirmed");
+    }
+    public void updateReservationStatusTitle(Long id, String statusTitle) { repo.updateStatusTitle(statusTitle, id); }
+
 }

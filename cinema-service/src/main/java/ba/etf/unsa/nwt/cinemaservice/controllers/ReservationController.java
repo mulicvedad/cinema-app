@@ -1,6 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.controllers;
 
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.ReservationDTO;
+import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
 import ba.etf.unsa.nwt.cinemaservice.models.*;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaSeatService;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
@@ -55,6 +56,7 @@ public class ReservationController {
         return reservationService.all();
     }
 
+    // too much bussiness logic in controller
     @PostMapping("/create")
     public ResponseEntity create(@RequestBody ReservationDTO reservationInfo) {
         Long cinemaShowingId = reservationInfo.cinemaShowingId;
@@ -106,4 +108,27 @@ public class ReservationController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/{id}/pay")
+    public ResponseEntity payReservation(@RequestBody ChargeRequest chargeRequest, @PathVariable Long id) {
+        boolean valid = false;
+        String message = "Reservation payment not successful";
+        try {
+            valid = reservationService.payReservation(chargeRequest, id);
+        } catch (ServiceException e) {
+            valid = false;
+            message += ": " + e.getMessage();
+        } catch (Exception e) {
+            valid = false;
+            message += ": Something went wrong trying to process payment request. Error message: \n" + e.getMessage();
+        }
+
+        if (!valid)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("none", message));
+
+        return ResponseEntity.ok().build();
+
+    }
+
+
 }

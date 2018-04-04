@@ -32,6 +32,10 @@ public class BaseService<M extends BaseModel, R extends JpaRepository<M, Long>> 
         repo.delete(m);
     }
 
+    public void deleteAll() {
+        repo.deleteAll();
+    }
+
     public boolean exists(Long id) {
         return repo.existsById(id);
     }

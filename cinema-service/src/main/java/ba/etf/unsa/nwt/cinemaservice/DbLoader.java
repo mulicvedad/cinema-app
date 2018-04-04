@@ -30,7 +30,7 @@ public class DbLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        int num = 10;
+        int num = 4;
         if (roomService.count() == 0)
             addRooms(num);
         if (cinemaSeatService.count() == 0)
@@ -47,6 +47,11 @@ public class DbLoader implements CommandLineRunner {
             addReservations(num);
         if (newsService.count() == 0)
             addNews(num);
+
+        reservationStatusService.deleteAll();
+        reservationStatusService.save(new ReservationStatus("new"));
+        reservationStatusService.save(new ReservationStatus("confirmed"));
+        reservationStatusService.save(new ReservationStatus("denied"));
     }
 
     private void addNews(int num) {
@@ -75,7 +80,7 @@ public class DbLoader implements CommandLineRunner {
     }
 
     private void addReservationStatuses(int num) {
-        for (int i = 1; i < num; i++)
+        for (int i = 1; i < 4; i++)
             reservationStatusService.save(new ReservationStatus("Status #" + i));
     }
 
