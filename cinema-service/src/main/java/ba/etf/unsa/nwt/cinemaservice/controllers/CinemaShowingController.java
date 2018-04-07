@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/cinema_showing")
+@RequestMapping("/cinema-showings")
 public class CinemaShowingController {
 
     @Autowired

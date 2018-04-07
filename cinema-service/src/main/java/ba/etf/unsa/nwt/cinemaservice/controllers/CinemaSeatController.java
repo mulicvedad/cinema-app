@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/cinema_seats")
+@RequestMapping("/cinema-seats")
 public class CinemaSeatController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class CinemaSeatController {
         return cinemaSeatService.all();
     }
 
-    @GetMapping(value = "{id}/details", produces = "application/json")
+    @GetMapping("/{id}")
     public ResponseEntity getCinemaSeat(@PathVariable("id") Long cinemaSeatId) {
         Optional<CinemaSeat> cinemaSeat = cinemaSeatService.get(cinemaSeatId);
         if(!cinemaSeat.isPresent())
@@ -40,7 +40,7 @@ public class CinemaSeatController {
         return ResponseEntity.ok(cinemaSeat.get());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity createCinemaSeat(@RequestBody CinemaSeatDTO cinemaSeatDTO) {
         if (!roomService.get(cinemaSeatDTO.getRoomId()).isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("id",
