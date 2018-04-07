@@ -228,5 +228,5 @@ dist
 # Ignore local settings
 **/resources/*.properties
 !**/resources/application.properties
-
+!**/resources/bootstrap.properties
 
