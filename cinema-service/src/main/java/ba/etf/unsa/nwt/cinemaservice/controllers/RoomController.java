@@ -24,7 +24,7 @@ public class RoomController {
         return roomService.all();
     }
 
-    @GetMapping(value = "{id}/details", produces = "application/json")
+    @GetMapping(value = "/{id}")
     public ResponseEntity getRoom(@PathVariable("id") Long roomId) {
         Optional<Room> room = roomService.get(roomId);
         if(!room.isPresent())
@@ -33,7 +33,7 @@ public class RoomController {
         return ResponseEntity.ok(room.get());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity createRoom(@RequestBody RoomDTO roomDTO) {
         Room room = null;
         try {

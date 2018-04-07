@@ -1,4 +1,9 @@
 package ba.etf.unsa.nwt.cinemaservice.controllers;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/showing-types")
 public class ShowingTypeController {
 }
