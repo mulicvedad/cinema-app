@@ -57,7 +57,7 @@ public class ReservationController {
     }
 
     // too much bussiness logic in controller
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity create(@RequestBody ReservationDTO reservationInfo) {
         Long cinemaShowingId = reservationInfo.cinemaShowingId;
         Long userId = reservationInfo.userId;
