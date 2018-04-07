@@ -7,6 +7,7 @@ import ba.etf.unsa.nwt.cinemaservice.services.CinemaSeatService;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
 import ba.etf.unsa.nwt.cinemaservice.services.ReservationService;
 import ba.etf.unsa.nwt.cinemaservice.services.ReservationStatusService;
+import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
@@ -56,54 +57,12 @@ public class ReservationController {
         return reservationService.all();
     }
 
-    // too much bussiness logic in controller
     @PostMapping
     public ResponseEntity create(@RequestBody ReservationDTO reservationInfo) {
-        Long cinemaShowingId = reservationInfo.cinemaShowingId;
-        Long userId = reservationInfo.userId;
-        List<Long> seats = reservationInfo.seats;
-
-        Logger.getLogger(ReservationController.class.toString()).info("CINEMA SHOWING ID: " + cinemaShowingId.toString());
-        Logger.getLogger(ReservationController.class.toString()).info("USER ID: " + userId.toString());
-
-        Optional<CinemaShowing> cinemaShowing = cinemaShowingService.get(cinemaShowingId);
-
-        if (!cinemaShowing.isPresent())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("cinemaShowingid",
-                    "Cinema showing with given id doesn't exist"));
-
-        Application application = eurekaClient.getApplication("user-service");
-        InstanceInfo instanceInfo = application.getInstances().get(0);
-        String url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/" + "users/" + userId
-                + "/details";
-        Logger.getLogger(ReservationController.class.toString()).info("URL " + url);
-
         try {
-            restTemplate.getForEntity(url, Map.class);
-        } catch (HttpClientErrorException e) {
-            if (e.getStatusCode() == HttpStatus.NOT_FOUND)
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("userId",
-                        "User with given id doesn't exist"));
-            else
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("userId",
-                        e.getMessage()));
-        }
-
-
-        List<CinemaSeat> cinemaSeats = new ArrayList<>();
-        for(Long id : seats) {
-            Optional<CinemaSeat> cinemaSeat = cinemaSeatService.get(id);
-            if (!cinemaSeat.isPresent())
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("seats",
-                        "Seat with given id doesn't exist"));
-            cinemaSeats.add(cinemaSeat.get());
-        }
-
-        try {
-            reservationService.save(new Reservation(cinemaShowing.get(), userId,
-                    reservationStatusService.getStatusForNewReservation(), cinemaSeats));
+            reservationService.create(reservationInfo);
         } catch (Exception e) {
-            Logger.getLogger(ReservationController.class.toString()).info("Onixpected exception in ReservationController.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("none", e.getMessage()));
         }
 
         return ResponseEntity.ok().build();
