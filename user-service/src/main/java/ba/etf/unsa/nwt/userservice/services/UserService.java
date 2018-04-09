@@ -67,6 +67,10 @@ public class UserService {
         userRepository.save(userPasswordReset.get());
     }
 
+    public long count()
+    {
+        return userRepository.count();
+    }
 
     private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
