@@ -70,7 +70,7 @@ public class MovieService {
         Set<MoviePerson> moviePersonSet = new HashSet<>();
 
         for (MoviePerson mp : moviePeople) {
-            MoviePerson moviePerson = moviePersonRepository.findByFirstNameAndLastName(mp.getFirstName(), mp.getLastName());
+            MoviePerson moviePerson = moviePersonRepository.findByName(mp.getName());
             if (moviePerson != null) {
                 moviePersonSet.add(moviePerson);
             } else {
@@ -99,7 +99,7 @@ public class MovieService {
 
     public List<String> getPopularMovies() {
         String url = DISCOVER_URL + API_KEY + apiKey + POPULARITY_FILTER;
-        List<Movie> mostPopularMovies = restTemplate.getForObject(url, TmdbResponse.class).getResults();
+        List<Movie> mostPopularMovies = restTemplate.getForObject(url, TmdbMovieResponse.class).getResults();
         return mostPopularMovies
                 .stream()
                 .map(Movie::getTitle)
@@ -120,7 +120,22 @@ public class MovieService {
         movie.setTmdbId(movie.getId());
         movie.setId(null);
         movie.getGenres().forEach(g -> g.setId(null));
+        movie.setMoviePeople(getMovieCast(movie.getId()));
         addNewMovie(new MovieCreationRequest(movie, (HashSet<Genre>) movie.getGenres(), new HashSet<>()));
         return movieRepository.findByTitle(movie.getTitle());
+    }
+
+    private Set<MoviePerson> getMovieCast(Long id) {
+        String url = FIND_URL + id + "/credits" + API_KEY + apiKey + FIND_URL_PARAMS;
+        TmdbCreditsResponse creditsResponse = restTemplate.getForObject(url, TmdbCreditsResponse.class);
+        Set<MoviePerson> moviePeople = new HashSet<>();
+
+        for (Crew c: creditsResponse.getCrew()) {
+            Set<MovieRole> roles = new HashSet<>();
+            MoviePerson person = new MoviePerson(c.getName());
+            roles.add(new MovieRole(c.getJob()));
+            person.setRoles(roles);
+        }
+        return moviePeople;
     }
 }
