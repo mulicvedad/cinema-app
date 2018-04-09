@@ -22,7 +22,8 @@ public class Role {
     @JsonIgnore
     private Collection<User> users;
 
-    public Role() {}
+    public Role() {
+    }
 
 
     public Long getId() {
@@ -33,7 +34,7 @@ public class Role {
         this.id = id;
     }
 
-    @Column(nullable = false, length=50)
+    @Column(nullable = false, length = 50)
     @NotBlank(message = "Role name cannot be null or whitespace")
     @Size(max = 50, message = "Role name cannot be longer than 50 characters")
     public String getName() {

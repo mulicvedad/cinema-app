@@ -16,9 +16,8 @@ public class DbLoader implements CommandLineRunner {
     private RoleRepository roleRepository;
 
     @Override
-    public void run(String... args) throws Exception
-    {
-        if(roleRepository.count() == 0) {
+    public void run(String... args) throws Exception {
+        if (roleRepository.count() == 0) {
             Role role = new Role();
             role.setName("ROLE_ADMIN");
             roleRepository.save(role);
@@ -26,9 +25,9 @@ public class DbLoader implements CommandLineRunner {
             role.setName("ROLE_USER");
             roleRepository.save(role);
         }
-        if(userRepository.count() == 0) {
+        if (userRepository.count() == 0) {
             Role role = roleRepository.findByName("ROLE_ADMIN");
-            User user = new User(role, "Admin", "Adminkovic", "admin","21232f297a57a5a743894a0e4a801fc3", "admin@etf.unsa.ba");
+            User user = new User(role, "Admin", "Adminkovic", "admin", "21232f297a57a5a743894a0e4a801fc3", "admin@etf.unsa.ba");
             userRepository.save(user);
 
             role = roleRepository.findByName("ROLE_USER");

@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Service
-public class UserService{
+public class UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -24,38 +24,32 @@ public class UserService{
     @Autowired
     RoleRepository roleRepository;
 
-    public Collection<User> getAll()
-    {
+    public Collection<User> getAll() {
         return userRepository.findAll();
     }
 
-    public Optional<User> get(Long id)
-    {
+    public Optional<User> get(Long id) {
         return userRepository.findById(id);
     }
 
-    public User getLazyInit(Long id)
-    {
+    public User getLazyInit(Long id) {
         //Lazy initialization
         return userRepository.getOne(id);
     }
 
-    public User save(User user)
-    {
+    public User save(User user) {
         return userRepository.save(user);
     }
-    public void delete(Long id)
-    {
+
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
-    public int getUsernameAndEmailCount(String username, String email)
-    {
+    public int getUsernameAndEmailCount(String username, String email) {
         return userRepository.isUsernameOrEmailUnique(username, email);
     }
 
-    public int getEmailCount(String email)
-    {
+    public int getEmailCount(String email) {
         return userRepository.isEmailUnique(email);
     }
 
@@ -74,8 +68,7 @@ public class UserService{
     }
 
 
-    private static String hashPassword(String password)
-    {
+    private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 

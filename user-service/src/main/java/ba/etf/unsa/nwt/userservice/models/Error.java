@@ -10,7 +10,9 @@ public class Error {
         this.message = message;
         this.status = status;
     }
-    public Error() {}
+
+    public Error() {
+    }
 
     public String getField() {
         return field;
