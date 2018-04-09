@@ -1,16 +1,16 @@
-package ba.etf.unsa.nwt.userservice.controllers.dto;
+package ba.etf.unsa.nwt.userservice.models;
 
-public class ErrorDetailsDTO {
+public class Error {
     private String field;
     private String message;
     private Integer status;
 
-    public ErrorDetailsDTO(String field, String message, Integer status) {
+    public Error(String field, String message, Integer status) {
         this.field = field;
         this.message = message;
         this.status = status;
     }
-    public ErrorDetailsDTO() {}
+    public Error() {}
 
     public String getField() {
         return field;
