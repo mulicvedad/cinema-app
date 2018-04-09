@@ -2,12 +2,14 @@ package ba.etf.unsa.nwt.cinemaservice;
 
 import ba.etf.unsa.nwt.cinemaservice.models.*;
 import ba.etf.unsa.nwt.cinemaservice.services.*;
+import com.google.common.collect.Iterables;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Component
 public class DbLoader implements CommandLineRunner {
@@ -30,28 +32,23 @@ public class DbLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        int num = 4;
         if (roomService.count() == 0)
-            addRooms(num);
+            addRooms(10);
         if (cinemaSeatService.count() == 0)
-            addSeats(num);
+            addSeats();
         if (timetableService.count() == 0)
-            populateTimetable(num);
+            populateTimetable(20);
         if (showingTypeService.count() == 0)
-            addShowingTypes(num);
+            addShowingTypes();
         if (reservationStatusService.count() == 0)
-            addReservationStatuses(num);
+            addReservationStatuses();
         if (cinemaShowingService.count() == 0)
-            addCinemaShowing(num);
+            addCinemaShowing(10);
         if (reservationService.count() == 0)
-            addReservations(num);
+            addReservations(10);
         if (newsService.count() == 0)
-            addNews(num);
+            addNews(10);
 
-        reservationStatusService.deleteAll();
-        reservationStatusService.save(new ReservationStatus("new"));
-        reservationStatusService.save(new ReservationStatus("confirmed"));
-        reservationStatusService.save(new ReservationStatus("denied"));
     }
 
     private void addNews(int num) {
@@ -61,48 +58,91 @@ public class DbLoader implements CommandLineRunner {
     }
 
     private void addReservations(int num) {
+        Long numCinemaShowings = cinemaShowingService.count();
+        Long numCinemaSeats = cinemaSeatService.count();
+        Collection<CinemaShowing> cinemaShowings = cinemaShowingService.all();
+        ReservationStatus reservationStatus;
         for (long i = 1; i < num; i++) {
-            final long idx = i;
-            reservationService.save(new Reservation(cinemaShowingService.get(i).get(), i, reservationStatusService.get(idx).get(),
-                    new ArrayList<CinemaSeat>(){
-                        {
-                            add(cinemaSeatService.get(idx).get());
+            long idx = i;
+            if (i % 2 == 0) reservationStatus = reservationStatusService.getStatusForNewReservation();
+            else reservationStatus = reservationStatusService.getStatusForConfirmedReservation();
+            for (CinemaShowing cs : cinemaShowings) {
+                reservationService.save(new Reservation(cs, i, reservationStatus,
+                        new ArrayList<CinemaSeat>() {
+                            {
+                                long seatIndex = (idx * RandomUtils.nextInt()) % cs.getRoom().getSeats().size();
+                                CinemaSeat cinemaSeat = Iterables.get(cs.getRoom().getSeats(), (int)seatIndex);
+                                add(cinemaSeat);
+                            }
                         }
-                    }
-            ));
+                ));
+            }
         }
     }
 
     private void addCinemaShowing(int num) {
-        for (long i = 1; i < num; i++)
-            cinemaShowingService.save(new CinemaShowing(i, timetableService.get(i).get(), showingTypeService.get(i).get(),
-                    roomService.get(i).get()));
+        Long numRooms = roomService.count();
+        Long numTimeTable = timetableService.count();
+        Long numShowingTypes = showingTypeService.count();
+        for (long i = 1; i < num; i++) {
+            Timetable timetable = timetableService.get((i % numTimeTable) + 1).get();
+            Room room = roomService.get((i % numRooms) + 1).get();
+            ShowingType showingType = showingTypeService.get((i % numShowingTypes) + 1).get();
+            cinemaShowingService.save(new CinemaShowing(i, timetable, showingType,room));
+        }
     }
 
-    private void addReservationStatuses(int num) {
-        for (int i = 1; i < 4; i++)
-            reservationStatusService.save(new ReservationStatus("Status #" + i));
+    private void addReservationStatuses() {
+        reservationStatusService.save(new ReservationStatus("new"));
+        reservationStatusService.save(new ReservationStatus("confirmed"));
+        reservationStatusService.save(new ReservationStatus("denied"));
     }
 
-    private void addShowingTypes(int num) {
-        for (int i = 1; i < num; i++)
-            showingTypeService.save(new ShowingType("Type no. " + i));
+    private void addShowingTypes() {
+        showingTypeService.save(new ShowingType("Regular"));
+        showingTypeService.save(new ShowingType("Premiere"));
+        showingTypeService.save(new ShowingType("Kids"));
+        showingTypeService.save(new ShowingType("Adult"));
+        showingTypeService.save(new ShowingType("3D"));
     }
 
     private void populateTimetable(int num) {
-        for (int i = 1; i < num; i++)
-            timetableService.save(new Timetable(new Date(), new Date()));
+        Date d1 = new Date();
+        Date d2;
+        Calendar cl = Calendar. getInstance();
+        cl.setTime(d1);
+        for (int i = 0; i < num; i++) {
+            if (i % 2 == 0) {
+                cl.add(Calendar.HOUR, 2);
+                d2 = cl.getTime();
+                cl.add(Calendar.HOUR, 2);
+                d1 = cl.getTime();
+            } else {
+                cl.add(Calendar.DAY_OF_MONTH, 1);
+                d2 = cl.getTime();
+                cl.add(Calendar.MINUTE, 95);
+                d1 = cl.getTime();
+            }
+
+            timetableService.save(new Timetable(d1, d2));
+
+        }
     }
 
     public void addRooms(int num) {
+        int numRowsBase = 10;
+        int numColsBase = 12;
         for (int i = 1; i < num; i++)
-            roomService.save(new Room("S" + i, 50 + i * 10, "Hall no. " + i));
+            roomService.save(new Room("S" + i, (numRowsBase + i) * (numColsBase + i), numRowsBase + i, numColsBase + i,
+                    "Hall no. " + i));
     }
 
-    public void addSeats(int num) {
-        for (int i = 1; i < num; i++) {
-            cinemaSeatService.save(new CinemaSeat(roomService.get((long)i).get(),1 + i, 3 + i, "X" + i ));
-
+    public void addSeats() {
+        Collection<Room> rooms = roomService.all();
+        for (Room r : rooms) {
+            for (int i = 1; i <= r.getNumRows(); i++)
+                for (int j = 1; j <= r.getNumCols(); j++)
+                    cinemaSeatService.save(new CinemaSeat(r, i, j, "R" + i + "-C" + j ));
         }
     }
 }

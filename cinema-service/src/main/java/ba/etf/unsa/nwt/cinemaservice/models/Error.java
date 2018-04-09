@@ -1,11 +1,13 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
-public class ErrorResponse {
+public class Error {
 
+    private String type;
     private String field;
     private String description;
 
-    public ErrorResponse(String field, String description) {
+    public Error(String type, String field, String description) {
+        this.type = type;
         this.field = field;
         this.description = description;
     }
@@ -24,6 +26,14 @@ public class ErrorResponse {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }
