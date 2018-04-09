@@ -15,6 +15,8 @@ public class Room extends BaseModel{
 
     private String title;
     private Integer numSeats;
+    private Integer numRows;
+    private Integer numCols;
     private String description;
     private Collection<CinemaSeat> seats;
 
@@ -22,9 +24,11 @@ public class Room extends BaseModel{
 
     protected Room() {}
 
-    public Room(String title, Integer numSeats, String description) {
+    public Room(String title, Integer numSeats, Integer numRows, Integer numCols, String description) {
         this.title = title;
         this.numSeats = numSeats;
+        this.numRows = numRows;
+        this.numCols = numCols;
         this.description = description;
     }
 
@@ -60,7 +64,7 @@ public class Room extends BaseModel{
     }
 
     @JsonIgnore
-    @OneToMany(mappedBy = "room")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "room")
     public Collection<CinemaSeat> getSeats() {
         return seats;
     }
@@ -77,6 +81,24 @@ public class Room extends BaseModel{
 
     public void setCinemaShowings(Collection<CinemaShowing> cinemaShowings) {
         this.cinemaShowings = cinemaShowings;
+    }
+
+    @Column(name = "num_rows")
+    public Integer getNumRows() {
+        return numRows;
+    }
+
+    public void setNumRows(Integer numRows) {
+        this.numRows = numRows;
+    }
+
+    @Column(name = "num_cols")
+    public Integer getNumCols() {
+        return numCols;
+    }
+
+    public void setNumCols(Integer numCols) {
+        this.numCols = numCols;
     }
 
 }
