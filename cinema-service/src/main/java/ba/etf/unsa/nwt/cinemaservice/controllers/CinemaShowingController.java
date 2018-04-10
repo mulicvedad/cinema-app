@@ -1,9 +1,9 @@
 package ba.etf.unsa.nwt.cinemaservice.controllers;
 
 import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
-import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponse;
+import ba.etf.unsa.nwt.cinemaservice.models.Error;
+import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponseWrapper;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
-import com.sun.org.apache.regexp.internal.RESyntaxException;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/cinema_showing")
+@RequestMapping("/cinema-showings")
 public class CinemaShowingController {
 
     @Autowired
@@ -37,8 +37,9 @@ public class CinemaShowingController {
             } catch (ParseException e) {
                 Logger.getLogger(CinemaShowingService.class.toString()).info(" Inner exception message: \n"
                         + e.getMessage());
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("date",
-                        "Date parsing exception: Date must be in format 'dd-mm-yyyy'."));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error(
+                        "Parsing failure","date","Date parsing exception: Date must be " +
+                        "in format 'dd-mm-yyyy'.")));
             }
         return ResponseEntity.ok(cinemaShowingService.all());
     }

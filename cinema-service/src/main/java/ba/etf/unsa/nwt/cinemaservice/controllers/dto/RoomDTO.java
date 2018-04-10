@@ -1,40 +1,31 @@
 package ba.etf.unsa.nwt.cinemaservice.controllers.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 public class RoomDTO {
 
-    private String title;
-    private Integer numSeats;
-    private String description;
+    @NotNull
+    public String title;
+    @Positive
+    @Max(1000)
+    public Integer numSeats;
+    @Positive
+    @Max(20)
+    public Integer numRows;
+    @Positive
+    @Max(20)
+    public Integer numCols;
+    public String description;
 
     protected RoomDTO() {}
 
-    public RoomDTO(String title, Integer numSeats, String description) {
+    public RoomDTO(String title, Integer numSeats, Integer numRows, Integer numCols, String description) {
         this.title = title;
         this.numSeats = numSeats;
-        this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Integer getNumSeats() {
-        return numSeats;
-    }
-
-    public void setNumSeats(Integer numSeats) {
-        this.numSeats = numSeats;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
+        this.numRows = numRows;
+        this.numCols = numCols;
         this.description = description;
     }
 }

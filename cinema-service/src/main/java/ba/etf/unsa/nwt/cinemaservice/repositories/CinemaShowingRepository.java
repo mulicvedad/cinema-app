@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Date;
 
 public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Long>{
+
     @Query("select cs from CinemaShowing cs where cs.timetable.startDateTime >= current_date ")
     Collection<CinemaShowing> findUpcoming();
 
@@ -18,4 +19,5 @@ public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Lo
 
     @Query("select cs from CinemaShowing cs where function('DATE',cs.timetable.startDateTime) = function('DATE', :startDate)")
     Collection<CinemaShowing> V2(@Param("startDate") String startDate);
+
 }
