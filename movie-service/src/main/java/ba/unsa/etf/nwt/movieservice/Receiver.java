@@ -1,11 +1,12 @@
 package ba.unsa.etf.nwt.movieservice;
 
 import ba.unsa.etf.nwt.movieservice.repository.ReviewRepository;
-import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.ServletException;
 
 @Component
 public class Receiver {
@@ -17,8 +18,7 @@ public class Receiver {
             value = "usersMovieQueue", durable = "false"),
             exchange = @Exchange(value = "users-exchange", type = "topic")
     ))
-    public void deleteUserInformation(Long id) throws ServletException
-    {
+    public void deleteUserInformation(Long id) {
         reviewRepository.deleteByUserId(id);
     }
 

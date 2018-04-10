@@ -1,4 +1,4 @@
-package ba.unsa.etf.nwt.movieservice;
+package ba.unsa.etf.nwt.movieservice.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
