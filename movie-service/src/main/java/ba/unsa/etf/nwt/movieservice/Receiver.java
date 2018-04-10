@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Receiver {
-
     @Autowired
     ReviewRepository reviewRepository;
 
@@ -21,6 +20,4 @@ public class Receiver {
     public void deleteUserInformation(Long id) {
         reviewRepository.deleteByUserId(id);
     }
-
-
 }
