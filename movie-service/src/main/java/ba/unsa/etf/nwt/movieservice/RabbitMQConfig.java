@@ -9,19 +9,28 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
+
+    private static final String MOVIES_EXCHANGE = "movies-exchange";
+    private static final String USERS_EXCHANGE = "users-exchange";
+    private static final String USERS_MOVIE_QUEUE = "usersMovieQueue";
+
     @Bean
-    public Queue usersQueue()
-    {
-        return new Queue("usersMovieQueue",false);
+    TopicExchange moviesExchange() {
+        return new TopicExchange(MOVIES_EXCHANGE);
     }
+
     @Bean
-    public TopicExchange usersExchange()
-    {
-        return new TopicExchange("users-exchange");
+    public Queue usersQueue() {
+        return new Queue(USERS_MOVIE_QUEUE, false);
     }
+
     @Bean
-    public Binding usersBinding(Queue usersQueue, TopicExchange usersExchange)
-    {
+    public TopicExchange usersExchange() {
+        return new TopicExchange(USERS_EXCHANGE);
+    }
+
+    @Bean
+    public Binding usersBinding(Queue usersQueue, TopicExchange usersExchange) {
         return BindingBuilder.bind(usersQueue).to(usersExchange).with("users.*");
 
     }

@@ -2,7 +2,6 @@ package ba.etf.unsa.nwt.cinemaservice.controllers;
 
 import ba.etf.unsa.nwt.cinemaservice.models.News;
 import ba.etf.unsa.nwt.cinemaservice.services.NewsService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.util.Optional;
 
 @RestController

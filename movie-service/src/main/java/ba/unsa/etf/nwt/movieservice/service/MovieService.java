@@ -96,4 +96,8 @@ public class MovieService {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, Movie.class);
     }
+
+    public void delete(Long id) {
+        movieRepository.deleteById(id);
+    }
 }
