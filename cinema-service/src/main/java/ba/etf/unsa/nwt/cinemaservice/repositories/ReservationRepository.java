@@ -19,6 +19,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Transactional
     void deleteByUserId(Long id);
 
+    @Transactional
+    @Modifying
+    void deleteReservationByCinemaShowingMovieId(Long id);
+
     @Query(value = "update reservation set status = (select id from status where title like :status) where id = :reservationId",
         nativeQuery = true)
     void updateStatus_old(Long reservationId, String status);
