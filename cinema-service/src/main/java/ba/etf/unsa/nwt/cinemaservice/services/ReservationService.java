@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -49,7 +50,8 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         repo.deleteByUserId(id);
     }
 
-    public void create(ReservationDTO reservationDTO) {
+    @Transactional
+    public void create(ReservationDTO reservationDTO) throws ServiceException {
         Long cinemaShowingId = reservationDTO.cinemaShowingId;
         Long userId = reservationDTO.userId;
         List<Long> seats = reservationDTO.seats;
@@ -61,6 +63,10 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
 
         if (!cinemaShowing.isPresent())
            throw new ServiceException("Cinema showing with given id doesn't exist");
+
+        Date dateNow = new Date();
+        if (cinemaShowing.get().getTimetable().getStartDateTime().before(dateNow))
+            throw new ServiceException("Reservation creation failed. Requested cinema showing has already been played.");
 
         String url = null;
         try {
@@ -82,12 +88,25 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
                 throw e;
         }
 
+        // check if there are duplicates in list of seats
+        Set<Long> uniqueSeats = new HashSet<>(seats);
+        if (uniqueSeats.size() != seats.size()) {
+            throw new ServiceException("Reservation denied. There are duplicate seats in request");
+        }
 
         List<CinemaSeat> cinemaSeats = new ArrayList<>();
         for(Long id : seats) {
             Optional<CinemaSeat> cinemaSeat = cinemaSeatService.get(id);
             if (!cinemaSeat.isPresent())
                 throw new ServiceException("Seat with given id doesn't exist");
+            int testCount = this.repo.countAllBySeatsContainsAndCinemaShowingAndStatusNot(cinemaSeat.get(), cinemaShowing.get(),
+                    reservationStatusService.getStatusForNewReservation());
+            Logger.getLogger(ReservationController.class.toString()).info("SEATS: " + testCount);
+            // for every seat in current reservation check if seat is already taken in some other reservation
+            // which is not denied (if it was denied then the seat is considered available)
+            if (this.repo.countAllBySeatsContainsAndCinemaShowingAndStatusNot(cinemaSeat.get(), cinemaShowing.get(),
+                    reservationStatusService.getStatusForDeniedReservation()) > 0)
+                throw new ServiceException("Reservation couldn't be created. Seat with id = " + id + " is already taken");
             cinemaSeats.add(cinemaSeat.get());
         }
 
@@ -111,10 +130,16 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         if (!reservation.get().getStatus().getStatusTitle().equals("new"))
             throw new ServiceException("Reservation status is not appropriate");
 
-        Application application = eurekaClient.getApplication("payment-service");
-        InstanceInfo instanceInfo = application.getInstances().get(0);
-        String url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/charge";
-        Logger.getLogger(ReservationController.class.toString()).info("URL " + url);
+        String url;
+        try {
+            Application application = eurekaClient.getApplication("payment-service");
+            InstanceInfo instanceInfo = application.getInstances().get(0);
+            url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/charge";
+            Logger.getLogger(ReservationController.class.toString()).info("URL " + url);
+        } catch (Exception e) {
+            throw new ServiceException("Payment service is not available");
+        }
+
 
         try {
             ResponseEntity responseEntity = restTemplate.postForEntity(url, chargeRequest, ChargeRequest.class);

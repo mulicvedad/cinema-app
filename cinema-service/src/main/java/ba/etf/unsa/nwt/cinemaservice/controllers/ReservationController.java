@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 
+import javax.validation.Valid;
 import java.util.*;
 
 @RestController
@@ -57,19 +58,22 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity create(@RequestBody ReservationDTO reservationInfo) {
+    public ResponseEntity create(@RequestBody @Valid ReservationDTO reservationInfo) {
         try {
             reservationService.create(reservationInfo);
+        } catch (ServiceException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(
+                    new Error("Reservation failed",null, e.getMessage())));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error("none",
-                    "id", e.getMessage())));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error("Reservation failed",
+                    null, "An error occured during reservation creation.")));
         }
 
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/pay")
-    public ResponseEntity payReservation(@RequestBody ChargeRequest chargeRequest, @PathVariable Long id) {
+    public ResponseEntity payReservation(@RequestBody @Valid ChargeRequest chargeRequest, @PathVariable Long id) {
         boolean valid = false;
         String message = "Reservation payment not successful";
         try {

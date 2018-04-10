@@ -1,22 +1,26 @@
 package ba.etf.unsa.nwt.cinemaservice.controllers;
 
-import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
+import ba.etf.unsa.nwt.cinemaservice.controllers.dto.CinemaShowingDTO;
+import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
+import ba.etf.unsa.nwt.cinemaservice.models.*;
 import ba.etf.unsa.nwt.cinemaservice.models.Error;
-import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponseWrapper;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
+import ba.etf.unsa.nwt.cinemaservice.services.RoomService;
+import ba.etf.unsa.nwt.cinemaservice.services.ShowingTypeService;
+import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.sql.rowset.serial.SerialException;
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
@@ -26,20 +30,24 @@ public class CinemaShowingController {
     @Autowired
     CinemaShowingService cinemaShowingService;
 
-    // this method will be changed
+    @Autowired
+    RoomService roomService;
+
+    @Autowired
+    ShowingTypeService showingTypeService;
+
+    // using ISO 8601 date format
     @GetMapping
     public ResponseEntity getAllCinemaShowings(@RequestParam(name = "date", required = false) String date)
             throws BadHttpRequest {
         if (date != null)
             try {
-                Date newDate = new SimpleDateFormat("dd-mm-yyyy").parse(date);
-                return ResponseEntity.ok(cinemaShowingService.findByDate(date));
+                Date newDate = new SimpleDateFormat("yyyy-mm-dd").parse(date);
+                return ResponseEntity.ok(cinemaShowingService.findByDate(newDate));
             } catch (ParseException e) {
-                Logger.getLogger(CinemaShowingService.class.toString()).info(" Inner exception message: \n"
-                        + e.getMessage());
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error(
                         "Parsing failure","date","Date parsing exception: Date must be " +
-                        "in format 'dd-mm-yyyy'.")));
+                        "in format 'yyyy-mm-dd'.")));
             }
         return ResponseEntity.ok(cinemaShowingService.all());
     }
@@ -47,6 +55,18 @@ public class CinemaShowingController {
     @GetMapping("/upcoming")
     public Collection<CinemaShowing> upcoming() {
         return cinemaShowingService.findUpcomingShowings();
+    }
+
+    @PostMapping
+    public ResponseEntity create(@RequestBody @Valid CinemaShowingDTO cinemaShowingDTO) {
+        try {
+            cinemaShowingService.createCinemaShowing(cinemaShowingDTO);
+        } catch (ServiceException e) {
+            return ResponseEntity.badRequest().body(new ErrorResponseWrapper(new Error("Cinema showing creation failed",
+                    null, e.getMessage())));
+        }
+
+        return null;
     }
 
 }
