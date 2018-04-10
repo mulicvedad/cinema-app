@@ -115,7 +115,7 @@ public class UserRestController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("{id}/resetpassword")
+    @PutMapping("{id}/reset-password")
     public ResponseEntity resetPassword(@PathVariable("id") Long id, @Valid @RequestBody UserPasswordResetDTO user) throws ServletException
     {
         try {

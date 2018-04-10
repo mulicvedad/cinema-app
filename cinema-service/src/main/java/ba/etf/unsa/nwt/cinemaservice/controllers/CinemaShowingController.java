@@ -1,5 +1,6 @@
 package ba.etf.unsa.nwt.cinemaservice.controllers;
 
+import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
 import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
 import ba.etf.unsa.nwt.cinemaservice.models.Error;
 import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponseWrapper;
@@ -8,10 +9,7 @@ import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,7 +36,7 @@ public class CinemaShowingController {
                 Logger.getLogger(CinemaShowingService.class.toString()).info(" Inner exception message: \n"
                         + e.getMessage());
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error(
-                        "Parsing failure","date","Date parsing exception: Date must be " +
+                        "Parsing failure", "date", "Date parsing exception: Date must be " +
                         "in format 'dd-mm-yyyy'.")));
             }
         return ResponseEntity.ok(cinemaShowingService.all());
@@ -49,4 +47,8 @@ public class CinemaShowingController {
         return cinemaShowingService.findUpcomingShowings();
     }
 
+    @GetMapping("/{id}/available-seats")
+    public Collection<CinemaSeat> getAvailableSeats(@PathVariable("id") Long id) {
+        return cinemaShowingService.getAvailableSeats(id);
+    }
 }
