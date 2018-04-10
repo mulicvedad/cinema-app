@@ -26,7 +26,7 @@ public class MovieServiceApplication {
     public CommandLineRunner demo() {
         return (args) -> {
             Genre genre1 = new Genre("Drama");
-            MoviePerson moviePerson = new MoviePerson("Greta", "Gerwig");
+            MoviePerson moviePerson = new MoviePerson("Greta Gerwig");
             MovieRole role = new MovieRole("Director");
             moviePerson.setRoles(new HashSet<MovieRole>() {{
                 add(role);

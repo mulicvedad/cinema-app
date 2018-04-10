@@ -5,20 +5,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class TmdbResponse {
+public class TmdbMovieResponse {
     private int page;
     private int totalResults;
     private int totalPages;
     private List<Movie> results;
 
-    public TmdbResponse() {
+    public TmdbMovieResponse() {
     }
 
     @JsonCreator
-    public TmdbResponse(@JsonProperty("page") int page,
-                        @JsonProperty("results") List<Movie> results,
-                        @JsonProperty("total_results") int totalResults,
-                        @JsonProperty("total_pages") int totalPages) {
+    public TmdbMovieResponse(@JsonProperty("page") int page,
+                             @JsonProperty("results") List<Movie> results,
+                             @JsonProperty("total_results") int totalResults,
+                             @JsonProperty("total_pages") int totalPages) {
         this.page = page;
         this.results = results;
         this.totalResults = totalResults;

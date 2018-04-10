@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 
 @Component
 public class Receiver {
-
     @Autowired
     ReviewRepository reviewRepository;
 
@@ -17,10 +16,8 @@ public class Receiver {
             value = "usersMovieQueue", durable = "false"),
             exchange = @Exchange(value = "users-exchange", type = "topic")
     ))
-    public void deleteUserInformation(Long id) throws ServletException
-    {
+    public void deleteUserInformation(Long id) throws ServletException {
+        System.out.println(id);
         reviewRepository.deleteByUserId(id);
     }
-
-
 }

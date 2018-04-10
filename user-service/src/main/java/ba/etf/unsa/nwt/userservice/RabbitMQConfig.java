@@ -6,10 +6,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
-    static final String topicExchangeName = "users-exchange";
-
+    private static final String TOPIC_EXCHANGE_NAME = "users-exchange";
     @Bean
     TopicExchange exchange() {
-        return new TopicExchange(topicExchangeName);
+        return new TopicExchange(TOPIC_EXCHANGE_NAME);
     }
 }
