@@ -29,7 +29,7 @@ public class MovieController {
     }
 
     @GetMapping(value = "/find/id/{id}")
-    public Movie getMovieById(@RequestParam(value = "id") String id) {
+    public Movie getMovieById(@PathVariable(name = "id") String id) {
         return movieService.getMovieById(id);
     }
 
