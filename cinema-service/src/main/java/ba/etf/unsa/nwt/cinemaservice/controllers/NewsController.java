@@ -21,7 +21,7 @@ public class NewsController {
 
     @GetMapping("/{id}")
     public ResponseEntity getNewsById(@PathVariable @NotNull Long id) {
-        Optional<News>  news = newsService.get(id);
+        Optional<News> news = newsService.get(id);
         if (news.isPresent())
             return ResponseEntity.ok().body(news.get());
         return ResponseEntity.notFound().build();

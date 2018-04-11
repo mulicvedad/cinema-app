@@ -95,8 +95,10 @@ public class UserRestController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("{id}/resetpassword")
-    public ResponseEntity resetPassword(@PathVariable("id") Long id, @Valid @RequestBody UserPasswordResetDTO user) throws ServletException {
+
+    @PutMapping("{id}/reset-password")
+    public ResponseEntity resetPassword(@PathVariable("id") Long id, @Valid @RequestBody UserPasswordResetDTO user) throws ServletException
+    {
         try {
             //Difference between getOne method - loads whole entity immediately
             Optional<User> userPasswordReset = userService.get(id);

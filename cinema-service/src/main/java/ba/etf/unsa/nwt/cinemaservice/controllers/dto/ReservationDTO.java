@@ -6,10 +6,14 @@ import java.util.List;
 
 public class ReservationDTO {
 
+    @NotNull
     @Positive
     public Long cinemaShowingId;
+
+    @NotNull
     @Positive
     public Long userId;
+
     @NotNull
     public List<Long> seats;
 

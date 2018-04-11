@@ -29,7 +29,7 @@ public class RoomController {
     @GetMapping(value = "/{id}")
     public ResponseEntity getRoom(@PathVariable("id") Long roomId) {
         Optional<Room> room = roomService.get(roomId);
-        if(!room.isPresent())
+        if (!room.isPresent())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseWrapper(new Error("Not found",
                     "id", "Room with id = " + roomId + " doesn't exist")));
         return ResponseEntity.ok(room.get());

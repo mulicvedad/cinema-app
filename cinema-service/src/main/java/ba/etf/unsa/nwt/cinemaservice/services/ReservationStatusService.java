@@ -9,9 +9,17 @@ public class ReservationStatusService extends BaseService<ReservationStatus, Res
     public ReservationStatus getStatusForNewReservation() {
         return repo.findByStatusTitle("new");
     }
+
     public ReservationStatus getStatusForConfirmedReservation() {
         return repo.findByStatusTitle("confirmed");
     }
-    public void updateReservationStatusTitle(Long id, String statusTitle) { repo.updateStatusTitle(statusTitle, id); }
+
+    public ReservationStatus getStatusForDeniedReservation() {
+        return repo.findByStatusTitle("denied");
+    }
+
+    public void updateReservationStatusTitle(Long id, String statusTitle) {
+        repo.updateStatusTitle(statusTitle, id);
+    }
 
 }
