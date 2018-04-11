@@ -22,7 +22,6 @@ public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Lo
     // @Query("select cs from CinemaShowing cs where cs.timetable.startDate > :startDate")
     // Collection<CinemaShowing> findAllByDate(@Param("startDate") Date startDate);
 
-    // doesn't work
     @Query("select  cs from CinemaShowing cs, Timetable t where  cs.timetable = t and t.startDateTime > :date")
     Collection<CinemaShowing> findAllByDate(@Param("date") Date date);
 

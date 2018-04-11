@@ -40,7 +40,7 @@ public class CinemaShowingController {
             throws BadHttpRequest {
         if (date != null)
             try {
-                Date newDate = new SimpleDateFormat("yyyy-mm-dd").parse(date);
+                Date newDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                 return ResponseEntity.ok(cinemaShowingService.findByDate(newDate));
             } catch (ParseException e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error(
