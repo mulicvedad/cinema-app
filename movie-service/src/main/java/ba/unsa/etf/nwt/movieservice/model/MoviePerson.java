@@ -11,9 +11,7 @@ public class MoviePerson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private String firstName;
-    @NotNull
-    private String lastName;
+    private String name;
 
     @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person_id"),
@@ -23,14 +21,12 @@ public class MoviePerson {
     public MoviePerson() {
     }
 
-    public MoviePerson(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public MoviePerson(String name) {
+        this.name = name;
     }
 
-    public MoviePerson(@NotNull String firstName, @NotNull String lastName, Set<MovieRole> roles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public MoviePerson(@NotNull String name, Set<MovieRole> roles) {
+        this.name = name;
         this.roles = roles;
     }
 
@@ -42,20 +38,12 @@ public class MoviePerson {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<MovieRole> getRoles() {
@@ -70,8 +58,7 @@ public class MoviePerson {
     public String toString() {
         return "MoviePerson{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", name='" + name + '\'' +
                 ", roles=" + roles +
                 '}';
     }

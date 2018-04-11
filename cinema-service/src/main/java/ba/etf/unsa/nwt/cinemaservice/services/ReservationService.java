@@ -50,6 +50,8 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         repo.deleteByUserId(id);
     }
 
+    public void deleteReservationsByMovie(Long id) { repo.deleteReservationByCinemaShowingMovieId(id);}
+  
     @Transactional
     public void create(ReservationDTO reservationDTO) throws ServiceException {
         Long cinemaShowingId = reservationDTO.cinemaShowingId;
