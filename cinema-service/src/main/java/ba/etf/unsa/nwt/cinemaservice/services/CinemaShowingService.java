@@ -8,8 +8,14 @@ import ba.etf.unsa.nwt.cinemaservice.repositories.CinemaShowingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
+import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
+import ba.etf.unsa.nwt.cinemaservice.repositories.CinemaSeatRepository;
+import ba.etf.unsa.nwt.cinemaservice.repositories.CinemaShowingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
@@ -22,6 +28,8 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
 
     @Autowired
     ShowingTypeService showingTypeService;
+    @Autowired
+    CinemaSeatRepository cinemaSeatRepository;
 
     public Collection<CinemaShowing> findUpcomingShowings() {
         return repo.findUpcoming();
@@ -57,5 +65,17 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
 
         repo.save(new CinemaShowing(cinemaShowingDTO.movieId, new Timetable(cinemaShowingDTO.startDateTime,
                 cinemaShowingDTO.endDateTime), showingType.get(), room.get()));
+
+  public Collection<CinemaSeat> getAvailableSeats(Long id) {
+
+        Optional<CinemaShowing> cinemaShowing = repo.findById(id);
+        Collection<CinemaSeat> reservedSeats = cinemaSeatRepository.findReservedSeats(id);
+        Collection<CinemaSeat> allSeats = cinemaSeatRepository.findAllByRoom(cinemaShowing.get().getRoom());
+        Collection<CinemaSeat> availableSeats = new ArrayList<>();
+        for (CinemaSeat cinemaSeat : allSeats) {
+            if (!reservedSeats.contains(cinemaSeat))
+                availableSeats.add(cinemaSeat);
+        }
+        return availableSeats;
     }
 }

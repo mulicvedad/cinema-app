@@ -3,6 +3,8 @@ package ba.etf.unsa.nwt.cinemaservice.controllers;
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.CinemaShowingDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
 import ba.etf.unsa.nwt.cinemaservice.models.*;
+import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
+import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
 import ba.etf.unsa.nwt.cinemaservice.models.Error;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
 import ba.etf.unsa.nwt.cinemaservice.services.RoomService;
@@ -69,4 +71,8 @@ public class CinemaShowingController {
         return null;
     }
 
+    @GetMapping("/{id}/available-seats")
+    public Collection<CinemaSeat> getAvailableSeats(@PathVariable("id") Long id) {
+        return cinemaShowingService.getAvailableSeats(id);
+    }
 }
