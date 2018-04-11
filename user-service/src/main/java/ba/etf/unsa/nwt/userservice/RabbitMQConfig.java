@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
     static final String topicExchangeName = "users-exchange";
+
     @Bean
-    TopicExchange exchange()
-    {
+    TopicExchange exchange() {
         return new TopicExchange(topicExchangeName);
     }
 }

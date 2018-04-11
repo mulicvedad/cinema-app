@@ -7,6 +7,8 @@ public class CinemaSeatDTO {
     public Integer colNum;
     public String mark;
 
+    protected CinemaSeatDTO() {}
+
     public CinemaSeatDTO(Long roomId, Integer rowNum, Integer colNum, String mark) {
         this.roomId = roomId;
         this.rowNum = rowNum;

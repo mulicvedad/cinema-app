@@ -1,5 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.repositories;
 
+import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
+import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
 import ba.etf.unsa.nwt.cinemaservice.models.Reservation;
 import ba.etf.unsa.nwt.cinemaservice.models.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,5 +29,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Modifying
     @Query(value = "update Reservation r set r.status = :status where r.id = :id")
     void updateStatus(@Param("id") Long id, @Param("status") ReservationStatus status);
+
+    int countAllBySeatsContainsAndCinemaShowingAndStatusNot(CinemaSeat cinemaSeat, CinemaShowing cinemaShowing, ReservationStatus reservationStatus);
 
 }

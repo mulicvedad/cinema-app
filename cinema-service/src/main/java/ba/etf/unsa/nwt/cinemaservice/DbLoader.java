@@ -114,14 +114,14 @@ public class DbLoader implements CommandLineRunner {
         for (int i = 0; i < num; i++) {
             if (i % 2 == 0) {
                 cl.add(Calendar.HOUR, 2);
-                d2 = cl.getTime();
-                cl.add(Calendar.HOUR, 2);
                 d1 = cl.getTime();
+                cl.add(Calendar.HOUR, 2);
+                d2 = cl.getTime();
             } else {
                 cl.add(Calendar.DAY_OF_MONTH, 1);
-                d2 = cl.getTime();
-                cl.add(Calendar.MINUTE, 95);
                 d1 = cl.getTime();
+                cl.add(Calendar.MINUTE, 95);
+                d2 = cl.getTime();
             }
 
             timetableService.save(new Timetable(d1, d2));

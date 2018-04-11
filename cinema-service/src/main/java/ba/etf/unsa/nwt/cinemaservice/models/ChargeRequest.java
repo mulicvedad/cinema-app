@@ -1,18 +1,28 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class ChargeRequest {
 
-	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
+	@NotNull(message = "Id cannot be null")
+	@Positive(message = "Id must be positive integer")
 	private Long id;
+
+	private String description;
+
+	@Positive(message = "Amount should be greater than zero")
+	private int amount;
+
+	@NotNull(message = "Currency cannot be null")
+	private Currency currency;
+
+	@Email(message = "Email should be valid")
+	private String stripeEmail;
+
+	@NotNull(message = "Stripe Token cannot be null")
+	private String stripeToken;
 
 	public enum Currency {
 		EUR, USD;
@@ -33,19 +43,6 @@ public class ChargeRequest {
 		this.stripeEmail = stripeEmail;
 		this.stripeToken = stripeToken;
 	}
-
-	private String description;
-	@Positive(message = "Amount should be greater than zero")
-	private int amount;
-
-	@NotNull(message = "Currency cannot be null")
-	private Currency currency;
-
-	@Email(message = "Email should be valid")
-	private String stripeEmail;
-
-	@NotNull(message = "Stripe Token cannot be null")
-	private String stripeToken;
 
 	public Long getId() {
 		return id;

@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 
 public class UserUpdateDTO {
     private String email;
+
     // should add gender field
     @NotBlank(message = "Email cannot be null or whitespace")
     @Size(max = 100, message = "Email cannot be longer than 100 characters")

@@ -26,8 +26,7 @@ public class User {
     private String passwordHash;
     private String email;
 
-    public User(Role role, String firstName, String lastName, String username, String passwordHash, String email)
-    {
+    public User(Role role, String firstName, String lastName, String username, String passwordHash, String email) {
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,7 +34,9 @@ public class User {
         this.passwordHash = passwordHash;
         this.email = email;
     }
-    public  User() {}
+
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -88,7 +89,7 @@ public class User {
 
     @NotBlank(message = "Password cannot be null or whitespace")
     @Size(max = 2000, message = "Hashed password cannot be longer than 2000 characters")
-    @Column(name="password_hash")
+    @Column(name = "password_hash")
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -109,8 +110,7 @@ public class User {
         this.email = email;
     }
 
-    public Map getUserDetails()
-    {
+    public Map getUserDetails() {
         Map<Object, Object> map = new HashMap<>();
         map.put("firstName", firstName);
         map.put("lastName", lastName);
