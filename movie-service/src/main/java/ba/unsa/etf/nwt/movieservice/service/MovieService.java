@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,7 +62,7 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
-    public Movie getMovieById(String id) {
+    public Movie getMovieByTmdbId(String id) {
         String url = FIND_URL + id + API_KEY + apiKey + FIND_URL_PARAMS;
         Movie movie = restTemplate.getForObject(url, Movie.class);
         Movie existingMovie = movieRepository.findByTitle(movie.getTitle());
@@ -70,6 +71,10 @@ public class MovieService {
         }
         return existingMovie;
     }
+    public Optional<Movie> getMovieById(Long id) {
+        return movieRepository.findById(id);
+    }
+
 
     private Set<Genre> getGenres(Set<Genre> genres) {
         Set<Genre> movieGenres = new HashSet<>();
@@ -125,7 +130,7 @@ public class MovieService {
         return movieRepository.findByTitle(movie.getTitle());
     }
 
-    private Set<MoviePerson> getMovieCast(Long id) {
+    public Set<MoviePerson> getMovieCast(Long id) {
         String url = FIND_URL + id + "/credits" + API_KEY + apiKey;
         TmdbCreditsResponse creditsResponse = restTemplate.getForObject(url, TmdbCreditsResponse.class);
         Set<MoviePerson> moviePeople = new HashSet<>();

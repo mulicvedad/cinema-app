@@ -14,17 +14,17 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @GetMapping("/user/id/{id}")
+    @GetMapping("/user/{id}")
     public List<Review> getReviewsByUserId(@PathVariable(value = "id") Long userId) {
         return reviewService.getReviewsByUserId(userId);
     }
 
-    @GetMapping("/movie/id/{id}")
+    @GetMapping("/movie/{id}")
     public Set<Review> getReviewsByMovie(@PathVariable(value = "id") Long movieId) {
         return reviewService.getReviewsByMovie(movieId);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public void createReview(Review review, Long movieId) {
         reviewService.createReview(review, movieId);
     }
