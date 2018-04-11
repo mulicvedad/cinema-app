@@ -3,11 +3,13 @@ package ba.etf.unsa.nwt.cinemaservice.services;
 import ba.etf.unsa.nwt.cinemaservice.controllers.ReservationController;
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.ReservationDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
-import ba.etf.unsa.nwt.cinemaservice.models.*;
+import ba.etf.unsa.nwt.cinemaservice.models.ChargeRequest;
+import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
+import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
+import ba.etf.unsa.nwt.cinemaservice.models.Reservation;
 import ba.etf.unsa.nwt.cinemaservice.repositories.ReservationRepository;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
-import com.netflix.discovery.converters.Auto;
 import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,8 +22,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 import java.util.logging.Logger;
-
-import java.util.Collection;
 
 @Service
 public class ReservationService extends BaseService<Reservation, ReservationRepository> {
@@ -62,7 +62,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         Optional<CinemaShowing> cinemaShowing = cinemaShowingService.get(cinemaShowingId);
 
         if (!cinemaShowing.isPresent())
-           throw new ServiceException("Cinema showing with given id doesn't exist");
+            throw new ServiceException("Cinema showing with given id doesn't exist");
 
         Date dateNow = new Date();
         if (cinemaShowing.get().getTimetable().getStartDateTime().before(dateNow))
@@ -83,7 +83,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
             restTemplate.getForEntity(url, Map.class);
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND)
-               throw new ServiceException("User with given id doesn't exist");
+                throw new ServiceException("User with given id doesn't exist");
             else
                 throw e;
         }
@@ -95,7 +95,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         }
 
         List<CinemaSeat> cinemaSeats = new ArrayList<>();
-        for(Long id : seats) {
+        for (Long id : seats) {
             Optional<CinemaSeat> cinemaSeat = cinemaSeatService.get(id);
             if (!cinemaSeat.isPresent())
                 throw new ServiceException("Seat with given id doesn't exist");

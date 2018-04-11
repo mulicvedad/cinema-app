@@ -32,7 +32,7 @@ public class CinemaSeatController {
     @GetMapping("/{id}")
     public ResponseEntity getCinemaSeat(@PathVariable("id") Long cinemaSeatId) {
         Optional<CinemaSeat> cinemaSeat = cinemaSeatService.get(cinemaSeatId);
-        if(!cinemaSeat.isPresent())
+        if (!cinemaSeat.isPresent())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseWrapper(new Error("Not found",
                     "id", "Cinema seat with id = " + cinemaSeatId + " doesn't exist")));
         return ResponseEntity.ok(cinemaSeat.get());
@@ -64,12 +64,12 @@ public class CinemaSeatController {
         if (!cinemaSeat.isPresent())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseWrapper(new Error("id",
                     "id", "Unable to delete cinema seat with id = " + cinemaSeatId.toString()
-                            + " because such object doesn't exist")));
+                    + " because such object doesn't exist")));
         try {
             cinemaSeatService.delete(cinemaSeat.get());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS).body(new ErrorResponseWrapper(
-                    new Error("unknown","none", "Deletion of the cinema seat failed")));
+                    new Error("unknown", "none", "Deletion of the cinema seat failed")));
 
         }
 

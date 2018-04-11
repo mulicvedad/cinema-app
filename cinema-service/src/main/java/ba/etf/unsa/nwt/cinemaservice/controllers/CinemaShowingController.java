@@ -2,28 +2,24 @@ package ba.etf.unsa.nwt.cinemaservice.controllers;
 
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.CinemaShowingDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
-import ba.etf.unsa.nwt.cinemaservice.models.*;
 import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
 import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
 import ba.etf.unsa.nwt.cinemaservice.models.Error;
+import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponseWrapper;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
 import ba.etf.unsa.nwt.cinemaservice.services.RoomService;
 import ba.etf.unsa.nwt.cinemaservice.services.ShowingTypeService;
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.rowset.serial.SerialException;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/cinema-showings")
@@ -48,7 +44,7 @@ public class CinemaShowingController {
                 return ResponseEntity.ok(cinemaShowingService.findByDate(newDate));
             } catch (ParseException e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error(
-                        "Parsing failure","date","Date parsing exception: Date must be " +
+                        "Parsing failure", "date", "Date parsing exception: Date must be " +
                         "in format 'yyyy-mm-dd'.")));
             }
         return ResponseEntity.ok(cinemaShowingService.all());

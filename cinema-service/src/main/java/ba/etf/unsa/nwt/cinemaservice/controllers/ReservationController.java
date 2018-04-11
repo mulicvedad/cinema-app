@@ -2,8 +2,10 @@ package ba.etf.unsa.nwt.cinemaservice.controllers;
 
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.ReservationDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
-import ba.etf.unsa.nwt.cinemaservice.models.*;
+import ba.etf.unsa.nwt.cinemaservice.models.ChargeRequest;
 import ba.etf.unsa.nwt.cinemaservice.models.Error;
+import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponseWrapper;
+import ba.etf.unsa.nwt.cinemaservice.models.Reservation;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaSeatService;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
 import ba.etf.unsa.nwt.cinemaservice.services.ReservationService;
@@ -16,9 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/reservations")
@@ -63,7 +64,7 @@ public class ReservationController {
             reservationService.create(reservationInfo);
         } catch (ServiceException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(
-                    new Error("Reservation failed",null, e.getMessage())));
+                    new Error("Reservation failed", null, e.getMessage())));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error("Reservation failed",
                     null, "An error occured during reservation creation.")));

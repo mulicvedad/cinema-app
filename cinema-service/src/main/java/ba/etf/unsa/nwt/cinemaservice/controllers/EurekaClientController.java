@@ -13,7 +13,7 @@ import java.util.List;
 public class EurekaClientController {
 
     @Autowired
-    DiscoveryClient  discoveryClient;
+    DiscoveryClient discoveryClient;
 
     @GetMapping("/test/{appName}")
     public List<ServiceInstance> serviceInstancesByAppName(@PathVariable String appName) {
