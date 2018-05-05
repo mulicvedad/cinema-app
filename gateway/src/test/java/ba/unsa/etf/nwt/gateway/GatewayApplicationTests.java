@@ -1,4 +1,4 @@
-package ba.etf.unsa.nwt.gateway;
+package ba.unsa.etf.nwt.gateway;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

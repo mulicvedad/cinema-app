@@ -1,6 +1,6 @@
-package ba.etf.unsa.nwt.gateway;
+package ba.unsa.etf.nwt.gateway;
 
-import ba.etf.unsa.nwt.gateway.filters.SimpleFilter;
+import ba.unsa.etf.nwt.gateway.filters.SimpleFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

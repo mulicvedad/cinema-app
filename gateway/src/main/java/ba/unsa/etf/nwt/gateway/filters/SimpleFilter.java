@@ -1,4 +1,4 @@
-package ba.etf.unsa.nwt.gateway.filters;
+package ba.unsa.etf.nwt.gateway.filters;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
