@@ -14,14 +14,14 @@ services:
       - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
       - EUREKA_CLIENT_FETCH_REGISTRY=false
     networks:
-      - emp-network
+      - cinema-app-network
   mysql-user-service:
     image: mysql:5.7.22
     container_name: mysql-user-service
     ports:
       - 3306:3306
     networks:
-      - emp-network
+      - cinema-app-network
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=user_service_db
@@ -33,7 +33,7 @@ services:
     ports:
     - 3307:3306
     networks: 
-      - emp-network
+      - cinema-app-network
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=cinema_service_db
@@ -45,7 +45,7 @@ services:
     ports:
     - 3308:3306
     networks: 
-      - emp-network
+      - cinema-app-network
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=movie_service_db
@@ -57,7 +57,7 @@ services:
     ports:
     - 3309:3306
     networks: 
-      - emp-network
+      - cinema-app-network
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=payment_service_db
@@ -74,7 +74,7 @@ services:
       - "15672:15672"
       - "5672:5672"
     networks:
-      - emp-network
+      - cinema-app-network
   user-service:
     container_name: user-service
     build:
@@ -86,7 +86,7 @@ services:
     ports:
       - 8090:8090
     networks:
-      - emp-network
+      - cinema-app-network
     links:
       - "eureka-service"
     depends_on:
@@ -105,7 +105,98 @@ services:
       - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
       - SPRING_RABBITMQ_HOST=rabbitmq-server
-  gateway:
+  cinema-service:
+    container_name: cinema-service
+    build:
+      context: .
+      dockerfile: Dockerfile-cinemaservice
+    image: cinema-service:latest
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+    networks:
+      - cinema-app-network
+    links:
+      - "eureka-service"
+    depends_on:
+      - eureka-service
+      - mysql-cinema-service
+      - rabbitmq-server
+    environment:
+      - DATABASE_HOST=mysql-cinema-service
+      - DATABASE_USER=user
+      - DATABASE_PASSWORD=user
+      - DATABASE_NAME=cinema_service_db
+      - DATABASE_PORT=3306
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-cinema-service:3306/cinema_service_db
+      - SPRING_APPLICATION_NAME=cinema-service
+      - SPRING_PROFILES_ACTIVE=enableEureka
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
+      - SPRING_RABBITMQ_HOST=rabbitmq-server
+  movie-service:
+    container_name: movie-service
+    build:
+      context: .
+      dockerfile: Dockerfile-movieservice
+    image: movie-service:latest
+    expose:
+      - 9091
+    ports:
+      - 9091:9091
+    networks:
+      - cinema-app-network
+    links:
+      - "eureka-service"
+    depends_on:
+      - eureka-service
+      - mysql-movie-service
+      - rabbitmq-server
+    environment:
+      - DATABASE_HOST=mysql-movie-service
+      - DATABASE_USER=user
+      - DATABASE_PASSWORD=user
+      - DATABASE_NAME=movie_service_db
+      - DATABASE_PORT=3306
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-movie-service:3306/movie_service_db
+      - SPRING_APPLICATION_NAME=movie-service
+      - SPRING_PROFILES_ACTIVE=enableEureka
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
+      - SPRING_RABBITMQ_HOST=rabbitmq-server
+      - TMDB_APIKEY=5b5a9f89ddd9f24679aa33e73cdd0a7a
+  payment-service:
+    container_name: payment-service
+    build:
+      context: .
+      dockerfile: Dockerfile-paymentservice
+    image: payment-service:latest
+    expose:
+      - 9092
+    ports:
+      - 9092:9092
+    networks:
+      - cinema-app-network
+    links:
+      - "eureka-service"
+    depends_on:
+      - eureka-service
+      - mysql-payment-service
+      - rabbitmq-server
+    environment:
+      - DATABASE_HOST=mysql-payment-service
+      - DATABASE_USER=user
+      - DATABASE_PASSWORD=user
+      - DATABASE_NAME=payment_service_db
+      - DATABASE_PORT=3306
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-payment-service:3306/payment_service_db
+      - SPRING_APPLICATION_NAME=payment-service
+      - SPRING_PROFILES_ACTIVE=enableEureka
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
+      - SPRING_RABBITMQ_HOST=rabbitmq-server
+  gatway:
     container_name: gateway
     build:
       context: .
@@ -116,7 +207,7 @@ services:
     ports:
       - 9093:9093
     networks:
-      - emp-network
+      - cinema-app-network
     links:
       - "eureka-service"
     depends_on:
@@ -130,5 +221,5 @@ services:
     logging:
       driver: json-file
 networks: 
-  emp-network:
+  cinema-app-network:
     driver: bridge
