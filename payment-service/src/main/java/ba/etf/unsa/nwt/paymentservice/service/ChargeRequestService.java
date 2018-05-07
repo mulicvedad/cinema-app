@@ -32,7 +32,7 @@ public class ChargeRequestService {
 		repository.save(request);
 	}
 
-	@Value("${STRIPE_SECRET_KEY}")
+	//@Value("")
 	private String secretKey;
 
 	@PostConstruct

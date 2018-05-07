@@ -1,0 +1,9 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+RUN apk --no-cache add netcat-openbsd
+COPY ./payment-service.jar /opt/lib/
+COPY ./payment-service-entrypoint.sh /opt/bin/payment-service-entrypoint.sh
+RUN chmod 755 /opt/bin/payment-service-entrypoint.sh
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/payment-service.jar"]
+EXPOSE 8090
