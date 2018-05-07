@@ -1,0 +1,6 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+COPY ./eureka-service.jar /opt/lib/
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/eureka-service.jar"]
+EXPOSE 8761

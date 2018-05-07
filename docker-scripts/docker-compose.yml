@@ -1,0 +1,80 @@
+version: '2.2'
+services:
+  eureka-service:
+    container_name: eureka-service
+    build:
+      context: .
+      dockerfile: Dockerfile-eurekaservice
+    image: eureka-service:latest
+    expose:
+      - 8761
+    ports:
+      - 8761:8761
+    environment:
+      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=true
+      - EUREKA_CLIENT_FETCH_REGISTRY=false
+      - "eureka.client.serviceUrl.defaultZone=http://localhost:8761/"
+      - "logging.level.com.netflix.eureka=ON"
+      - "logging_level_com_netflix_discovery=ON"
+    networks:
+      - emp-network
+  mysql:
+    image: mysql:5.7.22
+    ports:
+      - 3306:3306
+    networks:
+      - emp-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=user_service_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=user
+  user-service:
+    container_name: user-service
+    build:
+      context: .
+      dockerfile: Dockerfile-userservice
+    image: user-service:latest
+   # environment:
+   #   SPRING_APPLICATION_JSON: '{"spring": {"cloud"'
+   # entrypoint: /opt/bin/user-service-entrypoint.sh
+    expose:
+      - 8090
+    ports:
+      - 8090:8090
+    networks:
+      - emp-network
+  #  eureka:
+  #    instance:
+  #      - hostname=eureka-service
+ #     client:
+  #      - registerWithEureka=true
+  #      - fetchRegistry=true
+    links:
+      - "eureka-service"
+    depends_on:
+      - eureka-service
+      - mysql
+    environment:
+      - DATABASE_HOST=mysql
+      - DATABASE_USER=user
+      - DATABASE_PASSWORD=user
+      - DATABASE_NAME=user_service_db
+      - DATABASE_PORT=3306
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/user_service_db
+      - "eureka.client.register-with-eureka=true"
+      - "eureka.client.fetch-registry=true"
+      - logging.level.org.springframework=DEBUG
+      - logging.level.com.howtodoinjava=DEBUG
+     # - eureka_instance_hostname=eureka-service 
+      - "eureka.client.serviceUrl.defaultZone:http://eureka-service:8761/eureka"
+   #   - eureka_instance_instance_id=${spring_application_name}:${random_int}
+     # - logging_level_com_netflix_eureka=ON
+    #  - logging_level_com_netflix_discovery=ON
+
+
+    logging:
+      driver: json-file
+networks: 
+  emp-network:
+    driver: bridge

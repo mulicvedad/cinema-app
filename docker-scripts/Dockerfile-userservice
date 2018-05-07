@@ -1,0 +1,9 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+RUN apk --no-cache add netcat-openbsd
+COPY ./user-service.jar /opt/lib/
+COPY ./user-service-entrypoint.sh /opt/bin/user-service-entrypoint.sh
+RUN chmod 755 /opt/bin/user-service-entrypoint.sh
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/user-service.jar"]
+EXPOSE 8090
