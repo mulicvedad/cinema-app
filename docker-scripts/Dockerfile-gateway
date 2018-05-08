@@ -1,0 +1,9 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+RUN apk --no-cache add netcat-openbsd
+COPY ./gateway.jar /opt/lib/
+COPY ./gateway-entrypoint.sh /opt/bin/gateway-entrypoint.sh
+RUN chmod 755 /opt/bin/gateway-entrypoint.sh
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/gateway.jar"]
+EXPOSE 9093

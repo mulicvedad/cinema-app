@@ -1,0 +1,9 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+RUN apk --no-cache add netcat-openbsd
+COPY ./movie-service.jar /opt/lib/
+COPY ./movie-service-entrypoint.sh /opt/bin/movie-service-entrypoint.sh
+RUN chmod 755 /opt/bin/movie-service-entrypoint.sh
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/movie-service.jar"]
+EXPOSE 9091

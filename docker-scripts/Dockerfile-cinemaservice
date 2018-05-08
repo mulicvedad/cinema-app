@@ -1,0 +1,9 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+RUN apk --no-cache add netcat-openbsd
+COPY ./cinema-service.jar /opt/lib/
+COPY ./cinema-service-entrypoint.sh /opt/bin/cinema-service-entrypoint.sh
+RUN chmod 755 /opt/bin/cinema-service-entrypoint.sh
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/cinema-service.jar"]
+EXPOSE 9090

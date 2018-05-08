@@ -24,6 +24,7 @@ public class Movie {
     private Timestamp releaseDate;
 
     @NotNull
+    @Size(max = 255555555)
     private String overview;
 
     @NotNull
