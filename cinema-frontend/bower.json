@@ -1,6 +1,5 @@
 {
   "name": "cinema-frontend",
   "dependencies": {
-    "selectize": "miguelcobain/selectize.js#master"
   }
 }
