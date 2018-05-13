@@ -148,4 +148,8 @@ public class MovieService {
     public void delete(Long id) {
         movieRepository.deleteById(id);
     }
+
+    public List<Movie> getAllMovies() {
+        return movieRepository.findAll();
+    }
 }

@@ -23,7 +23,7 @@ public class MovieController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @PostMapping
+    @PostMapping("/new")
     public void addNewMovie(@RequestBody MovieCreationRequest request) {
         movieService.addNewMovie(request);
     }
@@ -68,5 +68,10 @@ public class MovieController {
     public Set<MoviePerson> getMovieCast(@PathVariable("id") Long id)
     {
         return movieService.getMovieCast(id);
+    }
+
+    @GetMapping("/all")
+    public List<Movie> getAll() {
+        return movieService.getAllMovies();
     }
 }
