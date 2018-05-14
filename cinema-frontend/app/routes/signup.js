@@ -7,16 +7,16 @@ const {
 } = Ember;
 
 export default Ember.Route.extend({
-  //_userService: service('user-service'),
+  _userService: service('user-service'),
 
   model: function () {
-    //return this.get('_supplierService').createSupplier();
+    return this.get('_userService').createUser();
   },
 
   actions: {
     onDone: function () {
-     //this.get('_userService').addSupplier(this.controller.get('model'))
-     // .then(()=> this.transitionTo('services'));
+     this.get('_userService').registerUser(this.controller.get('model'))
+     .then(()=> this.transitionTo('showing'));
     },
   }
 });
