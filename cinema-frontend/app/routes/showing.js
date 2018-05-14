@@ -7,12 +7,20 @@ const {
 } = Ember;
 
 export default Ember.Route.extend({
+  queryParams: {
+    date: {
+      refreshModel: true
+    }
+  },
 
   _cinemaService: service('cinema-service'),
 
-
-  model: function () {
-    return this.get('_cinemaService').getUpcomingShowing();
+  model: function (params) {
+    if(params.date) {
+      return {}
+    } else {
+    return  this.get('_cinemaService').getUpcomingShowing();
+    }
   },
 
 });
