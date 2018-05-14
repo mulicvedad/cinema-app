@@ -35,7 +35,7 @@ public class MovieServiceApplication {
             Movie movie = new Movie("Lady Bird",
                     Timestamp.valueOf("2017-11-03 10:10:10.0"),
                     "In 2002, an artistically inclined seventeen-year-old girl comes of age in Sacramento, California.",
-                    "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg");
+                    "http://image.tmdb.org/t/p/w185/kqjL17yufvn9OVLyXYpvtyrFfak.jpg");
 
             movie.setGenres(new HashSet<Genre>() {{
                 add(genre1);

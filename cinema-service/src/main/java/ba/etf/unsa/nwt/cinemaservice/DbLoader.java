@@ -88,7 +88,8 @@ public class DbLoader implements CommandLineRunner {
             Timetable timetable = timetableService.get((i % numTimeTable) + 1).get();
             Room room = roomService.get((i % numRooms) + 1).get();
             ShowingType showingType = showingTypeService.get((i % numShowingTypes) + 1).get();
-            cinemaShowingService.save(new CinemaShowing(i, timetable, showingType,room));
+            cinemaShowingService.save(new CinemaShowing(i, "Mad Max",
+                    "http://image.tmdb.org/t/p/w185/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",  timetable, showingType,room));
         }
     }
 

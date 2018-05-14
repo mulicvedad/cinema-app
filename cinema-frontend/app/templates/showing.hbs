@@ -60,8 +60,8 @@
         {{#each model as |movie|}}
 
         <li class="l-cards__item">
-          <a href="#" class="l-cards__image fill"><img src={{movie.poster_path}}/></a>
-          <div class="l-cards__text title">{{movie.title}}</div>
+          <a href="#" class="l-cards__image fill"><img src={{movie.posterPath}}/></a>
+          <div class="l-cards__text title">{{movie.movieTitle}}</div>
           <a href="#" class="l-cards__text">{{movie.genres.0.name}}</a>
 
         </li>
@@ -87,3 +87,5 @@
 </div> <!-- ./container-fluid -->
 
 </div>
+
+{{log model}}

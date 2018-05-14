@@ -2,11 +2,11 @@ import Ember from 'ember';
 import BaseHttpService from './base-http-service';
 
 export default BaseHttpService.extend({
-	getAllGenres() {
+	getAllGenres: function() {
 		return this.ajax('GET', '/movie/movies/genres');
 	},
 
-	getMostPopularMovies() {
+	getMostPopularMovies: function() {
 		return this.ajax('GET', '/movie/movies/tmdb/popular');
 	},
 
@@ -19,23 +19,23 @@ export default BaseHttpService.extend({
 	},
 
 	getMovieById: function(id) {
-		return this.ajax('GET', `/movie/movies/${id});
+		return this.ajax('GET', `/movie/movies/${id}`);
 	},		
 
 	deleteMovie: function(id) {
-		return this.ajax('DELETE', `/movie/movies/${id});
+		return this.ajax('DELETE', `/movie/movies/${id}`);
 	},
 
 	getMovieCast: function(id) {
-		return this.ajax('GET', `/movie/movies/tmdb/${id}/credits);
+		return this.ajax('GET', `/movie/movies/tmdb/${id}/credits`);
 	},
 
 	getReviewsByMovieId: function(id) {
-		return this.ajax('GET', `/movie/review/${id});
+		return this.ajax('GET', `/movie/review/${id}`);
 	},
 
 	getReviewsByUserId: function(id) {
-		return this.ajax('GET', `/movie/review/user/${id});
+		return this.ajax('GET', `/movie/review/user/${id}`);
 	},
 
 	createNewMovie: function(movie) {

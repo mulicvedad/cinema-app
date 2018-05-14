@@ -14,7 +14,7 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    onDone: function () {
+    onNext: function () {
      this.get('_userService').registerUser(this.controller.get('model'))
      .then(()=> this.transitionTo('showing'));
     },
