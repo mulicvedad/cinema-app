@@ -17,6 +17,7 @@ export default Ember.Route.extend({
 
   model: function (params) {
     if(params.date) {
+      console.log(params.date);
       return this.get('_cinemaService').getShowingByDate(params.date);
     } else {
     return  this.get('_cinemaService').getUpcomingShowing();

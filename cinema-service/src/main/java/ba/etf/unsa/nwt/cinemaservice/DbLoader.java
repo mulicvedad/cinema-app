@@ -43,7 +43,7 @@ public class DbLoader implements CommandLineRunner {
         if (reservationStatusService.count() == 0)
             addReservationStatuses();
         if (cinemaShowingService.count() == 0)
-            addCinemaShowing(10);
+            addCinemaShowing(6);
         if (reservationService.count() == 0)
             addReservations(10);
         if (newsService.count() == 0)
@@ -81,6 +81,17 @@ public class DbLoader implements CommandLineRunner {
     }
 
     private void addCinemaShowing(int num) {
+        ArrayList<String> movieTitles = new ArrayList<String>(
+                Arrays.asList("Mad Max", "Blade Runner", "Call me by your name", "Interstellar", "Coco", "Lady Bird"));
+
+        ArrayList<String> moviePosterPaths = new ArrayList<String>(
+                Arrays.asList("http://image.tmdb.org/t/p/w185/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+                        "https://images-na.ssl-images-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SX300.jpg",
+                        "https://images-na.ssl-images-amazon.com/images/M/MV5BNDk3NTEwNjc0MV5BMl5BanBnXkFtZTgwNzYxNTMwMzI@._V1_SX300.jpg",
+                        "http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg",
+                        "https://images-na.ssl-images-amazon.com/images/M/MV5BYjQ5NjM0Y2YtNjZkNC00ZDhkLWJjMWItN2QyNzFkMDE3ZjAxXkEyXkFqcGdeQXVyODIxMzk5NjA@._V1_SX300.jpg",
+                        "https://images-na.ssl-images-amazon.com/images/M/MV5BODhkZGE0NDQtZDc0Zi00YmQ4LWJiNmUtYTY1OGM1ODRmNGVkXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg"));
+
         Long numRooms = roomService.count();
         Long numTimeTable = timetableService.count();
         Long numShowingTypes = showingTypeService.count();
@@ -88,8 +99,8 @@ public class DbLoader implements CommandLineRunner {
             Timetable timetable = timetableService.get((i % numTimeTable) + 1).get();
             Room room = roomService.get((i % numRooms) + 1).get();
             ShowingType showingType = showingTypeService.get((i % numShowingTypes) + 1).get();
-            cinemaShowingService.save(new CinemaShowing(i, "Mad Max",
-                    "http://image.tmdb.org/t/p/w185/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",  timetable, showingType,room));
+            cinemaShowingService.save(new CinemaShowing(i, movieTitles.get((int) i), moviePosterPaths.get((int) i),
+                    timetable, showingType,room));
         }
     }
 

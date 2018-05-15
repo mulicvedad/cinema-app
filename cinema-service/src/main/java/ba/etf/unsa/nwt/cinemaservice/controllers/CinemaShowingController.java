@@ -36,7 +36,7 @@ public class CinemaShowingController {
 
     // using ISO 8601 date format
     @GetMapping
-    public ResponseEntity getAllCinemaShowings(@RequestParam(name = "date", required = false) String date)
+    public ResponseEntity getAllCinemaShowings(@RequestParam(value = "date", required = false) String date)
             throws BadHttpRequest {
         if (date != null)
             try {
