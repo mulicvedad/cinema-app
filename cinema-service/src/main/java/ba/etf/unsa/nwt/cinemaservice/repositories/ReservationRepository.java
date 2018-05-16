@@ -12,8 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
-import java.util.Collection;
-
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     Collection<Reservation> findByUserId(Long userId);
