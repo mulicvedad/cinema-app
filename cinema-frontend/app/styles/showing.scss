@@ -1,0 +1,181 @@
+// left sidebar
+.s-explore {
+  margin: 2em;
+  width: 18em;
+  padding: 1em;
+  border: 1px solid gray;
+}
+// each list item
+.s-explore__list {
+  color: darken(white, 15%);
+  padding: 3px;
+
+  // list name
+  a {
+    color: darken(white, 20%) !important;
+    font-size: 14px;
+    text-transform: capitalize;
+    padding: 0 0 3px 20px;
+  }
+
+  a:hover {
+    text-decoration: underline !important;
+  }
+  span {
+    float: right;
+    font-size: 14px;
+    color: $color-red;
+  }
+}
+.s-explore__title {
+  color: white;
+  h3 {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px 0 5px 0;
+  }
+}
+
+.s-users {
+
+}
+// a row of users, ul
+.s-users-avatars{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 0.7em;
+  a {
+    color: darken(white, 20%)
+  }
+}
+.s-users__item {
+  display: flex;
+  flex: 0 0 10%; // size of each list item
+  text-align: center;
+  img {
+    width: 50px;
+  }
+  span {
+    margin: 0 auto;
+    font-size: 0.7em;
+    display: block;
+  }
+}
+
+
+
+
+// right panel
+.l-cards{
+  margin-top: 2em;
+  padding-left: $padding-hrz;
+}
+// title of each section
+.l-cards__title{
+  font-size: inherit;
+  color: white;
+  font-size: 1.5em;
+  display: inline;
+  text-transform: uppercase;
+}
+// the more button on the right
+.l-cards__more{
+  float: right;
+  color: darken(white, 30%);
+  font-size: 1em;
+  margin-right: 3.5%;
+}
+// poster list
+.l-cards__list{
+  margin-top: 0.5rem;
+  margin-bottom: 9rem;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.title{
+  font-size:18px;
+  color: white;
+}
+
+.l-cards__text{
+  text-align: center;
+  font-weight: bold;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  span {
+    color: $color-red;
+    display: block;
+  }
+}
+// individual poster
+.l-cards__item{
+  height: 33rem;
+  flex: 0 0 15rem;    // side of poster
+  margin: 2rem;
+  margin-bottom:3rem;
+  text-align: center;
+  // text under poster
+  a {
+    color: darken(white, 40%);
+    font-size: 1.2rem;
+    // text-decoration: none;
+  }
+  // fix the height
+  img {
+    height: 33rem;
+    width: auto;
+  }
+}
+
+// pagination
+.pagination {
+  display: block;
+  margin: 0 auto;
+  // background-color: green;
+}
+.pagination li {
+  float: left;
+  list-style: none;
+}
+.pagination li a {
+  display: block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  position: relative;
+  margin: 20px 2px 50px;
+  color: white;
+}
+// the circle
+.pagination li a:before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transform: scale(0);
+  border-radius: 100px;
+  -webkit-transition: all .25s;
+}
+// hover
+.pagination li a:hover {
+  color: white;
+}
+// hover animation
+.pagination li a:hover:before {
+  -webkit-transform: scale(1);
+  box-shadow: inset 0 0 0 1px white;
+}
+// active
+.pagination li.active a:before {
+  -webkit-transform: scale(1);
+  box-shadow: inset 0 0 0 1px white;
+}

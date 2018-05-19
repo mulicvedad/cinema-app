@@ -1,0 +1,122 @@
+// footer
+
+footer{
+  clear: both;
+  background-color: lighten(black, 7%);
+  width: 100%;
+}
+
+.f-wrap{
+  width: 80%;
+  padding-top: 4rem;
+  margin: 0 auto;
+}
+
+// each column
+.f-column {
+  overflow: hidden;
+  float: left;
+  width: 33%;
+  line-height: 1.6em;
+  font-size: 14px;
+  color: darken(white, 30%);
+}
+.f-column a {
+    display: block;
+    color: darken(white, 30%);
+}
+
+.legality{
+  margin: auto;
+  width: 30%;
+  clear: both;
+  padding: 2rem 0 2rem 0;
+  font-size: 14px;
+  color: lighten(black, 50%);
+}
+
+// social media icons
+
+.social-icons li {
+  vertical-align: top;
+  display: inline;
+  height: 100px;
+  a{
+      display: inline;
+  }
+}
+.social-icons a {
+    color: #fff;
+}
+.fa-facebook {
+    padding:10px 14px;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition: .5s;
+    background-color: #322f30;
+}
+.fa-facebook:hover {
+    background-color: #3d5b99;
+}
+.fa-twitter {
+    padding:10px 14px;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition: .5s;
+    background-color: #322f30;
+}
+.fa-twitter:hover {
+    background-color: #00aced;
+}
+.fa-rss {
+    padding:10px 14px;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition: .5s;
+    background-color: #322f30;
+}
+.fa-rss:hover {
+    background-color: #eb8231;
+}
+.fa-youtube {
+    padding:10px 14px;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition: .5s;
+    background-color: #322f30;
+}
+.fa-youtube:hover {
+    background-color: #e64a41;
+}
+.fa-linkedin {
+    padding:10px 14px;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition: .5s;
+    background-color: #322f30;
+}
+.fa-linkedin:hover {
+    background-color: #0073a4;
+}
+.fa-google-plus {
+    padding:10px 9px;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition: .5s;
+    background-color: #322f30;
+}
+.fa-google-plus:hover {
+    background-color: #e25714;
+}

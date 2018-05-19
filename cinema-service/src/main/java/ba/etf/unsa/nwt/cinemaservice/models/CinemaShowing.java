@@ -12,12 +12,23 @@ public class CinemaShowing extends BaseModel{
 
     private Long movieId;
     private String movieTitle;
+    private String posterPath;
     private Timetable timetable;
     private ShowingType showingType;
     private Room room;
     private Collection<Reservation> reservations;
 
     protected CinemaShowing() {}
+
+    public CinemaShowing(Long movieId, String movieTitle, String posterPath, Timetable timetable, ShowingType showingType, Room room) {
+        this.movieId = movieId;
+        this.movieTitle = movieTitle;
+        this.posterPath = posterPath;
+        this.timetable = timetable;
+        this.showingType = showingType;
+        this.room = room;
+        this.reservations = reservations;
+    }
 
     public CinemaShowing(Long movieId, Timetable timetable, ShowingType showingType, Room room) {
         this.movieId = movieId;
@@ -87,4 +98,12 @@ public class CinemaShowing extends BaseModel{
         this.movieTitle = movieTitle;
     }
 
+    @Column(name="poster_path")
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
 }

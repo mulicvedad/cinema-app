@@ -1,0 +1,91 @@
+<div class="container-fluid body">
+  <div class="row">
+
+<!--   left panel   -->
+<div class="col-md-3 sidebar">
+<!--  sidebar: movies category  -->
+  <ul class="s-explore">
+    <li class="s-explore__title"><h3>SHOWING</h3></li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-14")}}Monday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-15")}}Tuesday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-16")}}Wednesday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-17")}}Thursday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-18")}}Friday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-19")}}Saturday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-20")}}Sunday{{/link-to}}</li><br>
+    <li class="s-explore__title"><h3>CATEGORIES</h3></li>
+    <li class="s-explore__list"><a href="#" >Newest</a></li>
+    <li class="s-explore__list"><a href="#" >Most Popular</a></li><br>
+  </ul>
+
+<!--  2nd box  -->
+    <ul class="s-explore">
+<!--     in theaters -->
+     <li class="s-explore__title"><h3>Hot in theathers</h3></li>
+    <li class="s-explore__list"><a  href="#">Blade Runner 2049</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Coco</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Call Me By Your Name</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Lady Bird</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Blade Runner 2049</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Coco</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Call Me By Your Name</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Lady Bird</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Blade Runner 2049</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Coco</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a href="#"><span style="color: white;">more <i class="fa fa-angle-right"></i></span></a></li>
+  </ul>
+
+<!--  3rd box  -->
+  <ul class="s-explore s-users">
+     <li class="s-explore__title"><h3 style="margin-bottom: 0.7em;">News and Offers</h3></li>
+<!--  a list of 4 users -->
+    <li class="s-explore__list"><a href="#"><span style="color: white;">more <i class="fa fa-angle-right"></i></span></a></li>
+  </ul>
+
+</div>
+
+<!--  right panel -->
+      <div class="right-wrap col-md-8">
+        <!--  1st section  -->
+    <div class="l-cards">
+      <h2 class="l-cards__title"> </h2>
+        <a class="l-cards__more"href="#"><i class="fa  fa-star"></i></a>
+              <a class="l-cards__more"href="#"><i class="fa  fa-calendar"></i></a>
+<!--      <a class="l-cards__more"href="#"><i class="fa fa-list"></i>
+</a>
+      <a class="l-cards__more"href="#">  <i class="fa fa-th-large"></i>
+</a>--></div>
+
+      <ul class="l-cards__list">
+        {{#each model as |movie|}}
+
+        <li class="l-cards__item">
+          <a href="#" class="l-cards__image fill"><img src={{movie.posterPath}}/></a>
+          <div class="l-cards__text title">{{movie.movieTitle}}</div>
+          <a href="#" class="l-cards__text">{{movie.genres.0.name}}</a>
+
+        </li>
+        {{/each}}
+
+
+      </ul>
+      <!--   pagination   -->
+      <ul class="pagination">
+        <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li class="active"><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+      </ul>
+    </div>
+
+<!--  end 1st section  -->
+    </div> <!-- ./end right panel -->
+     <div> <!-- ./row -->
+</div> <!-- ./container-fluid -->
+
+</div>
+
+{{log model}}
