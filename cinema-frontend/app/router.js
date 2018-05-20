@@ -10,6 +10,8 @@ Router.map(function() {
   this.route('showing');
   this.route('login');
   this.route('signup');
+  this.route('movie', { path: '/:id/details'});
+  this.route('reservation', { path: '/:id/reservation'});
 });
 
 export default Router;

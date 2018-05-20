@@ -1,0 +1,67 @@
+<div id="movie-container">
+      <div class="movie">
+        <div class="movie-details-container">
+          <div class="column column-md poster-image"><img src={{model.posterPath}} id="poster"/>
+          </div>
+          <div class="column column-md">
+            <h1 id="title">{{model.movieTitle}}<span id="date"> ( {{moment-format model.release_date 'YYYY'}})</span></h1>
+            <div class="row">
+              <span class="badge"><span id="status">Released</span>
+              </span>
+            </div>
+            <div class="row">
+              {{moment-format model.release_date 'MMMM D, YYYY'}}
+            </div>
+            <h3 id="tagline">Overview</h3>
+            <div id="overview">
+              <p id="synopsis">Two sisters move to the country with their father in order to be closer to their hospitalized mother, and discover the surrounding trees are inhabited by Totoros, magical spirits of the forest. When the youngest runs away from home, the
+                older sister seeks help from the spirits to find her.</p>
+            </div>
+            <div class="row">
+              <h2>Genres</h2>
+              <div id="companies">{{model.genres.0.name}}</div>
+            </div>
+            <div class="row">
+              <h2>Countries</h2>
+              <div id="countries">Canada</div>
+            </div>
+            <div class="row">
+              <h2>Showings</h2>
+               <div class="form-group col-md-3">
+                <select class="form-control" id="exampleFormControlSelect1" onchange={{action "selectShowing"
+                value="target.value"}}>
+{{!--  ovako treba ici:    <option value={{showing.id}}>{{showing.sala}} - {{showing.vrijeme}}</option>
+ --}}             <option>Room 1 - 12:00PM</option>
+                  <option>Room 2 - 15:00PM</option>
+                  <option>Room 2 - 20:00PM</option>
+                  <option>Room 3 - 22:00PM</option>
+                  <option>Room 5 - 22:30PM</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="column column-md">
+                <div class="ratings">
+                  <h2>Rating</h2>
+                  <span id="rating">8/10</span>
+                </div>
+              </div>
+              <div class="column column-md">
+                <h2>Runtime</h2>
+                <div>
+                  <div id="runtime">86 minutes</div>
+                </div>
+              </div>
+              <div class="column column-lg">
+                <h2>Cast</h2>
+               {{#each model.moviePeople as |cast|}}
+                <ul id="related">
+                  {{cast.name}}  /   {{cast.roles.0.role}}
+                </ul>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
