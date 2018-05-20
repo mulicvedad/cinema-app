@@ -31,6 +31,9 @@ public class Movie {
     @JsonProperty("poster_path")
     private String posterPath;
 
+    @NotNull
+    private String largePosterPath;
+
     private Long tmdbId;
 
 
@@ -51,20 +54,22 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath) {
+    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, String largePosterPath) {
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.posterPath = posterPath;
+        this.largePosterPath = largePosterPath;
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, Set<Genre> genres) {
+    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, String largePosterPath, Set<Genre> genres) {
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.posterPath = posterPath;
+        this.largePosterPath = largePosterPath;
         this.genres = genres;
-    }
+}
 
     public Long getId() {
         return id;
@@ -104,6 +109,14 @@ public class Movie {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public String getLargePosterPath() {
+        return largePosterPath;
+    }
+
+    public void setLargePosterPath(String largePosterPath) {
+        this.largePosterPath = largePosterPath;
     }
 
     public Set<Genre> getGenres() {

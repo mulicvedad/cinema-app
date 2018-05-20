@@ -1,7 +1,7 @@
 <div id="movie-container">
       <div class="movie">
         <div class="movie-details-container">
-          <div class="column column-md poster-image"><img src={{model.posterPath}} id="poster"/>
+          <div class="column column-md poster-image"><img src={{model.largePosterPath}} id="poster"/>
           </div>
           <div class="column column-md">
             <h1 id="title">{{model.movieTitle}}<span id="date"> ( {{moment-format model.release_date 'YYYY'}})</span></h1>
