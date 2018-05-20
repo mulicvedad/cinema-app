@@ -34,8 +34,13 @@ public class Movie {
     @NotNull
     private String largePosterPath;
 
-    private Long tmdbId;
+    @JsonProperty("original_title")
+    private String originalTitle;
 
+    @JsonProperty("vote_average")
+    private Float averageVote;
+
+    private Long tmdbId;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"),
@@ -54,12 +59,14 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, String largePosterPath) {
+    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, String largePosterPath, String originalTitle, Float averageVote) {
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.posterPath = posterPath;
         this.largePosterPath = largePosterPath;
+        this.originalTitle = originalTitle;
+        this.averageVote = averageVote;
     }
 
     public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, String largePosterPath, Set<Genre> genres) {
@@ -117,6 +124,22 @@ public class Movie {
 
     public void setLargePosterPath(String largePosterPath) {
         this.largePosterPath = largePosterPath;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public Float getAverageVote() {
+        return averageVote;
+    }
+
+    public void setAverageVote(Float averageVote) {
+        this.averageVote = averageVote;
     }
 
     public Set<Genre> getGenres() {

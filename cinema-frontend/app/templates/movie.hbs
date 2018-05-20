@@ -12,14 +12,19 @@
             <div class="row">
               {{moment-format model.release_date 'MMMM D, YYYY'}}
             </div>
+            <div class="row">
+              <h3>Rating</h3>
+              <span id="rating">{{model.averageVote}}</span>
+            </div>
             <h3 id="tagline">Overview</h3>
             <div id="overview">
-              <p id="synopsis">Two sisters move to the country with their father in order to be closer to their hospitalized mother, and discover the surrounding trees are inhabited by Totoros, magical spirits of the forest. When the youngest runs away from home, the
-                older sister seeks help from the spirits to find her.</p>
+              <p id="synopsis">{{model.overview}}</p>
             </div>
             <div class="row">
               <h2>Genres</h2>
-              <div id="companies">{{model.genres.0.name}}</div>
+              {{#each model.genres as |genre index|}}
+                <li> {{genre.name}} </li>
+              {{/each}}
             </div>
             <div class="row">
               <h2>Countries</h2>
@@ -41,10 +46,6 @@
             </div>
             <div class="row">
               <div class="column column-md">
-                <div class="ratings">
-                  <h2>Rating</h2>
-                  <span id="rating">8/10</span>
-                </div>
               </div>
               <div class="column column-md">
                 <h2>Runtime</h2>
