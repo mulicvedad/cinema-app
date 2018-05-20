@@ -1,0 +1,37 @@
+<div id="payment-stripe" class="container payment-form">
+  <div class="row">
+      <div class="col-lg-12 login-title">
+      <img class="img-form" src="/assets/images/credit-card.png"><br>
+      PAYMENT INFORMATION
+</div>
+  </div>
+  <div class="row text-left">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label for="cc-number" class="control-label"><span class="input-group-addon"><i class="fa fa-credit-card"></i></span>  Credit Card Number <small class="text-muted">[<span data-payment="cc-brand"></span>]</small></label>
+        <div class="input-group">
+          <input id="cc-number" type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" data-payment='cc-number' required>
+        </div><br>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="form-group">
+        <label><span class="input-group-addon"><i class="fa fa-calendar"></i></span>  Expiration (MM/YYYY)</label>
+        <div class="input-group">
+          <input id="cc-exp" type="tel" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="•• / ••••" data-payment='cc-exp' required>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        <label><span class="input-group-addon"><i class="fa fa-lock"></i></span>  CVC Code</label>
+        <div class="input-group">
+          <input id="cc-cvc" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" data-payment='cc-cvc' required>
+        </div>
+      </div>
+    </div>
+  </div>
+ <button class="btn btn-danger" type="button" id="validate">
+    <span class="glyphicon glyphicon-ok"></span> Pay now
+    </button>
+</div>

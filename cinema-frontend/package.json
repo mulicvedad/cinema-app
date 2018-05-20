@@ -15,6 +15,7 @@
     "test": "ember test"
   },
   "devDependencies": {
+    "ember-font-awesome": "^4.0.0-rc.3",
     "bootstrap-sass": "^3.3.7",
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^3.1.0",
