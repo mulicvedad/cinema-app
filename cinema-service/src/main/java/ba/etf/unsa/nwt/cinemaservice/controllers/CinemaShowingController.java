@@ -50,6 +50,21 @@ public class CinemaShowingController {
         return ResponseEntity.ok(cinemaShowingService.all());
     }
 
+    @GetMapping
+    public ResponseEntity getAllCinemaShowingsForSpecificMovie(@RequestParam(value = "date", required = false) String date, Long movieId)
+            throws BadHttpRequest {
+        if (date != null)
+            try {
+                Date newDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                return ResponseEntity.ok(cinemaShowingService.findByDateAndMovie(newDate, movieId));
+            } catch (ParseException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error(
+                        "Parsing failure", "date", "Date parsing exception: Date must be " +
+                        "in format 'yyyy-mm-dd'.")));
+            }
+        return ResponseEntity.ok(cinemaShowingService.all());
+    }
+
     @GetMapping("/upcoming")
     public Collection<CinemaShowing> upcoming() {
         return cinemaShowingService.findUpcomingShowings();
