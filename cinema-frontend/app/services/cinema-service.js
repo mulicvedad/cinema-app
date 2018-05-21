@@ -7,6 +7,10 @@ export default BaseHttpService.extend({
 		return this.ajax('GET', '/cinema/cinema-showings?date=' + date);
 	},
 
+	getShowingByDateAndMovieId: function(date, id) {
+		return this.ajax('GET', `/cinema/cinema-showings/movie/${id}?date=` + date);
+	},
+
 	getUpcomingShowing: function() {
 		return this.ajax('GET', '/cinema/cinema-showings/upcoming');
 	},
