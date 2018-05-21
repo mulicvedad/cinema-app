@@ -51,7 +51,8 @@ public class CinemaShowingController {
     }
 
     @GetMapping
-    public ResponseEntity getAllCinemaShowingsForSpecificMovie(@RequestParam(value = "date", required = false) String date, Long movieId)
+    public ResponseEntity getAllCinemaShowingsForSpecificMovie(@RequestParam(value = "date", required = false) String date,
+                                                               @RequestParam(value = "movie", required = false) Long movieId)
             throws BadHttpRequest {
         if (date != null)
             try {
