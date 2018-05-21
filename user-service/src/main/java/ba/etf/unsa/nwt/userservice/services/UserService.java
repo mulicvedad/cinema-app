@@ -1,5 +1,6 @@
 package ba.etf.unsa.nwt.userservice.services;
 
+import ba.etf.unsa.nwt.userservice.controllers.dto.UserAccountDTO;
 import ba.etf.unsa.nwt.userservice.controllers.dto.UserPasswordResetDTO;
 import ba.etf.unsa.nwt.userservice.controllers.dto.UserRegistrationDTO;
 import ba.etf.unsa.nwt.userservice.models.Role;
@@ -74,6 +75,13 @@ public class UserService {
 
     private static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    public UserAccountDTO findAccountByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isPresent()) return new UserAccountDTO(user.get().getUsername(), user.get().getPasswordHash(),
+                user.get().getRole().getName());
+        else return null;
     }
 
 }
