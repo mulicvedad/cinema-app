@@ -50,11 +50,10 @@ public class CinemaShowingController {
         return ResponseEntity.ok(cinemaShowingService.all());
     }
 
-    @GetMapping
-    public ResponseEntity getAllCinemaShowingsForSpecificMovie(@RequestParam(value = "date", required = false) String date,
-                                                               @RequestParam(value = "movie", required = false) Long movieId)
+    @GetMapping("/movie/{movieId}")
+    public ResponseEntity getAllCinemaShowingsForSpecificMovie(@RequestParam(value = "date", required = false) String date, @PathVariable(name = "movieId") Long movieId)
             throws BadHttpRequest {
-        if (date != null)
+        if (date != null && movieId != null)
             try {
                 Date newDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                 return ResponseEntity.ok(cinemaShowingService.findByDateAndMovie(newDate, movieId));
