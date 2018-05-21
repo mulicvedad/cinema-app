@@ -1,46 +1,40 @@
 <div id="movie-container">
       <div class="movie">
         <div class="movie-details-container">
-          <div class="column column-md poster-image"><img src={{model.largePosterPath}} id="poster"/>
+          <div class="column column-md poster-image"><img src={{model.movie.largePosterPath}} id="poster"/>
           </div>
           <div class="column column-md">
-            <h1 id="title">{{model.movieTitle}}<span id="date"> ( {{moment-format model.release_date 'YYYY'}})</span></h1>
+            <h1 id="title">{{model.movie.title}}<span id="date"> ( {{moment-format model.movie.release_date 'YYYY'}})</span></h1>
             <div class="row">
               <span class="badge"><span id="status">Released</span>
               </span>
             </div>
             <div class="row">
-              {{moment-format model.release_date 'MMMM D, YYYY'}}
-            </div>
-            <div class="row">
-              <h3>Rating</h3>
-              <span id="rating">{{model.averageVote}}</span>
+              {{moment-format model.movie.release_date 'MMMM D, YYYY'}}
             </div>
             <h3 id="tagline">Overview</h3>
             <div id="overview">
-              <p id="synopsis">{{model.overview}}</p>
+              <p id="synopsis">{{model.movie.overview}}</p>
+            </div>
+            <div class="row">
+              <h3>Rating</h3>
+              <span id="rating">{{model.movie.vote_average}}.  </span><i class="fa fa-star"></i>
             </div>
             <div class="row">
               <h2>Genres</h2>
-              {{#each model.genres as |genre index|}}
+              {{#each model.movie.genres as |genre index|}}
                 <li> {{genre.name}} </li>
               {{/each}}
-            </div>
-            <div class="row">
-              <h2>Countries</h2>
-              <div id="countries">Canada</div>
             </div>
             <div class="row">
               <h2>Showings</h2>
                <div class="form-group col-md-3">
                 <select class="form-control" id="exampleFormControlSelect1" onchange={{action "selectShowing"
                 value="target.value"}}>
-{{!--  ovako treba ici:    <option value={{showing.id}}>{{showing.sala}} - {{showing.vrijeme}}</option>
- --}}             <option>Room 1 - 12:00PM</option>
-                  <option>Room 2 - 15:00PM</option>
-                  <option>Room 2 - 20:00PM</option>
-                  <option>Room 3 - 22:00PM</option>
-                  <option>Room 5 - 22:30PM</option>
+                  <option value=""></option>
+                  {{#each model.showings as |showing|}}
+                    <option value={{showing.id}}>{{showing.room.title}} - {{moment-format showing.timetable.startDateTime 'HH:mm'}}</option>
+                  {{/each}}
                 </select>
               </div>
             </div>
@@ -55,7 +49,7 @@
               </div>
               <div class="column column-lg">
                 <h2>Cast</h2>
-               {{#each model.moviePeople as |cast|}}
+               {{#each model.movie.moviePeople as |cast|}}
                 <ul id="related">
                   {{cast.name}}  /   {{cast.roles.0.role}}
                 </ul>

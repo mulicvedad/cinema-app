@@ -29,6 +29,10 @@ export default BaseHttpService.extend({
 
 	deleteCinemaSeat: function(id) {
 		return this.ajax('DELETE', `/cinema/cinema-seats/${id}`);
+	},
+
+	getShowingByDateAndMovieId: function(date, id) {
+		return this.ajax('GET', '/cinema/cinema-showings/movie/' + id + '?date=' + date);
 	}
 });
 

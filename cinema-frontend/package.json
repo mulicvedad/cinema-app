@@ -15,7 +15,6 @@
     "test": "ember test"
   },
   "devDependencies": {
-    "ember-font-awesome": "^4.0.0-rc.3",
     "bootstrap-sass": "^3.3.7",
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^3.1.0",
@@ -38,10 +37,12 @@
     "ember-collapsible-panel": "^3.0.1",
     "ember-data": "~2.14.3",
     "ember-export-application-global": "^2.0.0",
+    "ember-font-awesome": "^4.0.0-rc.3",
     "ember-load-initializers": "^1.0.0",
     "ember-moment": "^7.7.0",
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.14.0",
+    "ember-stripe-elements": "^0.3.0",
     "ember-welcome-page": "^3.0.0",
     "loader.js": "^4.2.3"
   },

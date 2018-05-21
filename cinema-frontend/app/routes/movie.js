@@ -8,11 +8,20 @@ const {
 
 export default Ember.Route.extend({
 
-  _movieService: service('movie-service'),
-
-   model: function (params) {
-    // params.id is the movie id we passed from the showing list, we'll use it to fetch the movie details from the movie service
-      console.log(params.id);
-      return this.get('_movieService').getMovieById(params.id);
+  queryParams: {
+    date: {
+      refreshModel: true
     }
+  },
+
+  _movieService: service('movie-service'),
+  _cinemaService: service('cinema-service'),
+
+   model(params) {
+    return Ember.RSVP.hash({
+      movie: this.get('_movieService').getMovieById(params.id),
+      showings: this.get('_cinemaService').getShowingByDateAndMovieId(params.date,params.id)
+    });
+  },
+
 });
