@@ -76,6 +76,10 @@ public class DbLoader implements CommandLineRunner {
             user = new User(role, "Christopher", "Woods", "Cralmonce", "$2a$10$iIFEUH6ORbNM7HSy7cpDcuPqHPQL4l9hxR/TLz9lz.RK/fMlkxA5G", "ChristopherCWoods@teleworm.us");
             userService.save(user);
 
+            role = roleService.find("ROLE_USER");
+            user = new User(role, "Christopher", "Woods", "user", "$2a$10$iIFEUH6ORbNM7HSy7cpDcuPqHPQL4l9hxR/TLz9lz.RK/fMlkxA5G", "user@test.ba");
+            userService.save(user);
+
         }
     }
 }

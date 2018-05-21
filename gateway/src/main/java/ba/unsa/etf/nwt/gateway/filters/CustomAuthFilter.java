@@ -39,6 +39,7 @@ public class CustomAuthFilter implements Filter {
             token = token.replace("Bearer ", "");
             log.info(token);
             if(isTokenValid(token)) {
+
                 filterChain.doFilter(request,response);
             }else {
                 response.setStatus(403);
