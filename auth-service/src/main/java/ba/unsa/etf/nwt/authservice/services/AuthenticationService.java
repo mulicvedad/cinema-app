@@ -1,5 +1,6 @@
 package ba.unsa.etf.nwt.authservice.services;
 
+import ba.unsa.etf.nwt.authservice.controllers.dto.UserAccountDTO;
 import ba.unsa.etf.nwt.authservice.models.UserAccount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +19,10 @@ public class AuthenticationService {
     Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private UserAccountService userAccountService;
+    private TokenService tokenService;
 
     @Autowired
-    private TokenService tokenService;
+    private UserAccountService userAccountService;
 
     public String generateToken(String username, String password) {
         Optional<UserAccount> userAccount = userAccountService.findByUsername(username);
@@ -41,6 +42,24 @@ public class AuthenticationService {
         // Roles are already contained in the user object but in that implementation user can have at most one role
         // response.put("roles", this.userAccountService.getRoles(username));
         return response;
+    }
+
+    public UserAccountDTO authenticate(String token, String username) {
+        try {
+            if (!tokenService.isTokenValid(token))
+                return null;
+            String tokenUsername = tokenService.getUsernameFromToken(token);
+            if (username != null)
+                if(!tokenUsername.equals(username))
+                    return null;
+            Optional<UserAccount> userAccount = userAccountService.findByUsername(tokenUsername);
+            if (userAccount.isPresent())
+                return new UserAccountDTO(userAccount.get().getUsername(), userAccount.get().getPasswordHash(),
+                        userAccount.get().getRole().getName());
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
     }
 
 }
