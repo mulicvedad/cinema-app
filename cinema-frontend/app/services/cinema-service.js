@@ -3,16 +3,16 @@ import BaseHttpService from './base-http-service';
 
 export default BaseHttpService.extend({
 
-	getShowingByDate: function(date,token) {
-		return this.ajax('GET', '/cinema/cinema-showings?date=' + date,null,token);
+	getShowingByDate: function(date) {
+		return this.ajax('GET', '/cinema/cinema-showings?date=' + date,null);
 	},
 
 	getShowingByDateAndMovieId: function(date, id) {
 		return this.ajax('GET', `/cinema/cinema-showings/movie/${id}?date=` + date);
 	},
 
-	getUpcomingShowing: function(token) {
-		return this.ajax('GET', '/cinema/cinema-showings/upcoming',null,token);
+	getUpcomingShowing: function() {
+		return this.ajax('GET', '/cinema/cinema-showings/upcoming',null);
 	},
 
 	getAvailableSeats: function(id) {
