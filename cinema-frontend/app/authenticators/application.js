@@ -7,8 +7,10 @@ export default Base.extend({
     cinemaAppHttp: Ember.inject.service('cinema-app-http'),
 
     restore(data) {
+        console.log('restore');
+        console.log(data);
         return new Promise((resolve, reject) => {
-            if (!Ember.isEmpty(data.token)) {
+            if (!Ember.isEmpty(data.jwt)) {
                 resolve(data);
             } else {
                 reject();
@@ -19,6 +21,7 @@ export default Base.extend({
     authenticate(credentials, callback) {
         return this.get('cinemaAppHttp').post('auth/login', credentials, (resp) => {
             if (callback) {
+                console.log(resp);
                 callback(resp);
             }
 

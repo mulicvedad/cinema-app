@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 
-
 export default Ember.Route.extend({
  // _userService: service('user-service'),
   session: Ember.inject.service(),
@@ -13,19 +12,9 @@ export default Ember.Route.extend({
         this.set('previousTransition', null);
         previousTransition.retry();
       } else {
-        this.transitionTo('application');
+        this.transitionTo('/');
       }
     }
-  }, 
-
-  model: function () {
-    //return this.get('_userService').createSignUpData();
-  },
-
-  actions: {
-    onDone: function () {
-     //this.get('_userService').addSupplier(this.controller.get('model'))
-     // .then(()=> this.transitionTo('services'));
-    },
   }
+  
 });

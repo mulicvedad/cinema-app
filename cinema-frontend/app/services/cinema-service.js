@@ -4,12 +4,12 @@ import BaseHttpService from './base-http-service';
 
 export default BaseHttpService.extend({
 
-	getShowingByDate: function(date) {
-		return this.ajax('GET', '/cinema/cinema-showings?date=' + date);
+	getShowingByDate: function(date,token) {
+		return this.ajax('GET', '/cinema/cinema-showings?date=' + date,null,token);
 	},
 
-	getUpcomingShowing: function() {
-		return this.ajax('GET', '/cinema/cinema-showings/upcoming')
+	getUpcomingShowing: function(token) {
+		return this.ajax('GET', '/cinema/cinema-showings/upcoming',null,token);
 	},
 
 });
