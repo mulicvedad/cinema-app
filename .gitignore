@@ -239,7 +239,7 @@ dist
 
 # dependencies
 /node_modules
-/bower_components
+bower_components
 
 # misc
 /.sass-cache

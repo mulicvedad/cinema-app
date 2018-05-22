@@ -1,6 +1,8 @@
 package ba.unsa.etf.nwt.authservice.controllers;
 
 import ba.unsa.etf.nwt.authservice.controllers.dto.LoginRequest;
+import ba.unsa.etf.nwt.authservice.models.ApiError;
+import ba.unsa.etf.nwt.authservice.models.ErrorResponseWrapper;
 import ba.unsa.etf.nwt.authservice.models.UserAccount;
 import ba.unsa.etf.nwt.authservice.services.AuthenticationService;
 import ba.unsa.etf.nwt.authservice.services.TokenService;
@@ -32,7 +34,8 @@ public class AuthenticationController {
         if (token != null){
             return ResponseEntity.ok().body(authenticationService.generateResponseSucc(username, token));
         }
-        return ResponseEntity.badRequest().build();
+        ApiError apiError = new ApiError("","Username or password incorrect");
+        return ResponseEntity.badRequest().body(new ErrorResponseWrapper(apiError));
     }
 
 }

@@ -1,20 +1,25 @@
 import Ember from 'ember';
+import SweetAlertMixin from 'ember-sweetalert/mixins/sweetalert-mixin';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(SweetAlertMixin, {
     session: Ember.inject.service('session'),
+    router: Ember.inject.service('-routing'),
     classNames: ['nav-bar'],
-   // active:false,
     actions: {
         logout() {
-            this.get('session').invalidate();
-            Ember.set(this,'active',false);
-            this.transitionToRoute("/");
+
+            let sweetAlert = this.get('sweetAlert');
+            sweetAlert({
+                title: 'Do you really want to log out',
+                confirmButtonText: 'Yes',
+                showCancelButton: true,
+                cancelButtonText: 'No',
+                confirmButtonColor: '#DC5154',
+                type: 'warning'
+            }).then((confirm)=>{
+                this.get('session').invalidate();
+                this.get('router').transitionTo('login');
+            })
         },
-      //  activateModal() {
-      //      Ember.set(this,'active',true);
-      //  },
-      //  hideModal() {
-      //      Ember.set(this, 'active',false);
-      //  }
     }
 });

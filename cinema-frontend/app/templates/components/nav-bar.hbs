@@ -7,7 +7,16 @@
     <input class="l-header__search" type="text" placeholder="Seach movies...">
     <li>{{#link-to 'showing'}}Movies{{/link-to}}</li>
     {{#if session.isAuthenticated}}
-      <li {{action 'logout'}}>Log out</li>
+    <div class="dropdown">
+      <li class="dropdown-toggle"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Welcome, <b class="username">{{session.data.authenticated.user.username}}!</b>
+        <b class="caret"></b>
+      </li>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="logout"><li {{action 'logout'}}>Log out</li></a>
+      </div>
+    </div>
+
     {{else}}
       <li>{{#link-to 'login'}}Log in{{/link-to}}</li>
       <li>{{#link-to 'signup'}}Sign up{{/link-to}}</li>

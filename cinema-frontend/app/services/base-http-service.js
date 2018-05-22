@@ -9,7 +9,7 @@ export default Ember.Service.extend({
       contentType: 'application/json',
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", token);
-     },
+     }
      
     });
   },

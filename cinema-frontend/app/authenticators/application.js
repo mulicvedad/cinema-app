@@ -7,8 +7,6 @@ export default Base.extend({
     cinemaAppHttp: Ember.inject.service('cinema-app-http'),
 
     restore(data) {
-        console.log('restore');
-        console.log(data);
         return new Promise((resolve, reject) => {
             if (!Ember.isEmpty(data.jwt)) {
                 resolve(data);

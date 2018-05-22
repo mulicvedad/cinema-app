@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 
 export default Ember.Route.extend({
- // _userService: service('user-service'),
   session: Ember.inject.service(),
 
   beforeModel(transition) {
