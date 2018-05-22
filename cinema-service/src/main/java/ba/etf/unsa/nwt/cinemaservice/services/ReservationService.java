@@ -2,6 +2,7 @@ package ba.etf.unsa.nwt.cinemaservice.services;
 
 import ba.etf.unsa.nwt.cinemaservice.controllers.ReservationController;
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.ReservationDTO;
+import ba.etf.unsa.nwt.cinemaservice.controllers.dto.UserAccountDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
 import ba.etf.unsa.nwt.cinemaservice.models.ChargeRequest;
 import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
@@ -11,10 +12,10 @@ import ba.etf.unsa.nwt.cinemaservice.repositories.ReservationRepository;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
+import org.apache.http.auth.AUTH;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
@@ -41,6 +42,12 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
 
     @Autowired
     private CinemaSeatService cinemaSeatService;
+
+    @Autowired
+    AuthService authService;
+
+    private final String HEADER_NAME_AUTHORIZATION = "Authorization";
+    private final String HEADER_PREFIX_AUTHORIZATION = "Bearer ";
 
     public Collection<Reservation> findByUserId(Long userId) {
         return repo.findByUserId(userId);
@@ -82,7 +89,15 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         }
 
         try {
-            restTemplate.getForEntity(url, Map.class);
+            // old version - doesn't work becauser JWT has to be passed in Authorization header
+            // restTemplate.getForEntity(url, Map.class);
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            headers.set(HEADER_NAME_AUTHORIZATION, HEADER_PREFIX_AUTHORIZATION + authService.getCurrentJwt());
+            UserAccountDTO userAccount = new UserAccountDTO();
+            HttpEntity<UserAccountDTO> entity = new HttpEntity<>(userAccount, headers);
+            restTemplate.exchange(url, HttpMethod.GET, entity, UserAccountDTO.class);
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND)
                 throw new ServiceException("User with given id doesn't exist");

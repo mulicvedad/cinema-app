@@ -97,4 +97,7 @@ public class AuthService {
         }
     }
 
+    public String getCurrentJwt() {
+        return currentJwt;
+    }
 }

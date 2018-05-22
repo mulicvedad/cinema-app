@@ -24,17 +24,23 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
 
     @Autowired
     RoomService roomService;
+
     @Autowired
     ShowingTypeService showingTypeService;
+
     @Autowired
     CinemaSeatRepository cinemaSeatRepository;
+
     @Autowired
     private RestTemplate restTemplate;
+
     @Autowired
     @Qualifier("eurekaClient")
     private EurekaClient eurekaClient;
+
     @Autowired
     private TimetableService timetableService;
+
     public Collection<CinemaShowing> findUpcomingShowings() {
         return repo.findUpcoming();
     }
@@ -102,4 +108,5 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
         }
         return availableSeats;
     }
+
 }
