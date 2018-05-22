@@ -1,0 +1,62 @@
+<div id="movie-container">
+      <div class="movie">
+        <div class="movie-details-container">
+          <div class="column column-md poster-image"><img src={{model.movie.largePosterPath}} id="poster"/>
+          </div>
+          <div class="column column-md">
+            <h1 id="title">{{model.movie.title}}<span id="date"> ( {{moment-format model.movie.release_date 'YYYY'}})</span></h1>
+            <div class="row">
+              <span class="badge"><span id="status">Released</span>
+              </span>
+            </div>
+            <div class="row">
+              {{moment-format model.movie.release_date 'MMMM D, YYYY'}}
+            </div>
+            <h3 id="tagline">Overview</h3>
+            <div id="overview">
+              <p id="synopsis">{{model.movie.overview}}</p>
+            </div>
+            <div class="row">
+              <h3>Rating</h3>
+              <span id="rating">{{model.movie.vote_average}}.  </span><i class="fa fa-star"></i>
+            </div>
+            <div class="row">
+              <h2>Genres</h2>
+              {{#each model.movie.genres as |genre index|}}
+                <li> {{genre.name}} </li>
+              {{/each}}
+            </div>
+            <div class="row">
+              <h2>Showings</h2>
+               <div class="form-group col-md-3">
+                <select class="form-control" id="exampleFormControlSelect1" onchange={{action "selectShowing"
+                value="target.value"}}>
+                  <option value=""></option>
+                  {{#each model.showings as |showing|}}
+                    <option value={{showing.id}}>{{showing.room.title}} - {{moment-format showing.timetable.startDateTime 'HH:mm'}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="column column-md">
+              </div>
+              <div class="column column-md">
+                <h2>Runtime</h2>
+                <div>
+                  <div id="runtime">86 minutes</div>
+                </div>
+              </div>
+              <div class="column column-lg">
+                <h2>Cast</h2>
+               {{#each model.movie.moviePeople as |cast|}}
+                <ul id="related">
+                  {{cast.name}}  /   {{cast.roles.0.role}}
+                </ul>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>

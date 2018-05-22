@@ -33,4 +33,6 @@ public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Lo
 
     Collection<CinemaShowing> findAllByRoom(Room room);
 
+    @Query("select  cs from CinemaShowing cs, Timetable t where  cs.timetable = t and cs.movieId = :movieId and t.startDateTime > :date")
+    Collection<CinemaShowing> findByDateAndMovieId(@Param("date") Date date, @Param("movieId") Long movieId);
 }

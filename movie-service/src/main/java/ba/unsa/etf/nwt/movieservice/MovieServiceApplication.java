@@ -25,20 +25,28 @@ public class MovieServiceApplication {
     @Bean
     public CommandLineRunner demo() {
         return (args) -> {
-            Genre genre1 = new Genre("Drama");
-            MoviePerson moviePerson = new MoviePerson("Greta Gerwig");
-            MovieRole role = new MovieRole("Director");
+            Genre genre1 = new Genre("Comedy");
+            Genre genre2 = new Genre("Action");
+            Genre genre3 = new Genre("Science Fiction");
+
+            MoviePerson moviePerson = new MoviePerson("Ryan Reynolds");
+            MovieRole role = new MovieRole("Actor");
             moviePerson.setRoles(new HashSet<MovieRole>() {{
                 add(role);
             }});
 
-            Movie movie = new Movie("Lady Bird",
-                    Timestamp.valueOf("2017-11-03 10:10:10.0"),
-                    "In 2002, an artistically inclined seventeen-year-old girl comes of age in Sacramento, California.",
-                    "http://image.tmdb.org/t/p/w185/kqjL17yufvn9OVLyXYpvtyrFfak.jpg");
+            Movie movie = new Movie("Deadpool 2",
+                    Timestamp.valueOf("2018-05-15 10:10:10.0"),
+                    "Wisecracking mercenary Deadpool battles the evil and powerful Cable and other bad guys to save a boy's life.",
+                    "http://image.tmdb.org/t/p/w185/to0spRl1CMDvyUbOnbb4fTk3VAd.jpg",
+                    "http://image.tmdb.org/t/p/w342/to0spRl1CMDvyUbOnbb4fTk3VAd.jpg",
+                    "Deadpool 2",
+                    8f);
 
             movie.setGenres(new HashSet<Genre>() {{
                 add(genre1);
+                add(genre2);
+                add(genre3);
             }});
 
             Review review = new Review(1L, "Great movie!");

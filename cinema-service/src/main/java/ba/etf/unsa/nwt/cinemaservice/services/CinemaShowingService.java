@@ -43,6 +43,10 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
         return repo.findAllByDate(date);
     }
 
+    public Collection<CinemaShowing> findByDateAndMovie(Date date, Long movieId) {
+        return repo.findByDateAndMovieId(date, movieId);
+    }
+
     public void createCinemaShowing(CinemaShowingDTO cinemaShowingDTO) {
 
         String url;

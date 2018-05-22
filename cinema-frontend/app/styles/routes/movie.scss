@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  color: white;
+}
+
+#movie-container {
+  height: 100%;
+  padding: 2rem;
+  text-align: center;
+  font-family: sans-serif;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url("http://backgroundcheckall.com/wp-content/uploads/2017/12/movie-theater-background-7.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow: auto;
+}
+
+.movie {
+  text-align: left;
+  margin-top: 1em;
+}
+
+h1 {
+  color: white;
+}
+
+.movie h3 {
+  color: #337ab7;
+  font-weight: 200;
+}
+
+.movie h2 {
+  color: #337ab7;
+  font-weight: 200;
+}
+
+p {
+  color: white;
+}
+
+.movie-details-container{
+  overflow:auto;
+}
+
+.row {
+    overflow: auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.column {
+  float: left;
+}
+.column-md {
+  width: 50%;
+}
+.column-lg {
+  width: 100%;
+}
+
+.overview{
+  margin-top: 30px;
+}
+
+.badge {
+  background-color: #4b017b;
+  padding:.3rem 1rem;
+  border-radius: 4px;
+}
+
+#date {
+  font-size:1.5rem;
+  font-weight: 200;
+}
+
+#poster {
+  padding: 30px;
+  padding-right: 80px;
+  max-width: 100%;
+  padding-left: 100px;
+}
+
+#tagline {
+  color: #337ab7;
+}
+
+#genres, #runtime,#rating,#companies {
+  color: white;
+}
+
+#related {
+  color: white;
+  padding: 0;
+}
+
+#related li {
+  list-style: none;
+  cursor: pointer;
+}
