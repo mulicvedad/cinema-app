@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/users/*").hasRole(ROLE_NAME_ADMIN)
                 .antMatchers(HttpMethod.PUT, "/users/*").authenticated()
                 .antMatchers(HttpMethod.PUT, "/users/*/reset-password").authenticated()
-                .antMatchers("*").denyAll();        // black list approach
+                .anyRequest().denyAll();        // black list approach
 
         http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
