@@ -1,7 +1,7 @@
-package ba.etf.unsa.nwt.cinemaservice.filters;
+package ba.etf.unsa.nwt.userservice.filters;
 
-import ba.etf.unsa.nwt.cinemaservice.exceptions.TokenNotFoundException;
-import ba.etf.unsa.nwt.cinemaservice.services.AuthService;
+import ba.etf.unsa.nwt.userservice.exceptions.TokenNotFoundException;
+import ba.etf.unsa.nwt.userservice.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

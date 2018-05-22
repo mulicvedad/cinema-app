@@ -125,6 +125,20 @@ public class TokenService {
         return expiration.before(new Date(System.currentTimeMillis()));
     }
 
+    public boolean isTokenValid(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(this.secretKey)
+                    .parseClaimsJws(token).getBody();
+            Date now = new Date(System.currentTimeMillis());
+            if(claims.getExpiration().before(now))
+                return false;
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
     public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
         return true;
     }

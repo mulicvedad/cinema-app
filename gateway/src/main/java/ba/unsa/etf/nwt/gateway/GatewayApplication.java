@@ -1,6 +1,5 @@
 package ba.unsa.etf.nwt.gateway;
 
-import ba.unsa.etf.nwt.gateway.filters.CustomAuthFilter;
 import ba.unsa.etf.nwt.gateway.filters.CustomCorsFilter;
 import ba.unsa.etf.nwt.gateway.filters.SimpleFilter;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,9 +10,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+
 
 @EnableZuulProxy
 @EnableDiscoveryClient
@@ -36,16 +33,6 @@ public class GatewayApplication {
     @Bean
     public RestTemplate restTemplate(){
         return new RestTemplate();
-    }
-
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        CustomAuthFilter securityFilter = new CustomAuthFilter(jwtKey);
-        registrationBean.setFilter(securityFilter);
-        registrationBean.addUrlPatterns("/user/*", "/cinema/*", "/movie/*", "/payment/*");
-        registrationBean.setOrder(Integer.MAX_VALUE);
-        return registrationBean;
     }
 
     @Bean

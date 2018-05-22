@@ -1,7 +1,8 @@
-package ba.etf.unsa.nwt.cinemaservice;
+package ba.etf.unsa.nwt.userservice;
 
-import ba.etf.unsa.nwt.cinemaservice.filters.TokenAuthenticationFilter;
-import ba.etf.unsa.nwt.cinemaservice.services.CustomUserDetailsService;
+
+import ba.etf.unsa.nwt.userservice.filters.TokenAuthenticationFilter;
+import ba.etf.unsa.nwt.userservice.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,16 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/reservations/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/reservation-statuses/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/**").permitAll()
-                .antMatchers("/reservation-statuses/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/cinema-showings/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/rooms/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/showing-types/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/news/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/cinema-seats/**").hasRole(ROLE_NAME_ADMIN)
-                .anyRequest().denyAll();
+                .antMatchers(HttpMethod.GET, "/users").permitAll()
+                .antMatchers("/users/find**").authenticated()
+                .antMatchers(HttpMethod.GET, "/users/*/details").authenticated()
+                .antMatchers(HttpMethod.POST, "/users/register").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/users/*").hasRole(ROLE_NAME_ADMIN)
+                .antMatchers(HttpMethod.PUT, "/users/*").authenticated()
+                .antMatchers(HttpMethod.PUT, "/users/*/reset-password").authenticated()
+                .anyRequest().denyAll();        // black list approach
 
         http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
@@ -46,5 +45,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
-
 }
+

@@ -1,7 +1,8 @@
-package ba.etf.unsa.nwt.cinemaservice;
+package ba.unsa.etf.nwt.movieservice;
 
-import ba.etf.unsa.nwt.cinemaservice.filters.TokenAuthenticationFilter;
-import ba.etf.unsa.nwt.cinemaservice.services.CustomUserDetailsService;
+import ba.unsa.etf.nwt.movieservice.filters.TokenAuthenticationFilter;
+import ba.unsa.etf.nwt.movieservice.service.CustomUserDetailsService;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,16 +29,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/reservations/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/reservation-statuses/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
-                .antMatchers("/reservation-statuses/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/cinema-showings/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/rooms/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/showing-types/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/news/**").hasRole(ROLE_NAME_ADMIN)
-                .antMatchers("/cinema-seats/**").hasRole(ROLE_NAME_ADMIN)
-                .anyRequest().denyAll();
+                .antMatchers(HttpMethod.POST,"/movies/new").authenticated()//hasRole(ROLE_NAME_ADMIN)
+                .antMatchers(HttpMethod.DELETE, "/movies/**").hasRole(ROLE_NAME_ADMIN)
+                .antMatchers(HttpMethod.POST, "/review").authenticated()
+                .anyRequest().permitAll();
 
         http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }

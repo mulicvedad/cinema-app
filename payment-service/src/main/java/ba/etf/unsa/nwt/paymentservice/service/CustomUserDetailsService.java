@@ -1,6 +1,6 @@
-package ba.etf.unsa.nwt.cinemaservice.services;
+package ba.etf.unsa.nwt.paymentservice.service;
 
-import ba.etf.unsa.nwt.cinemaservice.controllers.dto.UserAccountDTO;
+import ba.etf.unsa.nwt.paymentservice.domain.UserAccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
