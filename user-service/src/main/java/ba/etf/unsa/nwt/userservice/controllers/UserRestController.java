@@ -1,5 +1,6 @@
 package ba.etf.unsa.nwt.userservice.controllers;
 
+import ba.etf.unsa.nwt.userservice.controllers.dto.UserAccountDTO;
 import ba.etf.unsa.nwt.userservice.controllers.dto.UserPasswordResetDTO;
 import ba.etf.unsa.nwt.userservice.controllers.dto.UserRegistrationDTO;
 import ba.etf.unsa.nwt.userservice.controllers.dto.UserUpdateDTO;
@@ -35,6 +36,15 @@ public class UserRestController {
     @GetMapping
     public Collection<User> getAllUsers() {
         return userService.getAll();
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity find(@RequestParam String username) {
+        UserAccountDTO userAccount = userService.findAccountByUsername(username);
+        if (userAccount != null)
+            return ResponseEntity.ok(userAccount);
+        else
+            return ResponseEntity.notFound().build();
     }
 
     @GetMapping("{id}/details")

@@ -1,5 +1,6 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -11,7 +12,9 @@ import java.util.Date;
 @Table(name = "timetable")
 public class Timetable extends BaseModel {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date startDateTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date endDateTime;
     private Collection<CinemaShowing> cinemaShowings;
 

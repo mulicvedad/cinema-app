@@ -45,6 +45,7 @@ public class MovieService {
         Set<Genre> movieGenres = getGenres(movieRequest.getGenres());
         Set<MoviePerson> moviePeople = getPeople(movieRequest.getMoviePeople());
         movie.setPosterPath("http://image.tmdb.org/t/p/w185/" + movie.getPosterPath());
+        movie.setLargePosterPath("http://image.tmdb.org/t/p/w342/" + movie.getPosterPath());
         movie.setGenres(movieGenres);
         movie.setMoviePeople(moviePeople);
         movieRepository.save(movie);

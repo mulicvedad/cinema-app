@@ -115,7 +115,9 @@
 }
 // individual poster
 .l-cards__item{
-  height: 33rem;
+  transition: transform 1s;
+  background-color: black;
+  //height: 35rem;
   flex: 0 0 15rem;    // side of poster
   margin: 2rem;
   margin-bottom:3rem;
@@ -128,11 +130,21 @@
   }
   // fix the height
   img {
+    margin-left: .1rem;
+    margin-right: .1rem;
+    margin-top: 0.1rem;
     height: 33rem;
     width: auto;
+    border-radius: 10px;
   }
+  border-radius: 15px;
+  border: 3px solid #DC5154;
 }
+.l-cards__item:hover {
+  transform: translate(10px, 10px);
+  box-shadow:         1px 1px 10px 3px #ccc;
 
+}
 // pagination
 .pagination {
   display: block;

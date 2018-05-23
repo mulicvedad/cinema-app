@@ -2,7 +2,6 @@ package ba.etf.unsa.nwt.cinemaservice.repositories;
 
 import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
 import ba.etf.unsa.nwt.cinemaservice.models.Room;
-import ba.etf.unsa.nwt.cinemaservice.models.Timetable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -34,4 +33,6 @@ public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Lo
 
     Collection<CinemaShowing> findAllByRoom(Room room);
 
+    @Query("select  cs from CinemaShowing cs, Timetable t where  cs.timetable = t and cs.movieId = :movieId and t.startDateTime > :date")
+    Collection<CinemaShowing> findByDateAndMovieId(@Param("date") Date date, @Param("movieId") Long movieId);
 }

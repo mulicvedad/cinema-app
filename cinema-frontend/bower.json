@@ -1,5 +1,6 @@
 {
   "name": "cinema-frontend",
   "dependencies": {
+    "sweetalert2": "^6.1.0"
   }
 }

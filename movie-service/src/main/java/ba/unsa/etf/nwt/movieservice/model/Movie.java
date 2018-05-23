@@ -31,8 +31,16 @@ public class Movie {
     @JsonProperty("poster_path")
     private String posterPath;
 
-    private Long tmdbId;
+    @NotNull
+    private String largePosterPath;
 
+    @JsonProperty("original_title")
+    private String originalTitle;
+
+    @JsonProperty("vote_average")
+    private Float averageVote;
+
+    private Long tmdbId;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"),
@@ -51,20 +59,24 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath) {
+    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, String largePosterPath, String originalTitle, Float averageVote) {
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.posterPath = posterPath;
+        this.largePosterPath = largePosterPath;
+        this.originalTitle = originalTitle;
+        this.averageVote = averageVote;
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, Set<Genre> genres) {
+    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, String largePosterPath, Set<Genre> genres) {
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
         this.posterPath = posterPath;
+        this.largePosterPath = largePosterPath;
         this.genres = genres;
-    }
+}
 
     public Long getId() {
         return id;
@@ -104,6 +116,30 @@ public class Movie {
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public String getLargePosterPath() {
+        return largePosterPath;
+    }
+
+    public void setLargePosterPath(String largePosterPath) {
+        this.largePosterPath = largePosterPath;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public Float getAverageVote() {
+        return averageVote;
+    }
+
+    public void setAverageVote(Float averageVote) {
+        this.averageVote = averageVote;
     }
 
     public Set<Genre> getGenres() {

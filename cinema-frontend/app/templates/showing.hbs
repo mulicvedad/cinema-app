@@ -47,29 +47,19 @@
 <!--  right panel -->
       <div class="right-wrap col-md-8">
         <!--  1st section  -->
-    <div class="l-cards">
-      <h2 class="l-cards__title"> </h2>
-        <a class="l-cards__more"href="#"><i class="fa  fa-star"></i></a>
-              <a class="l-cards__more"href="#"><i class="fa  fa-calendar"></i></a>
-<!--      <a class="l-cards__more"href="#"><i class="fa fa-list"></i>
-</a>
-      <a class="l-cards__more"href="#">  <i class="fa fa-th-large"></i>
-</a>--></div>
 
       <ul class="l-cards__list">
         {{#each model as |movie|}}
-
-        <li class="l-cards__item">
+        <li class="l-cards__item shadow p-3 mb-5 bg-white rounded" {{action "seeDetails" movie.id}}>
           <a href="#" class="l-cards__image fill"><img src={{movie.posterPath}}/></a>
           <div class="l-cards__text title">{{movie.movieTitle}}</div>
           <a href="#" class="l-cards__text">{{movie.genres.0.name}}</a>
-
         </li>
         {{/each}}
 
 
       </ul>
-      <!--   pagination   -->
+      <!--   pagination - mocked for now   -->
       <ul class="pagination">
         <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
         <li><a href="#">1</a></li>

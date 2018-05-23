@@ -6,7 +6,6 @@ import com.stripe.Stripe;
 import com.stripe.exception.*;
 import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
