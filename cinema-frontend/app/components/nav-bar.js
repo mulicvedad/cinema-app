@@ -17,9 +17,22 @@ export default Ember.Component.extend(SweetAlertMixin, {
                 confirmButtonColor: '#DC5154',
                 type: 'warning'
             }).then((confirm)=>{
-                this.get('session').invalidate();
-                this.get('router').transitionTo('login');
+                sweetAlert({
+                    title: 'Successfuly logged out',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#DC5154',
+                    type: 'success'    
+                }).then((conifrm)=>{
+                    this.get('session').invalidate();
+                    this.get('router').transitionTo('showing');    
+                })
             })
         },
+        updateEmail() {
+            let sweetalert = this.get('sweetAlert');
+            sweetalert({
+
+            })
+        }
     }
 });

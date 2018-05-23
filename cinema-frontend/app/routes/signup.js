@@ -8,11 +8,17 @@ const {
 
 export default Ember.Route.extend(SweetAlertMixin, {
   _userService: service('user-service'),
+  session: Ember.inject.service(),
 
   model: function () {
     return this.get('_userService').createUser();
   },
 
+  beforeModel(transition) {
+    if(this.get('session.isAuthenticated')) {
+      this.transitionTo('showing');
+    }
+  },
   actions: {
     onNext: function () {
       let sweetAlert = this.get('sweetAlert');
