@@ -50,11 +50,19 @@
 
       <ul class="l-cards__list">
         {{#each model as |movie|}}
-        <li class="l-cards__item shadow p-3 mb-5 bg-white rounded" {{action "seeDetails" movie.id}}>
-          <a href="#" class="l-cards__image fill"><img src={{movie.posterPath}}/></a>
+        <div class="holder">
+        <div class="image">
+        <li class="l-cards__item shadow p-3 mb-5 bg-white rounded" >
+          <img src={{movie.posterPath}}/>
+        </li>
+        <div class="details">
           <div class="l-cards__text title">{{movie.movieTitle}}</div>
           <a href="#" class="l-cards__text">{{movie.genres.0.name}}</a>
-        </li>
+          <p>Showing hours: 17:00h, 22:00h</p>
+        <a href="#"  {{action "seeDetails" movie.id}}>See movie details</a>
+        </div>
+      </div>
+      </div>
         {{/each}}
 
 
