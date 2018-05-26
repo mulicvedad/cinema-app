@@ -5,12 +5,15 @@ const {
 export default Controller.extend({
 
   stripev3: service(),
+  _reservationService: service('reservation-service'),
+  reservationId: null,
+
 
   options: {
     hidePostalCode: true,
     style: {
       base: {
-        color: '#333'
+        color: '#fff'
       }
     }
   },
@@ -25,7 +28,7 @@ export default Controller.extend({
         set(this,'model.stripeToken',token.id);
         set(this,'model.description', 'Cinema Ticket');
         set(this,'model.amount', '100');
-        console.log(this.get('model'));
+        this.get('_reservationService').payReservation(this.get('reservationId'), this.get('model'));
       });
     }
   }

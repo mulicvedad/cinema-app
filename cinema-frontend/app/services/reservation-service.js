@@ -22,6 +22,9 @@ export default BaseHttpService.extend({
   },
 
   payReservation: function(id, chargeRequest) {
+    console.log('usao u rezervaciju');
+    console.log(id);
+    console.log(chargeRequest);
     return this.ajax('POST', `/cinema/reservations/${id}/pay`, chargeRequest);
   },
 

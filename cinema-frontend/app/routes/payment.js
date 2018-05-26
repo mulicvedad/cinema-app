@@ -11,7 +11,14 @@ export default Ember.Route.extend({
 
 
   model(params) {
-    return this.get('_reservationService').createChargeRequest()
+    return this.get('_reservationService').createChargeRequest();
   },
+
+  setupController(controller, model,transition) {
+    // Call _super for default behavior
+    this._super(controller, model);
+    // Implement your custom setup after
+    controller.set('reservationId',transition.params.payment.id);
+  }
 
 });
