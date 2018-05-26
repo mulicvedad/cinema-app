@@ -1,13 +1,16 @@
 package ba.etf.unsa.nwt.cinemaservice.models;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class ChargeRequest {
 
-	@NotNull(message = "Id cannot be null")
-	@Positive(message = "Id must be positive integer")
+	@Id
+	@GeneratedValue(strategy= GenerationType.AUTO)
 	private Long id;
 
 	private String description;
