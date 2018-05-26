@@ -6,20 +6,27 @@ import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
 import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
 import ba.etf.unsa.nwt.cinemaservice.models.Error;
 import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponseWrapper;
-import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
-import ba.etf.unsa.nwt.cinemaservice.services.RoomService;
-import ba.etf.unsa.nwt.cinemaservice.services.ShowingTypeService;
+import ba.etf.unsa.nwt.cinemaservice.services.*;
+import ba.etf.unsa.nwt.cinemaservice.utils.ReportHelper;
+import com.netflix.discovery.converters.Auto;
 import javassist.tools.web.BadHttpRequest;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/cinema-showings")
@@ -85,5 +92,41 @@ public class CinemaShowingController {
     @GetMapping("/{id}/available-seats")
     public Collection<CinemaSeat> getAvailableSeats(@PathVariable("id") Long id) {
         return cinemaShowingService.getAvailableSeats(id);
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity<byte[]> generateReport() {
+        try {
+            String filepath = cinemaShowingService.generateReport();
+            return createResponse(filepath);
+        } catch (Exception e) {
+            return error(e);
+        }
+    }
+
+    private ResponseEntity<byte[]> createResponse(String filepath) {
+        FileInputStream fileStream;
+        try {
+            fileStream = new FileInputStream(new File(filepath));
+            byte[] contents = IOUtils.toByteArray(fileStream);
+            fileStream.close();
+            ReportHelper.deleteReportFile(filepath);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("application/pdf"));
+            ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
+            return response;
+        }
+        catch (Exception e) {
+            return error(e);
+        }
+    }
+
+    @ResponseBody
+    private ResponseEntity error(Exception e) {
+        Map<String, Map<String, String>> responseBody = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
+        error.put("message", e.getMessage());
+        responseBody.put("error", error);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
     }
 }
