@@ -4,6 +4,7 @@ const { inject: {service}} = Ember;
 
 export default Ember.Route.extend({
   session: Ember.inject.service('session'),
+  _reportService: service('report-service'),
   queryParams: {
     date: {
       refreshModel: true
@@ -28,6 +29,9 @@ export default Ember.Route.extend({
   actions: {
     seeDetails: function(id) {
       this.transitionTo('movie', id,  { queryParams: { date: this.get('currDate') }});
+    },
+    generateReport() {
+      this.get('_reportService').generateReport();
     }
   }
 
