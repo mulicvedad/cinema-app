@@ -5,7 +5,10 @@
 <div class="col-md-3 sidebar">
 <!--  sidebar: movies category  -->
   <ul class="s-explore">
-    <li class="s-explore__title"><h3>SHOWING</h3></li>
+    <li class="s-explore__title"><h3>SHOWING</h3></li><br>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date=today)}}Today{{/link-to}}</li>
+    <hr />
+
     <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-14")}}Monday{{/link-to}}</li>
     <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-15")}}Tuesday{{/link-to}}</li>
     <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-16")}}Wednesday{{/link-to}}</li>
@@ -47,7 +50,7 @@
 <!--  right panel -->
       <div class="right-wrap col-md-8">
         <!--  1st section  -->
-
+      <p class="day-title">{{moment-format showingDate 'dddd'}}</p>
       <ul class="l-cards__list">
         {{#each model as |movie|}}
         <div class="holder">
@@ -85,5 +88,3 @@
 </div> <!-- ./container-fluid -->
 
 </div>
-
-{{log model}}
