@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Collection;
 
 @Entity
@@ -16,18 +17,19 @@ public class CinemaShowing extends BaseModel{
     private Timetable timetable;
     private ShowingType showingType;
     private Room room;
+    private BigDecimal ticketPrice;
     private Collection<Reservation> reservations;
 
     protected CinemaShowing() {}
 
-    public CinemaShowing(Long movieId, String movieTitle, String posterPath, Timetable timetable, ShowingType showingType, Room room) {
+    public CinemaShowing(Long movieId, String movieTitle, String posterPath, Timetable timetable, ShowingType showingType, Room room, BigDecimal ticketPrice) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.posterPath = posterPath;
         this.timetable = timetable;
         this.showingType = showingType;
         this.room = room;
-        this.reservations = reservations;
+        this.ticketPrice = ticketPrice;
     }
 
     public CinemaShowing(Long movieId, Timetable timetable, ShowingType showingType, Room room) {
@@ -77,6 +79,15 @@ public class CinemaShowing extends BaseModel{
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    @Column(name = "ticket_price")
+    public BigDecimal getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public void setTicketPrice(BigDecimal ticketPrice) {
+        this.ticketPrice = ticketPrice;
     }
 
     @JsonIgnore

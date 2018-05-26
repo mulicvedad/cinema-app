@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Component
@@ -100,7 +100,7 @@ public class DbLoader implements CommandLineRunner {
             Room room = roomService.get((i % numRooms) + 1).get();
             ShowingType showingType = showingTypeService.get((i % numShowingTypes) + 1).get();
             cinemaShowingService.save(new CinemaShowing(i, movieTitles.get((int) i), moviePosterPaths.get((int) i),
-                    timetable, showingType,room));
+                    timetable, showingType,room, new BigDecimal(10)));
         }
     }
 
