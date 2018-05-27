@@ -82,15 +82,15 @@ public class DbLoader implements CommandLineRunner {
 
     private void addCinemaShowing(int num) {
         ArrayList<String> movieTitles = new ArrayList<String>(
-                Arrays.asList("Mad Max", "Blade Runner", "Call me by your name", "Interstellar", "Coco", "Lady Bird"));
+                Arrays.asList("Deadpool 2", "Thor: Ragnarok",  "Red Sparrow", "Coco", "The Maze Runner", "Guardians of the Galaxy"));
 
         ArrayList<String> moviePosterPaths = new ArrayList<String>(
-                Arrays.asList("http://image.tmdb.org/t/p/w185/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
-                        "https://images-na.ssl-images-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SX300.jpg",
-                        "https://images-na.ssl-images-amazon.com/images/M/MV5BNDk3NTEwNjc0MV5BMl5BanBnXkFtZTgwNzYxNTMwMzI@._V1_SX300.jpg",
-                        "http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg",
-                        "https://images-na.ssl-images-amazon.com/images/M/MV5BYjQ5NjM0Y2YtNjZkNC00ZDhkLWJjMWItN2QyNzFkMDE3ZjAxXkEyXkFqcGdeQXVyODIxMzk5NjA@._V1_SX300.jpg",
-                        "https://images-na.ssl-images-amazon.com/images/M/MV5BODhkZGE0NDQtZDc0Zi00YmQ4LWJiNmUtYTY1OGM1ODRmNGVkXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg"));
+                Arrays.asList("http://image.tmdb.org/t/p/w185/to0spRl1CMDvyUbOnbb4fTk3VAd.jpg",
+                        "http://image.tmdb.org/t/p/w185/kaIfm5ryEOwYg8mLbq8HkPuM1Fo.jpg",
+                        "http://image.tmdb.org/t/p/w185/uZwnaMQTdwZz1kwtrrU3IOqxnDu.jpg",
+                        "http://image.tmdb.org/t/p/w185/eKi8dIrr8voobbaGzDpe8w0PVbC.jpg",
+                        "http://image.tmdb.org/t/p/w342/coss7RgL0NH6g4fC2s5atvf3dFO.jpg",
+                        "http://image.tmdb.org/t/p/w185/y31QB9kn3XSudA15tV7UWQ9XLuW.jpg"));
 
         Long numRooms = roomService.count();
         Long numTimeTable = timetableService.count();

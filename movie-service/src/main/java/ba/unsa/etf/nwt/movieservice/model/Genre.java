@@ -2,6 +2,9 @@ package ba.unsa.etf.nwt.movieservice.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Genre {
@@ -10,6 +13,9 @@ public class Genre {
     private Long id;
     @NotNull
     private String name;
+
+/*    @ManyToMany(mappedBy = "genres")
+    private Set<Movie> movies = new HashSet<>();*/
 
     public Genre() {
     }
@@ -41,6 +47,21 @@ public class Genre {
     public void setMovie(Movie movie) {
         this.movie = movie;
     }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Genre genre = (Genre) o;
+        return Objects.equals(id, genre.id) &&
+                Objects.equals(name, genre.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name);
+    }
 
     @Override
     public String toString() {
