@@ -25,6 +25,13 @@ export default Ember.Route.extend({
     }
   },
 
+  setupController(controller, model,params) {
+    // Call _super for default behavior
+    this._super(controller, model);
+    // Implement your custom setup after
+    controller.set('showingDate',params.queryParams.date);
+  },
+
   actions: {
     seeDetails: function(id) {
       this.transitionTo('movie', id,  { queryParams: { date: this.get('currDate') }});

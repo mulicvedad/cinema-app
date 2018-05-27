@@ -7,7 +7,10 @@ export default Ember.Route.extend({
 
   actions: {
     proceedToCheckout: function () {
-      this.transitionTo('payment');
+      //this.transitionTo('payment', idrezervacije );
+
+    	//ne zaboraviti ovdje passati ID rezervacije, ovdje je hardcodirano
+      this.transitionTo('payment', 6 );
     },
   }
 

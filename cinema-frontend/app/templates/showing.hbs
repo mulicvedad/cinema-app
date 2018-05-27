@@ -5,14 +5,16 @@
 <div class="col-md-3 sidebar">
 <!--  sidebar: movies category  -->
   <ul class="s-explore">
-    <li class="s-explore__title"><h3>SHOWING</h3></li>
-    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-14")}}Monday{{/link-to}}</li>
-    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-15")}}Tuesday{{/link-to}}</li>
-    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-16")}}Wednesday{{/link-to}}</li>
-    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-17")}}Thursday{{/link-to}}</li>
-    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-18")}}Friday{{/link-to}}</li>
-    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-19")}}Saturday{{/link-to}}</li>
-    <li class="s-explore__list">{{#link-to "showing" (query-params date="2018-05-20")}}Sunday{{/link-to}}</li><br>
+    <li class="s-explore__title"><h3>SHOWING</h3></li><br>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date=today)}}Today{{/link-to}}</li>
+    <hr />
+    <li class="s-explore__list">{{#link-to "showing" (query-params date=nextSunday)}}Sunday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date=nextMonday)}}Monday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date=nextTuesday)}}Tuesday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date=nextWednesday)}}Wednesday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date=nextThursday)}}Thursday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date=nextFriday)}}Friday{{/link-to}}</li>
+    <li class="s-explore__list">{{#link-to "showing" (query-params date=nextSaturday)}}Saturday{{/link-to}}</li><br>
     <li class="s-explore__title"><h3>CATEGORIES</h3></li>
     <li class="s-explore__list"><a href="#" >Newest</a></li>
     <li class="s-explore__list"><a href="#" >Most Popular</a></li><br>
@@ -47,14 +49,22 @@
 <!--  right panel -->
       <div class="right-wrap col-md-8">
         <!--  1st section  -->
-
+      <p class="day-title">{{moment-format showingDate 'dddd' allow-empty=true}}</p>
       <ul class="l-cards__list">
         {{#each model as |movie|}}
-        <li class="l-cards__item shadow p-3 mb-5 bg-white rounded" {{action "seeDetails" movie.id}}>
-          <a href="#" class="l-cards__image fill"><img src={{movie.posterPath}}/></a>
+        <div class="holder">
+        <div class="image">
+        <li class="l-cards__item shadow p-3 mb-5 bg-white rounded" >
+          <img src={{movie.posterPath}}/>
+        </li>
+        <div class="details">
           <div class="l-cards__text title">{{movie.movieTitle}}</div>
           <a href="#" class="l-cards__text">{{movie.genres.0.name}}</a>
-        </li>
+          <p>Showing hours: 17:00h, 22:00h</p>
+        <a href="#"  {{action "seeDetails" movie.id}}>See movie details</a>
+        </div>
+      </div>
+      </div>
         {{/each}}
 
 
@@ -77,5 +87,3 @@
 </div> <!-- ./container-fluid -->
 
 </div>
-
-{{log model}}
