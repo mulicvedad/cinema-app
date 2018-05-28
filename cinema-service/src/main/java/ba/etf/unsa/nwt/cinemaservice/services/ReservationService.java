@@ -4,15 +4,13 @@ import ba.etf.unsa.nwt.cinemaservice.controllers.ReservationController;
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.ReservationDTO;
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.UserAccountDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
-import ba.etf.unsa.nwt.cinemaservice.models.ChargeRequest;
-import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
-import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
-import ba.etf.unsa.nwt.cinemaservice.models.Reservation;
+import ba.etf.unsa.nwt.cinemaservice.models.*;
 import ba.etf.unsa.nwt.cinemaservice.repositories.ReservationRepository;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import org.apache.http.auth.AUTH;
+import org.apache.http.client.methods.HttpHead;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
@@ -89,13 +87,8 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         }
 
         try {
-            // old version - doesn't work becauser JWT has to be passed in Authorization header
-            // restTemplate.getForEntity(url, Map.class);
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            headers.set(HEADER_NAME_AUTHORIZATION, HEADER_PREFIX_AUTHORIZATION + authService.getCurrentJwt());
             UserAccountDTO userAccount = new UserAccountDTO();
+            HttpHeaders headers = generateHeaders();
             HttpEntity<UserAccountDTO> entity = new HttpEntity<>(userAccount, headers);
             restTemplate.exchange(url, HttpMethod.GET, entity, UserAccountDTO.class);
         } catch (HttpClientErrorException e) {
@@ -159,7 +152,11 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
 
 
         try {
-            ResponseEntity responseEntity = restTemplate.postForEntity(url, chargeRequest, ChargeRequest.class);
+            // old way - without JWT
+            // ResponseEntity responseEntity = restTemplate.postForEntity(url, chargeRequest, ChargeRequest.class);
+            HttpHeaders headers = generateHeaders();
+            HttpEntity<ChargeRequest> entity = new HttpEntity<>(chargeRequest, headers);
+            ResponseEntity responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, ChargeRequest.class);
             if (responseEntity.getStatusCode() != HttpStatus.OK)
                 return false;
             repo.updateStatus(reservationId, reservationStatusService.getStatusForConfirmedReservation());
@@ -169,6 +166,13 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         }
 
         return true;
+    }
+
+    private HttpHeaders generateHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set(HEADER_NAME_AUTHORIZATION, HEADER_PREFIX_AUTHORIZATION + authService.getCurrentJwt());
+        return headers;
     }
 
 }
