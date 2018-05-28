@@ -2,6 +2,8 @@ package ba.etf.unsa.nwt.cinemaservice.repositories;
 
 import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
 import ba.etf.unsa.nwt.cinemaservice.models.Room;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +14,7 @@ import java.util.Date;
 public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Long>{
 
     @Query("select cs from CinemaShowing cs where cs.timetable.startDateTime >= current_date ")
-    Collection<CinemaShowing> findUpcoming();
+    Page<CinemaShowing> findUpcoming(Pageable pageable);
 
     @Query(value = "select * from cinema_showing cs, timetable tt where cs.timetable_id = tt.id" +
             " and DATE_FORMAT(tt.start_datetime, '%d-%m-%Y') = :startDate", nativeQuery = true)
@@ -22,7 +24,7 @@ public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Lo
     // Collection<CinemaShowing> findAllByDate(@Param("startDate") Date startDate);
 
     @Query("select  cs from CinemaShowing cs, Timetable t where  cs.timetable = t and t.startDateTime > :date")
-    Collection<CinemaShowing> findAllByDate(@Param("date") Date date);
+    Page<CinemaShowing> findAllByDate(@Param("date") Date date, Pageable pageable);
 
     @Query("select count(cs) from CinemaShowing cs, Timetable t where cs.timetable =  t and " +
             "cs.room = :room and " +

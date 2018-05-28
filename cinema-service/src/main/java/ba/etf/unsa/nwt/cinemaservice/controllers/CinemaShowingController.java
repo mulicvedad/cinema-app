@@ -11,6 +11,8 @@ import ba.etf.unsa.nwt.cinemaservice.services.RoomService;
 import ba.etf.unsa.nwt.cinemaservice.services.ShowingTypeService;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,18 +38,18 @@ public class CinemaShowingController {
 
     // using ISO 8601 date format
     @GetMapping
-    public ResponseEntity getAllCinemaShowings(@RequestParam(value = "date", required = false) String date)
+    public ResponseEntity getAllCinemaShowings(@RequestParam(value = "date", required = false) String date, Pageable pageable)
             throws BadHttpRequest {
         if (date != null)
             try {
                 Date newDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-                return ResponseEntity.ok(cinemaShowingService.findByDate(newDate));
+                return ResponseEntity.ok(cinemaShowingService.findByDate(newDate, pageable));
             } catch (ParseException e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(new Error(
                         "Parsing failure", "date", "Date parsing exception: Date must be " +
                         "in format 'yyyy-mm-dd'.")));
             }
-        return ResponseEntity.ok(cinemaShowingService.all());
+        return ResponseEntity.ok(cinemaShowingService.getAllByPage(pageable));
     }
 
     @GetMapping("/movie/{movieId}")
@@ -66,8 +68,8 @@ public class CinemaShowingController {
     }
 
     @GetMapping("/upcoming")
-    public Collection<CinemaShowing> upcoming() {
-        return cinemaShowingService.findUpcomingShowings();
+    public Page<CinemaShowing> upcoming(Pageable pageable) {
+        return cinemaShowingService.findUpcomingShowings(pageable);
     }
 
     @PostMapping

@@ -51,7 +51,7 @@
         <!--  1st section  -->
       <p class="day-title">{{moment-format showingDate 'dddd' allow-empty=true}}</p>
       <ul class="l-cards__list">
-        {{#each model as |movie|}}
+        {{#each model.content as |movie|}}
         <div class="holder">
         <div class="image">
         <li class="l-cards__item shadow p-3 mb-5 bg-white rounded" >
@@ -66,20 +66,13 @@
       </div>
       </div>
         {{/each}}
-
-
-      </ul>
-      <!--   pagination - mocked for now   -->
-      <ul class="pagination">
-        <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li class="active"><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-      </ul>
-    </div>
+  </ul>
+    <ul class="pagination">
+        <li><a href="#" {{action "getPreviousPage"}}><i class="fa fa-angle-left"></i></a></li>
+        <li><a href="#">{{pageToDisplay}}</a></li>
+        <li><a href="#" {{action "getNextPage" model.totalPages}}><i class="fa fa-angle-right"></i></a></li>
+    </ul>
+  </div>
 
 <!--  end 1st section  -->
     </div> <!-- ./end right panel -->

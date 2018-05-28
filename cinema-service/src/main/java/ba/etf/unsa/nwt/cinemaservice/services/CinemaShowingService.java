@@ -11,6 +11,8 @@ import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -41,12 +43,12 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
     @Autowired
     private TimetableService timetableService;
 
-    public Collection<CinemaShowing> findUpcomingShowings() {
-        return repo.findUpcoming();
+    public Page<CinemaShowing> findUpcomingShowings(Pageable pageable) {
+        return repo.findUpcoming(pageable);
     }
 
-    public Collection<CinemaShowing> findByDate(Date date) {
-        return repo.findAllByDate(date);
+    public Page<CinemaShowing> findByDate(Date date, Pageable pageable) {
+        return repo.findAllByDate(date, pageable);
     }
 
     public Collection<CinemaShowing> findByDateAndMovie(Date date, Long movieId) {
@@ -112,5 +114,4 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
         }
         return availableSeats;
     }
-
 }
