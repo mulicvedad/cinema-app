@@ -8,33 +8,36 @@ import java.util.Date;
 
 public class CinemaShowingDTO {
 
+    @NotNull
+    @Positive
+    public Long movieId;
+
     public String movieTitle;
 
-    @NotNull
-    public Date startDateTime;
+    public String posterPath;
 
     @NotNull
-    public Date endDateTime;
+    public String startDate;
 
-    @Positive
-    public Long showingTypeId;
+    @NotNull
+    public String startTime;
 
     @NotNull
     @Positive
     public Long roomId;
 
     @NotNull
-    @Positive
-    public Long movieId;
+    public Integer duration;
 
     protected CinemaShowingDTO() {}
 
-    public CinemaShowingDTO(Long movieId, String movieTitle, Date startDateTime, Date endDateTime, Long showingTypeId, Long roomId) {
+    public CinemaShowingDTO(Long movieId, String movieTitle, String posterPath, String startDate, String startTime, Long roomId, Integer duration) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-        this.showingTypeId = showingTypeId;
+        this.posterPath = posterPath;
+        this.startDate = startDate;
+        this.startTime = startTime;
         this.roomId = roomId;
+        this.duration = duration;
     }
 }

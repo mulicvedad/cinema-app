@@ -57,7 +57,7 @@ public class CinemaShowing extends BaseModel{
         this.timetable = timetable;
     }
 
-    @NotNull(message = "Table cinema_showing: Column showing_type_id cannot be null")
+    //@NotNull(message = "Table cinema_showing: Column showing_type_id cannot be null")
     @ManyToOne
     @JoinColumn(name = "showing_type_id")
     public ShowingType getShowingType() {
