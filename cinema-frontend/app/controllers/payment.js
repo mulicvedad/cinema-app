@@ -3,7 +3,7 @@ const {
   Controller, get, inject: { service }, set } = Ember;
 
 export default Controller.extend({
-
+  session: Ember.inject.service(),
   stripev3: service(),
   _reservationService: service('reservation-service'),
   reservationId: null,
@@ -21,7 +21,7 @@ export default Controller.extend({
   token: null,
 
   actions: {
-   submit(stripeElement) {
+   submit(stripeElement, authToken) {
       let stripe = get(this, 'stripev3');
       stripe.createToken(stripeElement).then(({token}) => {
         console.log(token);
@@ -29,7 +29,7 @@ export default Controller.extend({
         set(this,'model.stripeToken',token.id);
         set(this,'model.description', 'Cinema Ticket');
         set(this,'model.amount', '100');
-        this.get('_reservationService').payReservation(this.get('reservationId'), this.get('model')).then(()=> {
+        this.get('_reservationService').payReservation(this.get('reservationId'), this.get('model'), authToken).then(()=> {
           this.transitionTo('receipt');}
         );;
       });

@@ -11,6 +11,7 @@ import java.util.Date;
 
 public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Long>{
 
+    CinemaShowing findCinemaShowingById(Long id);
     @Query("select cs from CinemaShowing cs where cs.timetable.startDateTime >= current_date ")
     Collection<CinemaShowing> findUpcoming();
 

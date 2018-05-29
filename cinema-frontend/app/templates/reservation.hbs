@@ -2,153 +2,49 @@
 <div class="theatre">
 
   <div class="cinema-seats left">
-    <div class="cinema-row row-1">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-2">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-3">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-4">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-5">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-6">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-7">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
+    {{#each model.allSeats as |seats|}}
+      {{#if (lt seats.rowNum 8)}}
+        {{#if (eq seats.colNum 1)}}
+          <div class="cinema-row row-{{seats.rowNum}}">
+              {{#each model.allSeats as |seatsN|}}
+                {{#if (eq seats.rowNum seatsN.rowNum)}}
+                    {{#if (included seatsN.id model.availableSeats)}}
+                      <div class="seat" id={{seatsN.id}} {{action "onClick" seatsN.id}}>{{seatsN.id}}</div>
+                    {{else}}
+                      <div class="seatReserved"  {{action "seatIsReserved" seatsN.id}}>{{seatsN.id}}</div>
+                    {{/if}}
+                {{/if}}
+              {{/each}}
+          </div>
+        {{/if}}
+      {{/if}}
+    {{/each}}
   </div>
-
 
   <div class="cinema-seats right">
-    <div class="cinema-row row-1">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-2">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-3">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-4">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-5">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-6">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
-
-    <div class="cinema-row row-7">
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-      <div class="seat"></div>
-    </div>
+    {{#each model.allSeats as |seats|}}
+      {{#if (gt seats.rowNum 7)}}
+        {{#if (eq seats.colNum 1)}}
+          <div class="cinema-row row-{{seats.rowNum}}">
+              {{#each model.allSeats as |seatsN|}}
+                {{#if (eq seats.rowNum seatsN.rowNum)}}
+                  {{#if (included seatsN.id model.availableSeats)}}
+                      <div class="seat" id={{seatsN.id}} {{action "onClick" seatsN.id}}>{{seatsN.id}}</div>
+                  {{else}}
+                      <div class="seatReserved"  {{action "seatIsReserved" seatsN.id}}>{{seatsN.id}}</div>
+                  {{/if}}
+                {{/if}}
+              {{/each}}
+          </div>
+        {{/if}}
+      {{/if}}
+    {{/each}}
   </div>
+
 
 </div>
 <div class="proceed-div">
 
-<button type="button" class="btn btn-danger" {{action "proceedToCheckout"}}>Proceed to checkout >> </button>
+<button type="button" class="btn btn-danger" {{action "reserveTicket" model.showing.id session.data.authenticated.user.id session.data.authenticated.jwt}}>Proceed to checkout >> </button>
 </div>
 </div>

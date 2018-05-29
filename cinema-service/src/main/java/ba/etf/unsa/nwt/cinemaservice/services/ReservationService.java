@@ -60,7 +60,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
     public void deleteReservationsByMovie(Long id) { repo.deleteReservationByCinemaShowingMovieId(id);}
   
     @Transactional
-    public void create(ReservationDTO reservationDTO) throws ServiceException {
+    public Reservation create(ReservationDTO reservationDTO) throws ServiceException {
         Long cinemaShowingId = reservationDTO.cinemaShowingId;
         Long userId = reservationDTO.userId;
         List<Long> seats = reservationDTO.seats;
@@ -101,6 +101,8 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND)
                 throw new ServiceException("User with given id doesn't exist");
+            else if (e.getStatusCode() == HttpStatus.FORBIDDEN)
+                throw new ServiceException(("Not authorized to access users"));
             else
                 throw e;
         }
@@ -128,8 +130,9 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         }
 
         try {
-            this.save(new Reservation(cinemaShowing.get(), userId,
+            Reservation r = this.save(new Reservation(cinemaShowing.get(), userId,
                     reservationStatusService.getStatusForNewReservation(), cinemaSeats));
+            return r;
         } catch (Exception e) {
             Logger.getLogger(ReservationController.class.toString()).info("Onixpected exception in ReservationController.");
             throw new ServiceException("An error occured while saving new reservation.");

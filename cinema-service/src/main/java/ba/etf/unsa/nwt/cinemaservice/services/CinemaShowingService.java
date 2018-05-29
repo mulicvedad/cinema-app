@@ -113,4 +113,13 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
         return availableSeats;
     }
 
+    public Collection<CinemaSeat> getAllShowingSeats(Long id) {
+        Optional<CinemaShowing> cinemaShowing = repo.findById(id);
+        Collection<CinemaSeat> allSeats = cinemaSeatRepository.findAllByRoom(cinemaShowing.get().getRoom());
+        return allSeats;
+    }
+
+    public CinemaShowing getCinemaShowing(Long id) {
+        return repo.findCinemaShowingById(id);
+    }
 }

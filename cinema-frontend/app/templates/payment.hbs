@@ -11,7 +11,7 @@
         {{#if stripeError}}
           <p class="error">{{stripeError.message}}</p>
         {{/if}}<br><br>
-         <button class="btn btn-danger" type="button" id="validate" {{action "submit" stripeElement}}>
+         <button class="btn btn-danger" type="button" id="validate" {{action "submit" stripeElement session.data.authenticated.jwt}}>
           <span class="glyphicon glyphicon-ok"></span> Pay now
           </button>
         {{#if token}}
