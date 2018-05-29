@@ -9,12 +9,13 @@ import ba.etf.unsa.nwt.cinemaservice.services.RoomService;
 import ba.etf.unsa.nwt.cinemaservice.services.ShowingTypeService;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -38,16 +39,16 @@ public class CinemaShowingController {
 
     // using ISO 8601 date format
     @GetMapping
-    public ResponseEntity getAllCinemaShowings(@RequestParam(value = "date", required = false) String date)
+    public ResponseEntity getAllCinemaShowings(@RequestParam(value = "date", required = false) String date, Pageable pageable)
             throws BadHttpRequest {
         if (date != null)
             try {
                 Date newDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-                return ResponseEntity.ok(cinemaShowingService.findByDate(newDate));
+                return ResponseEntity.ok(cinemaShowingService.findByDate(newDate, pageable));
             } catch (ParseException e) {
                 return errorResponse(HttpStatus.BAD_REQUEST, "Parsing failure", "date", DATE_PARSING_ERROR);
             }
-        return ResponseEntity.ok(cinemaShowingService.all());
+        return ResponseEntity.ok(cinemaShowingService.getAllByPage(pageable));
     }
 
     @GetMapping("/movie/{movieId}")
@@ -65,8 +66,8 @@ public class CinemaShowingController {
     }
 
     @GetMapping("/upcoming")
-    public Collection<CinemaShowing> upcoming() {
-        return cinemaShowingService.findUpcomingShowings();
+    public Page<CinemaShowing> upcoming(Pageable pageable) {
+        return cinemaShowingService.findUpcomingShowings(pageable);
     }
 
     @PostMapping

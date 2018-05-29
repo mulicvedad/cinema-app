@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Component
@@ -43,9 +43,9 @@ public class DbLoader implements CommandLineRunner {
         if (reservationStatusService.count() == 0)
             addReservationStatuses();
         if (cinemaShowingService.count() == 0)
-            addCinemaShowing(6);
-       // if (reservationService.count() == 0)
-       //     addReservations(10);
+            addCinemaShowing(8);
+        if (reservationService.count() == 0)
+            addReservations(10);
         if (newsService.count() == 0)
             addNews(10);
 
@@ -56,11 +56,11 @@ public class DbLoader implements CommandLineRunner {
             newsService.save(new News("Vijest #" + i, "Veoma bitne vijesti", null, new Date(),
                     null));
     }
-/*
+
     private void addReservations(int num) {
         Long numCinemaShowings = cinemaShowingService.count();
         Long numCinemaSeats = cinemaSeatService.count();
-        Collection<CinemaShowing> cinemaShowings = cinemaShowingService.all();
+        Iterable<CinemaShowing> cinemaShowings = cinemaShowingService.all();
         ReservationStatus reservationStatus;
         for (long i = 1; i < num; i++) {
             long idx = i;
@@ -79,18 +79,21 @@ public class DbLoader implements CommandLineRunner {
             }
         }
     }
-*/
-    private void addCinemaShowing(int num) {
-        ArrayList<String> movieTitles = new ArrayList<String>(
-                Arrays.asList("Mad Max", "Blade Runner", "Call me by your name", "Interstellar", "Coco", "Lady Bird"));
 
-        ArrayList<String> moviePosterPaths = new ArrayList<String>(
-                Arrays.asList("http://image.tmdb.org/t/p/w185/kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
-                        "https://images-na.ssl-images-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_SX300.jpg",
-                        "https://images-na.ssl-images-amazon.com/images/M/MV5BNDk3NTEwNjc0MV5BMl5BanBnXkFtZTgwNzYxNTMwMzI@._V1_SX300.jpg",
-                        "http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg",
-                        "https://images-na.ssl-images-amazon.com/images/M/MV5BYjQ5NjM0Y2YtNjZkNC00ZDhkLWJjMWItN2QyNzFkMDE3ZjAxXkEyXkFqcGdeQXVyODIxMzk5NjA@._V1_SX300.jpg",
-                        "https://images-na.ssl-images-amazon.com/images/M/MV5BODhkZGE0NDQtZDc0Zi00YmQ4LWJiNmUtYTY1OGM1ODRmNGVkXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg"));
+    private void addCinemaShowing(int num) {
+        ArrayList<String> movieTitles = new ArrayList<>(
+                Arrays.asList("", "Deadpool 2", "Red Sparrow", "Coco",
+                        "The Maze Runner", "Guardians of the Galaxy",
+                        "Fifty Shades Freed", "Meet Me In St. Gallen"));
+
+        ArrayList<String> moviePosterPaths = new ArrayList<>(
+                Arrays.asList("", "http://image.tmdb.org/t/p/w185/to0spRl1CMDvyUbOnbb4fTk3VAd.jpg",
+                        "http://image.tmdb.org/t/p/w185/uZwnaMQTdwZz1kwtrrU3IOqxnDu.jpg",
+                        "http://image.tmdb.org/t/p/w185/eKi8dIrr8voobbaGzDpe8w0PVbC.jpg",
+                        "http://image.tmdb.org/t/p/w185/coss7RgL0NH6g4fC2s5atvf3dFO.jpg",
+                        "http://image.tmdb.org/t/p/w185/y31QB9kn3XSudA15tV7UWQ9XLuW.jpg",
+                        "https://ia.media-imdb.com/images/M/MV5BODI2ZmM5MzMtOWZiMC00ZGE3LTk3MWEtY2U0ZjE3ZWJlNDEzXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX182_CR0,0,182,268_AL_.jpg",
+                        "http://image.tmdb.org/t/p/w185/kZJEQFk6eiZ9X2x70ve6R1dczus.jpg"));
 
         Long numRooms = roomService.count();
         Long numTimeTable = timetableService.count();
@@ -100,7 +103,7 @@ public class DbLoader implements CommandLineRunner {
             Room room = roomService.get((i % numRooms) + 1).get();
             ShowingType showingType = showingTypeService.get((i % numShowingTypes) + 1).get();
             cinemaShowingService.save(new CinemaShowing(i, movieTitles.get((int) i), moviePosterPaths.get((int) i),
-                    timetable, showingType,room));
+                    timetable, showingType,room, new BigDecimal(10)));
         }
     }
 
@@ -150,7 +153,7 @@ public class DbLoader implements CommandLineRunner {
     }
 
     public void addSeats() {
-        Collection<Room> rooms = roomService.all();
+        Iterable<Room> rooms = roomService.all();
         for (Room r : rooms) {
             for (int i = 1; i <= r.getNumRows(); i++)
                 for (int j = 1; j <= r.getNumCols(); j++)

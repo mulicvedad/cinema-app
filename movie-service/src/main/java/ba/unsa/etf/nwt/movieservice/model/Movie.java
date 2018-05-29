@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -42,7 +43,7 @@ public class Movie {
 
     private Long tmdbId;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
@@ -172,6 +173,31 @@ public class Movie {
 
     public void setTmdbId(Long tmdbId) {
         this.tmdbId = tmdbId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return Objects.equals(id, movie.id) &&
+                Objects.equals(title, movie.title) &&
+                Objects.equals(releaseDate, movie.releaseDate) &&
+                Objects.equals(overview, movie.overview) &&
+                Objects.equals(posterPath, movie.posterPath) &&
+                Objects.equals(largePosterPath, movie.largePosterPath) &&
+                Objects.equals(originalTitle, movie.originalTitle) &&
+                Objects.equals(averageVote, movie.averageVote) &&
+                Objects.equals(tmdbId, movie.tmdbId) &&
+                Objects.equals(genres, movie.genres) &&
+                Objects.equals(reviews, movie.reviews) &&
+                Objects.equals(moviePeople, movie.moviePeople);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, title, releaseDate, overview, posterPath, largePosterPath, originalTitle, averageVote, tmdbId, genres, reviews, moviePeople);
     }
 
     @Override

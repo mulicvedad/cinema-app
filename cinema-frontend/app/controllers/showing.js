@@ -2,6 +2,11 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Controller.extend({
+    queryParams: ['date', 'page', 'perPage'],
+    page: 0,
+    perPage: 3,
+    pageToDisplay: 1,
+
     session: Ember.inject.service('session'),
     today: moment().format('YYYY-MM-DD'),
     showingDate:null,

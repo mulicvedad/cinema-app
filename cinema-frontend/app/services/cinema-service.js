@@ -8,16 +8,17 @@ export default BaseHttpService.extend({
 	getShowingById(id) {
 		return this.ajax('GET', `/cinema/cinema-showings/${id}`);
 	},
-	getShowingByDate: function(date) {
-		return this.ajax('GET', '/cinema/cinema-showings?date=' + date,null);
+
+  getShowingByDate: function(date, page, size) {
+		return this.ajax('GET', '/cinema/cinema-showings?date=' + date + '&page=' + page + '&size=' + size,null);
 	},
 
 	getShowingByDateAndMovieId: function(date, id) {
 		return this.ajax('GET', `/cinema/cinema-showings/movie/${id}?date=` + date);
 	},
 
-	getUpcomingShowing: function() {
-		return this.ajax('GET', '/cinema/cinema-showings/upcoming',null);
+	getUpcomingShowing: function(page, size) {
+		return this.ajax('GET', '/cinema/cinema-showings/upcoming?page=' + page + '&size=' + size,null);
 	},
 
 	getAvailableSeats: function(id) {

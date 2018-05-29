@@ -7,21 +7,32 @@ export default Ember.Route.extend({
   queryParams: {
     date: {
       refreshModel: true
+    }, 
+    page: {
+      refreshModel: true
+    },
+    perPage: {
+      refreshModel: true
     }
   },
    currDate:'',
-
+   nextPage:'',
+   numberPerPage:'',
+  
   _cinemaService: service('cinema-service'),
   model: function (params) {
+
     let token = "";
     if(this.get('session.isAuthenticated'))
       token = this.get('session.data.authenticated.jwt');
     if(params.date) {
       console.log(params.date);
       this.set('currDate', params.date);
-      return this.get('_cinemaService').getShowingByDate(params.date);
+      this.set('nextPage', params.page);
+      this.set('numberPerPage', params.perPage);
+      return this.get('_cinemaService').getShowingByDate(params.date, params.page, params.perPage);
     } else {
-    return  this.get('_cinemaService').getUpcomingShowing();
+    return  this.get('_cinemaService').getUpcomingShowing(params.page, params.perPage);
     }
   },
 
@@ -35,7 +46,21 @@ export default Ember.Route.extend({
   actions: {
     seeDetails: function(id) {
       this.transitionTo('movie', id,  { queryParams: { date: this.get('currDate') }});
-    }
-  }
+    },
 
+   getNextPage: function(totalPages) {
+      if(this.get('nextPage') + 1 < totalPages) {
+          this.get('_cinemaService').getUpcomingShowing(this.get('nextPage') + 1, this.get('numberPerPage'));
+        this.controller.set('pageToDisplay', this.get('nextPage')+2);
+        this.transitionTo({queryParams: { page: this.get('nextPage') + 1 }});
+      }
+    },
+    getPreviousPage: function() {
+      if(this.get('nextPage') > 0){
+        this.get('_cinemaService').getUpcomingShowing(this.get('nextPage') - 1, this.get('numberPerPage'));
+        this.controller.set('pageToDisplay', this.get('nextPage'));
+        this.transitionTo({queryParams: { page: this.get('nextPage') - 1}});
+      }
+    } 
+  }
 });
