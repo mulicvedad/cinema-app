@@ -21,10 +21,17 @@ export default Ember.Route.extend({
     let token = "";
     if(this.get('session.isAuthenticated'))
       token = this.get('session.data.authenticated.jwt');
-    return Ember.RSVP.hash({
-      movie: this.get('_movieService').getMovieById(params.id),
-      showings: this.get('_cinemaService').getShowingByDateAndMovieId(params.date,params.id)
-    });
+    if(params.date){
+      return Ember.RSVP.hash({
+        movie: this.get('_movieService').getMovieById(params.id),
+        showings: this.get('_cinemaService').getShowingByDateAndMovieId(params.date,params.id) || {}
+      })
+    } else{
+      return Ember.RSVP.hash({
+        movie: this.get('_movieService').getMovieById(params.id),
+        showings: {}
+      })
+    }
   },
 
 });
