@@ -1,0 +1,62 @@
+<div class="container-fluid body signup-container">
+  <div class="row">
+    <div class="col-lg-3 col-md-2"></div>
+    <div class="col-lg-6 col-md-8 login-box">
+      <div class="col-lg-12 login-key">
+        <i class="fa fa-key" aria-hidden="true"></i>
+      </div>
+      <!--img class="img-form" src="/assets/images/popcorn.png"-->
+      <div class="col-lg-12 login-title">
+      ADD NEW SHOWING
+      </div>
+      <div class="col-lg-12 login-form">
+        <div class="col-lg-12 login-form">
+          <form {{action "createShowing" on="submit"}}>
+            <div class="form-group">
+              <label class="form-control-label">SELECT MOVIE</label>
+              <select required class="form-control input-dark" onchange={{action "setSelectedMovie" value="target.value"}}>
+                <option disabled selected> -- movie --</option>
+                {{#each model.movies as |movie|}}
+                  <option value={{movie.id}}>{{movie.title}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-control-label">SELECT ROOM</label>
+              <select required class="form-control input-dark" onchange={{action "setSelectedRoom" value="target.value"}}>
+                <option disabled selected> -- room/hall --</option>
+                {{#each model.rooms as |room|}}
+                  <option value={{room.id}}>{{room.title}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-control-label">DATE</label>
+              {{input required=true type="date" class="form-control input-dark"  value=model.cinemaShowing.startDate min=today}}
+            </div>
+            <div class="form-group">
+              <label class="form-control-label">TIME</label>
+              {{input required=true type="time" class="form-control input-dark"  value=model.cinemaShowing.startTime}}
+            </div>
+            <div class="form-group">
+              <label class="form-control-label">DURATION (minutes)</label>
+              {{input required=true type="number" class="form-control input-dark"  value=model.cinemaShowing.duration}}
+              <div class="col-lg-12">
+                <div class="col-lg-6 login-btm login-text">
+                  <!-- Error Message -->
+                </div>
+                <div class="col-lg-6 login-btm login-button">
+                  <button class="btn btn-info"  {{action 'checkAvailability'}}>CHECK AVAILABILITY</button>
+                  <button type="submit" class="btn btn-danger">ADD</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-2"></div>
+    </div>
+  </div>
+</div>
+
+
