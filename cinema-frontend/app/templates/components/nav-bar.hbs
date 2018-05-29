@@ -6,7 +6,7 @@
 <ul class="l-header__nav">
     <input class="l-header__search" type="text" placeholder="Seach movies...">
     <li>{{#link-to 'showing'}}Movies{{/link-to}}</li>
-    {{#if session.isAuthenticated}}
+    {{#if session.isAuthenticated }}
     <li>{{#link-to 'new-showing'}}Add new showing{{/link-to}}</li>
     <div class="dropdown">
       <li class="dropdown-toggle"  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

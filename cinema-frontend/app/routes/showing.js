@@ -4,10 +4,11 @@ const { inject: {service}} = Ember;
 
 export default Ember.Route.extend({
   session: Ember.inject.service('session'),
+  _reportService: service('report-service'),
   queryParams: {
     date: {
       refreshModel: true
-    }, 
+    },
     page: {
       refreshModel: true
     },
@@ -18,7 +19,7 @@ export default Ember.Route.extend({
    currDate:'',
    nextPage:'',
    numberPerPage:'',
-  
+
   _cinemaService: service('cinema-service'),
   model: function (params) {
 
@@ -47,7 +48,9 @@ export default Ember.Route.extend({
     seeDetails: function(id) {
       this.transitionTo('movie', id,  { queryParams: { date: this.get('currDate') }});
     },
-
+    generateReport() {
+      this.get('_reportService').generateReport();
+    },
    getNextPage: function(totalPages) {
       if(this.get('nextPage') + 1 < totalPages) {
           this.get('_cinemaService').getUpcomingShowing(this.get('nextPage') + 1, this.get('numberPerPage'));
@@ -61,6 +64,6 @@ export default Ember.Route.extend({
         this.controller.set('pageToDisplay', this.get('nextPage'));
         this.transitionTo({queryParams: { page: this.get('nextPage') - 1}});
       }
-    } 
+    }
   }
 });

@@ -4,9 +4,14 @@ import ba.etf.unsa.nwt.cinemaservice.controllers.CinemaShowingController;
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.CinemaShowingDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
 import ba.etf.unsa.nwt.cinemaservice.models.*;
-import ba.etf.unsa.nwt.cinemaservice.models.Error;
 import ba.etf.unsa.nwt.cinemaservice.repositories.CinemaSeatRepository;
 import ba.etf.unsa.nwt.cinemaservice.repositories.CinemaShowingRepository;
+import ba.etf.unsa.nwt.cinemaservice.utils.ReportHelper;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
@@ -15,11 +20,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -47,7 +57,12 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
     @Autowired
     private TimetableService timetableService;
 
-    static final long ONE_MINUTE_IN_MILLIS=60000;
+    static final long ONE_MINUTE_IN_MILLIS=60000;   
+    private final String REPORT_FILENAME = "upcoming_showings";
+    private final String REPORT_FILE_EXTENSION = ".pdf";
+    private final String REPORT_TITLE = "UPCOMING SHOWINGS";
+    private final String REPORT_CREATOR = "LEVA";
+    private final Integer REPORT_TABLE_NUM_COLUMNS = 5;
 
     public Page<CinemaShowing> findUpcomingShowings(Pageable pageable) {
         return repo.findUpcoming(pageable);
@@ -102,11 +117,10 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
         Timetable cinemaShowingTimeTable = new Timetable(startDateTime, endDateTime);
         timetableService.save(cinemaShowingTimeTable);
         repo.save(new CinemaShowing(cinemaShowingDTO.movieId, cinemaShowingDTO.movieTitle, cinemaShowingDTO.posterPath,
-                cinemaShowingTimeTable, null, room.get()));
+                cinemaShowingTimeTable, null, room.get(), new BigDecimal(5)));
     }
 
     public Collection<CinemaSeat> getAvailableSeats(Long id) {
-
         Optional<CinemaShowing> cinemaShowing = repo.findById(id);
         Collection<CinemaSeat> reservedSeats = cinemaSeatRepository.findReservedSeats(id);
         Collection<CinemaSeat> allSeats = cinemaSeatRepository.findAllByRoom(cinemaShowing.get().getRoom());
@@ -138,6 +152,56 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
 
     public CinemaShowing getCinemaShowing(Long id) {
         return repo.findCinemaShowingById(id);
+    }
+    
+    public String generateReport() {
+        try {
+            String reportFilename = REPORT_FILENAME + Math.random() + REPORT_FILE_EXTENSION;
+            OutputStream file = new FileOutputStream(new File(reportFilename));
+            Document document = new Document(PageSize.A4);
+            PdfWriter.getInstance(document, file);
+            document.open();
+            ReportHelper.initializeDocument(document, REPORT_TITLE, REPORT_CREATOR);
+            ReportHelper.addGeneralInfo(document, REPORT_TITLE);
+            ReportHelper.addEmptyRow(document);
+            addCinemaShowingsTable(document);
+            document.close();
+            file.close();
+            return reportFilename;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private void addCinemaShowingsTable(Document document) throws DocumentException {
+        Collection<CinemaShowing> cinemaShowings = repo.findAll();
+        PdfPTable pdfTable = new PdfPTable(REPORT_TABLE_NUM_COLUMNS);
+        ReportHelper.setTableHeaders(pdfTable, Arrays.asList("Date", "Day", "Time", "Movie", "Hall"));
+        for (CinemaShowing cs : cinemaShowings) {
+            Date showingDateTime = cs.getTimetable().getStartDateTime();
+            String formattedDate = getFormattedDate(showingDateTime);
+            String formattedTime = getFormattedTime(showingDateTime);
+            String day = getDayFromDate(showingDateTime);
+            String movieTitle = cs.getMovieTitle();
+            String roomName = cs.getRoom().getTitle();
+            ReportHelper.addRowToTable(pdfTable, Arrays.asList(formattedDate, day, formattedTime, movieTitle, roomName));
+        }
+        document.add(pdfTable);
+    }
+
+    private String getFormattedDate(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM");
+        return dateFormat.format(date);
+    }
+
+    private String getFormattedTime(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        return dateFormat.format(date);
+    }
+
+    private String getDayFromDate(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("EEEE");
+        return dateFormat.format(date);
     }
 
 }

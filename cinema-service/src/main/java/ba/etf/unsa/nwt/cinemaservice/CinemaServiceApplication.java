@@ -19,4 +19,5 @@ public class CinemaServiceApplication {
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
 	}
+
 }

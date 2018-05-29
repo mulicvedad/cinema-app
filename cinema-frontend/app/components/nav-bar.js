@@ -21,10 +21,10 @@ export default Ember.Component.extend(SweetAlertMixin, {
                     title: 'Successfuly logged out',
                     confirmButtonText: 'OK',
                     confirmButtonColor: '#DC5154',
-                    type: 'success'    
+                    type: 'success'
                 }).then((conifrm)=>{
                     this.get('session').invalidate();
-                    this.get('router').transitionTo('showing');    
+                    this.get('router').transitionTo('showing');
                 })
             })
         },
@@ -35,4 +35,5 @@ export default Ember.Component.extend(SweetAlertMixin, {
             })
         }
     }
+
 });

@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "timetable")
-public class Timetable extends BaseModel {
+public class Timetable extends BaseModel implements Comparable<Timetable> {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date startDateTime;
@@ -56,4 +56,10 @@ public class Timetable extends BaseModel {
         this.cinemaShowings = cinemaShowings;
     }
 
+    @Override
+    public int compareTo(Timetable t) {
+        if (startDateTime.equals(t.startDateTime)) return 0;
+        else if (startDateTime.before(t.startDateTime)) return 1;
+        else return -1;
+    }
 }
