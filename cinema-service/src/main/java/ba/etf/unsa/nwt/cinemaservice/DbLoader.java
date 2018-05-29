@@ -44,8 +44,8 @@ public class DbLoader implements CommandLineRunner {
             addReservationStatuses();
         if (cinemaShowingService.count() == 0)
             addCinemaShowing(6);
-        if (reservationService.count() == 0)
-            addReservations(10);
+       // if (reservationService.count() == 0)
+       //     addReservations(10);
         if (newsService.count() == 0)
             addNews(10);
 
@@ -56,7 +56,7 @@ public class DbLoader implements CommandLineRunner {
             newsService.save(new News("Vijest #" + i, "Veoma bitne vijesti", null, new Date(),
                     null));
     }
-
+/*
     private void addReservations(int num) {
         Long numCinemaShowings = cinemaShowingService.count();
         Long numCinemaSeats = cinemaSeatService.count();
@@ -79,7 +79,7 @@ public class DbLoader implements CommandLineRunner {
             }
         }
     }
-
+*/
     private void addCinemaShowing(int num) {
         ArrayList<String> movieTitles = new ArrayList<String>(
                 Arrays.asList("Mad Max", "Blade Runner", "Call me by your name", "Interstellar", "Coco", "Lady Bird"));
@@ -142,10 +142,10 @@ public class DbLoader implements CommandLineRunner {
     }
 
     public void addRooms(int num) {
-        int numRowsBase = 10;
-        int numColsBase = 12;
+        int numRowsBase = 14;
+        int numColsBase = 7;
         for (int i = 1; i < num; i++)
-            roomService.save(new Room("S" + i, (numRowsBase + i) * (numColsBase + i), numRowsBase + i, numColsBase + i,
+            roomService.save(new Room("S" + i, (numRowsBase) * (numColsBase), numRowsBase, numColsBase ,
                     "Hall no. " + i));
     }
 

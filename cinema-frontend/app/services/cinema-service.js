@@ -3,6 +3,9 @@ import BaseHttpService from './base-http-service';
 
 export default BaseHttpService.extend({
 
+	getShowingById(id) {
+		return this.ajax('GET', `/cinema/cinema-showings/${id}`);
+	},
 	getShowingByDate: function(date) {
 		return this.ajax('GET', '/cinema/cinema-showings?date=' + date,null);
 	},
@@ -33,6 +36,15 @@ export default BaseHttpService.extend({
 
 	getShowingByDateAndMovieId: function(date, id) {
 		return this.ajax('GET', '/cinema/cinema-showings/movie/' + id + '?date=' + date);
+	},
+
+	getAllShowingSeats(id) {
+		return this.ajax('GET', `/cinema/cinema-showings/${id}/all-seats`);
+	},
+
+	createReservation(reservation,token) {
+		return this.ajax('POST', `/cinema/reservations`,reservation,token);
 	}
+	
 });
 

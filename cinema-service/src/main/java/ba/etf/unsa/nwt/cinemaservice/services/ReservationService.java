@@ -101,6 +101,8 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND)
                 throw new ServiceException("User with given id doesn't exist");
+            else if (e.getStatusCode() == HttpStatus.FORBIDDEN)
+                throw new ServiceException(("Not authorized to access users"));
             else
                 throw e;
         }
