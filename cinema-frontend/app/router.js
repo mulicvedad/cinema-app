@@ -12,7 +12,8 @@ Router.map(function() {
   this.route('signup');
   this.route('movie', { path: '/:id/details'});
   this.route('reservation', { path: '/:id/reservation'});
-  this.route('payment');
+  this.route('payment', { path: '/:id/payment'});
+  this.route('receipt');
 });
 
 export default Router;
