@@ -54,14 +54,17 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                 cancelButtonText: 'Abort reservation',
                 type: 'info'
             }).then((confirm)=>{
-                this.get('_cinemaService').createReservation(reservation,token).then(()=>{
+                this.get('_cinemaService').createReservation(reservation,token).then((response)=>{
+                    let reservationId = String(response);
                     sweetAlert({
                         title: 'Successfuly reserved seats',
                         confirmButtonText: 'OK',
                         type: 'success',
                     }).then((confirm)=> {
+                        let seats = [];
                         this.set('seats',[]);
-                        this.get('router').transitionTo('payment');        
+                        console.log(reservationId);
+                        this.get('router').transitionTo('payment',[reservationId]); // response is reservationId        
                     }),
                     function(reason){
                         sweetAlert({
@@ -69,7 +72,7 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                             confirmButtonText: 'OK',
                             type: 'error'
                         });
-                    }
+                    }                
                 })
             })
         }      

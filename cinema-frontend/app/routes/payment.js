@@ -8,6 +8,7 @@ const {
 
 export default Ember.Route.extend({
   _reservationService: service('reservation-service'),
+  session: Ember.inject.service('session'),
 
 
   model(params) {

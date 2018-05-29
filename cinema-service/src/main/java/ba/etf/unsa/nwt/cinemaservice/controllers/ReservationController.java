@@ -60,8 +60,9 @@ public class ReservationController {
 
     @PostMapping
     public ResponseEntity create(@RequestBody @Valid ReservationDTO reservationInfo) {
+        Reservation r = null;
         try {
-            reservationService.create(reservationInfo);
+             r = reservationService.create(reservationInfo);
         } catch (ServiceException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(
                     new Error("Reservation failed", null, e.getMessage())));
@@ -70,7 +71,7 @@ public class ReservationController {
                     null, "An error occured during reservation creation.")));
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(r.getId());
     }
 
     @PostMapping("/{id}/pay")
