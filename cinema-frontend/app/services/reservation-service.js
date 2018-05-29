@@ -21,11 +21,11 @@ export default BaseHttpService.extend({
     return this.ajax('GET', `/cinema/reservations/${id}`);
   },
 
-  payReservation: function(id, chargeRequest) {
+  payReservation: function(id, chargeRequest, token) {
     console.log('usao u rezervaciju');
     console.log(id);
     console.log(chargeRequest);
-    return this.ajax('POST', `/cinema/reservations/${id}/pay`, chargeRequest);
+    return this.ajax('POST', `/cinema/reservations/${id}/pay`, chargeRequest, token);
   },
 
   charge: function(chargeRequest) {

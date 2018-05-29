@@ -19,8 +19,9 @@ public class BaseService<M extends BaseModel, R extends JpaRepository<M, Long>> 
         return repo.findById(id);
     }
 
-    public void save(M m) {
-        repo.save(m);
+    public M save(M m) {
+        M temp = repo.save(m);
+        return temp;
     }
 
     public Collection<M> all() {

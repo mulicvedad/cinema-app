@@ -2,10 +2,8 @@ package ba.etf.unsa.nwt.cinemaservice.controllers;
 
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.CinemaShowingDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
-import ba.etf.unsa.nwt.cinemaservice.models.CinemaSeat;
-import ba.etf.unsa.nwt.cinemaservice.models.CinemaShowing;
+import ba.etf.unsa.nwt.cinemaservice.models.*;
 import ba.etf.unsa.nwt.cinemaservice.models.Error;
-import ba.etf.unsa.nwt.cinemaservice.models.ErrorResponseWrapper;
 import ba.etf.unsa.nwt.cinemaservice.services.CinemaShowingService;
 import ba.etf.unsa.nwt.cinemaservice.services.RoomService;
 import ba.etf.unsa.nwt.cinemaservice.services.ShowingTypeService;
@@ -109,5 +107,15 @@ public class CinemaShowingController {
 
     private ResponseEntity errorResponse(HttpStatus status, String title, String field, String message) {
         return ResponseEntity.status(status.value()).body(new ErrorResponseWrapper(new Error(title, field, message)));
+    }
+    
+    @GetMapping("/{id}/all-seats")
+    public Collection<CinemaSeat> getAllSeats(@PathVariable("id") Long id) {
+        return cinemaShowingService.getAllShowingSeats(id);
+    }
+    @GetMapping("/{id}")
+    public CinemaShowing getCinemaShowing(@PathVariable("id") Long id) {
+        CinemaShowing f  = cinemaShowingService.getCinemaShowing(id);
+        return f;
     }
 }

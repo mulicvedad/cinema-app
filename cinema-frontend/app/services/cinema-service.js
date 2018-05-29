@@ -5,6 +5,9 @@ export default BaseHttpService.extend({
 
   showing: null,
 
+	getShowingById(id) {
+		return this.ajax('GET', `/cinema/cinema-showings/${id}`);
+	},
 	getShowingByDate: function(date) {
 		return this.ajax('GET', '/cinema/cinema-showings?date=' + date,null);
 	},
@@ -70,6 +73,15 @@ export default BaseHttpService.extend({
 
   addNewShowing(showing) {
     return this.ajax('POST', 'cinema/cinema-showings', showing);
-  }
+  },
+
+	getAllShowingSeats(id) {
+		return this.ajax('GET', `/cinema/cinema-showings/${id}/all-seats`);
+	},
+
+	createReservation(reservation,token) {
+		return this.ajax('POST', `/cinema/reservations`,reservation,token);
+	}
+
 });
 
