@@ -25,6 +25,24 @@
   </div>
 
   </ul>
+
+<!--  2nd box  -->
+    <ul class="s-explore">
+<!--     in theaters -->
+     <li class="s-explore__title"><h3>Hot in theathers</h3></li>
+    <li class="s-explore__list"><a  href="#">Blade Runner 2049</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Coco</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Call Me By Your Name</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Lady Bird</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Blade Runner 2049</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Coco</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Call Me By Your Name</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Lady Bird</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Blade Runner 2049</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a  href="#">Coco</a><span class="s-explore__rating">4.9/5.0</span></li>
+      <li class="s-explore__list"><a href="#"><span style="color: white;">more <i class="fa fa-angle-right"></i></span></a></li>
+  </ul>
+
 <!--  3rd box  -->
   <ul class="s-explore s-users">
      <li class="s-explore__title"><h3 style="margin-bottom: 0.7em;">News and Offers</h3></li>
@@ -48,9 +66,7 @@
         <div class="details">
           <div class="l-cards__text title">{{movie.movieTitle}}</div>
           <a href="#" class="l-cards__text">{{movie.genres.0.name}}</a>
-          <p>Showing hours: <br>
-            {{moment-format movie.timetable.startDateTime 'HH:mm'}}
-          </p>
+          <p>Showing hours: 17:00h, 22:00h</p>
         <a href="#"  {{action "seeDetails" movie.id}}>See movie details</a>
         </div>
       </div>
