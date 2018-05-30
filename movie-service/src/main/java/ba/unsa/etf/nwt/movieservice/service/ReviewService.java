@@ -1,5 +1,6 @@
 package ba.unsa.etf.nwt.movieservice.service;
 
+import ba.unsa.etf.nwt.movieservice.controller.dto.ReviewDTO;
 import ba.unsa.etf.nwt.movieservice.model.Movie;
 import ba.unsa.etf.nwt.movieservice.model.Review;
 import ba.unsa.etf.nwt.movieservice.repository.MovieRepository;
@@ -33,11 +34,11 @@ public class ReviewService {
         return movieRepository.getOne(movieId).getReviews();
     }
 
-    public void createReview(Review review, Long movieId) {
-        Movie movie = movieRepository.getOne(movieId);
+    public void createReview(ReviewDTO reviewDTO) {
+        Movie movie = movieRepository.getOne(reviewDTO.movieId);
         Application application = eurekaClient.getApplication("user-service");
         InstanceInfo instanceInfo = application.getInstances().get(0);
-        String url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/" + "users/" + review.getUserId()
+        String url = "http://" + instanceInfo.getIPAddr() + ":" + instanceInfo.getPort() + "/" + "users/" + reviewDTO.userId
                 + "/details";
         try {
             restTemplate.getForEntity(url, Map.class);
@@ -48,7 +49,7 @@ public class ReviewService {
                 throw new RuntimeException(e.getMessage());
             }
         }
-        movie.getReviews().add(review);
+        movie.getReviews().add(new Review(reviewDTO.userId, reviewDTO.username, reviewDTO.comment));
         movieRepository.save(movie);
     }
 }

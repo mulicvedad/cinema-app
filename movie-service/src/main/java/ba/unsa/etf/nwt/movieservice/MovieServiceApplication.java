@@ -3,8 +3,6 @@ package ba.unsa.etf.nwt.movieservice;
 import ba.unsa.etf.nwt.movieservice.model.*;
 import ba.unsa.etf.nwt.movieservice.repository.GenreRepository;
 import ba.unsa.etf.nwt.movieservice.repository.MovieRepository;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -142,7 +140,7 @@ public class MovieServiceApplication {
                 add(genreRepository.findByName("Drama"));
             }});
 
-            Review review = new Review(1L, "Great movie!");
+            Review review = new Review(3L, "admin", "Great movie!");
 
             movie1.setReviews(new HashSet<Review>() {{
                 add(review);

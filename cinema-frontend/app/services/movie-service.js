@@ -40,5 +40,8 @@ export default BaseHttpService.extend({
 
 	createNewMovie: function(movie) {
 		return this.ajax('POST', '/movie/movies/new', movie);
+	},
+	createReview(review, token) {
+		return this.ajax('POST', '/movie/review/', review, token);
 	}
 });

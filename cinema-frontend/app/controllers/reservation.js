@@ -37,6 +37,7 @@ export default Ember.Controller.extend(SweetAlertMixin,{
             sweetAlert({
                 title: 'This seat is already reserved, please choose another one.',
                 confirmButtonText: 'OK',
+                confirmButtonColor: '#DC5154',
                 type: 'error'
             });
         },
@@ -52,6 +53,7 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                 confirmButtonText: 'Reserve seats',
                 showCancelButton: true,
                 cancelButtonText: 'Abort reservation',
+                confirmButtonColor: '#DC5154',
                 type: 'info'
             }).then((confirm)=>{
                 this.get('_cinemaService').createReservation(reservation,token).then((response)=>{
@@ -59,6 +61,7 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                     sweetAlert({
                         title: 'Successfuly reserved seats',
                         confirmButtonText: 'OK',
+                        confirmButtonColor: '#DC5154',
                         type: 'success',
                     }).then((confirm)=> {
                         let seats = [];

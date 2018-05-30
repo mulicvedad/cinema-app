@@ -23,6 +23,7 @@ export default Ember.Route.extend({
       token = this.get('session.data.authenticated.jwt');
     return Ember.RSVP.hash({
       movie: this.get('_movieService').getMovieById(params.id),
+      reviews: this.get('_movieService').getReviewsByMovieId(params.id),
       showings: this.get('_cinemaService').getShowingByDateAndMovieId(params.date,params.id)
     });
   },
