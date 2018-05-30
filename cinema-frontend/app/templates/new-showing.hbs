@@ -11,7 +11,7 @@
       </div>
       <div class="col-lg-12 login-form">
         <div class="col-lg-12 login-form">
-          <form {{action "createShowing" on="submit"}}>
+          <form {{action "createShowing" session.data.authenticated.jwt on="submit"}}>
             <div class="form-group">
               <label class="form-control-label">SELECT MOVIE</label>
               <select required class="form-control input-dark" onchange={{action "setSelectedMovie" value="target.value"}}>

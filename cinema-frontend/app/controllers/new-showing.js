@@ -10,14 +10,15 @@ const {
 export default Ember.Controller.extend({
   _cinemaService: service('cinema-service'),
   _swalService: service('swal-service'),
+  session: Ember.inject.service(),
   today: moment().format('YYYY-MM-DD'),
   actions: {
-    createShowing() {
+    createShowing(token) {
       if (!this.validateInputs()) {
         this.get('_swalService').error("You must fill all the fields.");
         return;
       }
-      this.get('_cinemaService').addNewShowing(this.get('model.cinemaShowing')).then( response => {
+      this.get('_cinemaService').addNewShowing(this.get('model.cinemaShowing'),token).then( response => {
         this.get('_swalService').success("Cinema showing successfully added",
           confirm => { this.transitionToRoute('showing'); });
       }).catch( errorResponse => {

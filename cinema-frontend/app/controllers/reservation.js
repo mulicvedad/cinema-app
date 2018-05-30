@@ -37,21 +37,39 @@ export default Ember.Controller.extend(SweetAlertMixin,{
             sweetAlert({
                 title: 'This seat is already reserved, please choose another one.',
                 confirmButtonText: 'OK',
+                confirmButtonColor: '#DC5154',
                 type: 'error'
             });
         },
         reserveTicket(cId, uId, token) {
-            let reservation = Ember.Object.create({
-              cinemaShowingId: cId,
-              userId: uId,
-              seats: this.get('seats')
-            });
+
             let sweetAlert = this.get('sweetAlert');
+            console.log(token);
+            if(!token) {
+                sweetAlert({ 
+                    title: 'Login required',
+                    text: 'Only logged in users can reserve seats',
+                    confirmButtonColor: '#DC5154',
+                    confirmButtonText: 'OK',
+                    type: 'error',
+                }).then((confirm)=>{
+                    this.set('seats',[]);
+                    this.get('router').transitionTo('login');
+                })
+            }
+            else{
+
+            let reservation = Ember.Object.create({
+                cinemaShowingId: cId,
+                userId: uId,
+                seats: this.get('seats')
+              });
             sweetAlert({
                 title: 'You selected the following seats: ' + this.get('seats'),
                 confirmButtonText: 'Reserve seats',
                 showCancelButton: true,
                 cancelButtonText: 'Abort reservation',
+                confirmButtonColor: '#DC5154',
                 type: 'info'
             }).then((confirm)=>{
                 this.get('_cinemaService').createReservation(reservation,token).then((response)=>{
@@ -59,9 +77,9 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                     sweetAlert({
                         title: 'Successfuly reserved seats',
                         confirmButtonText: 'OK',
+                        confirmButtonColor: '#DC5154',
                         type: 'success',
                     }).then((confirm)=> {
-                        let seats = [];
                         this.set('seats',[]);
                         console.log(reservationId);
                         this.get('router').transitionTo('payment',[reservationId]); // response is reservationId        
@@ -75,6 +93,7 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                     }                
                 })
             })
+        }
         }      
     }
 });

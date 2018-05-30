@@ -4,6 +4,7 @@ const {
 
 export default Controller.extend({
   session: Ember.inject.service(),
+  router: Ember.inject.service('-routing'),
   stripev3: service(),
   _reservationService: service('reservation-service'),
   reservationId: null,
@@ -30,7 +31,8 @@ export default Controller.extend({
         set(this,'model.description', 'Cinema Ticket');
         set(this,'model.amount', '100');
         this.get('_reservationService').payReservation(this.get('reservationId'), this.get('model'), authToken).then(()=> {
-          this.transitionTo('receipt');}
+          this.set('token', null);
+          this.get('router').transitionTo('receipt');}
         );;
       });
     }

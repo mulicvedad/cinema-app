@@ -61,3 +61,13 @@ a{
 .ElementsApp, .ElementsApp .InputElement {
     color: white;
 }
+
+.list-group-item{
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.list-group-item:first-child{
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}

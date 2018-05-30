@@ -72,8 +72,8 @@ export default BaseHttpService.extend({
     );
   },
 
-  addNewShowing(showing) {
-    return this.ajax('POST', 'cinema/cinema-showings', showing);
+  addNewShowing(showing,token) {
+    return this.ajax('POST', 'cinema/cinema-showings', showing,token);
   },
 
 	getAllShowingSeats(id) {

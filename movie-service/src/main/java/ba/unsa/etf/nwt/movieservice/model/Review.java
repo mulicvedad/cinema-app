@@ -8,13 +8,15 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long userId;
+    private String username;
     private String comment;
 
     public Review() {
     }
 
-    public Review(Long userId, String comment) {
+    public Review(Long userId, String username, String comment) {
         this.userId = userId;
+        this.username = username;
         this.comment = comment;
     }
 
@@ -42,11 +44,17 @@ public class Review {
         this.comment = comment;
     }
 
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
+
+
     @Override
     public String toString() {
         return "Review{" +
                 "id=" + id +
                 ", userId=" + userId +
+                ", username=" + username +
                 ", comment='" + comment + '\'' +
                 '}';
     }
