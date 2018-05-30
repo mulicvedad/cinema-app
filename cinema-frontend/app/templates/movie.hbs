@@ -4,7 +4,8 @@
           <div class="column column-md poster-image"><img src={{model.movie.largePosterPath}} id="poster"/>
           </div>
           <div class="column column-md">
-            <h1 id="title">{{model.movie.title}}<span id="date"> ( {{moment-format model.movie.release_date 'YYYY'}})</span></h1>
+            <h1 id="title">{{model.movie.title}}<span id="date"> ( {{moment-format model.movie.release_date 'YYYY'}})</span>
+                       </h1>
             <div class="row">
               <span class="badge"><span id="status">Released</span>
               </span>
@@ -64,7 +65,7 @@
                 {{#each model.reviews as |review|}}
   <a  class="list-group-item list-group-item-action flex-column align-items-start active">
     <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1"><b>submitted by:  {{review.username}}</b></h5> 
+      <h5 class="mb-1"><b>submitted by:  {{review.username}}</b></h5>
     </div>
     <p class="mb-1"><i>{{review.comment}}</i></p>
   </a><br>
@@ -77,6 +78,22 @@
                 </div>
                 {{/if}}
           </div>
+                      <div class="row social-medias">
+             <div class="social-media">
+            {{facebook-share fb-colorscheme='light' text=model.movie.overview }}
+            </div>
+             <div class="social-media">
+             {{twitter-share count='horizontal' text=model.movie.overview via='cinema-app' related='movie,cinema' hashtags='movie,cinema'}} </div>
+              <div class="social-media">
+              {{linkedin-share count='right'}} </div>
+              <div class="social-media">
+              </div>
+              <div class="social-media">
+              {{#email-share subject='Check out this movie!' body=model.movie.overview}}
+              <img class="img-share" src="/assets/images/gmail.png">
+            {{/email-share}}
+            </div>
+            </div>
         </div>
       </div>
   </div>

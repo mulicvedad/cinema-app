@@ -6,6 +6,7 @@ import com.stripe.Stripe;
 import com.stripe.exception.*;
 import com.stripe.model.Charge;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -31,7 +32,7 @@ public class ChargeRequestService {
 		repository.save(request);
 	}
 
-	//@Value("")
+	@Value("sk_test_IeY1ssn5V8DKzrIQqey2akPO")
 	private String secretKey;
 
 	@PostConstruct
