@@ -28,8 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/reservations/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/reservation-statuses/**").permitAll()
+                .antMatchers("/reservations/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/reservation-statuses/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
                 .antMatchers("/reservation-statuses/**").hasRole(ROLE_NAME_ADMIN)
                 .antMatchers("/cinema-showings/**").hasRole(ROLE_NAME_ADMIN)//.hasRole(ROLE_NAME_ADMIN)

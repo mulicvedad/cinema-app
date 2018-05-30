@@ -41,8 +41,6 @@
     "ember-load-initializers": "^1.0.0",
     "ember-moment": "^7.7.0",
     "ember-resolver": "^4.0.0",
-    "ember-sharable": "^0.1.10",
-    "ember-social": "^0.3.0",
     "ember-source": "~2.14.0",
     "ember-stripe-elements": "^0.3.0",
     "ember-sweetalert": "^0.1.1",
