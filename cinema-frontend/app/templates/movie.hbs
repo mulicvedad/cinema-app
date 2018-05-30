@@ -69,9 +69,11 @@
                 {{/each}}
                 </div>
             </div>
+                {{#if session.isAuthenticated}}
                 <div class="row">
                 <button class="btn btn-danger" {{action "addReview" session.data.authenticated.user.id session.data.authenticated.user.username model.movie.id}}>Add review</button>
                 </div>
+                {{/if}}
           </div>
         </div>
       </div>

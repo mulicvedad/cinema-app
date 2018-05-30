@@ -20,9 +20,10 @@ export default Ember.Route.extend(SweetAlertMixin, {
     });
   },
 
-  beforeModel(transition) {
-    if(this.get('session.isAuthenticated')) {
-      this.transitionTo('new-showing');
+  beforeModel() {
+    if(!this.get('session.isAuthenticated') || 
+    this.get('session.data.authenticated.user.roles') != 'ROLE_ADMIN') {
+      this.transitionTo('showing');
     }
   },
 

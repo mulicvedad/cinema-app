@@ -15,6 +15,10 @@ export default Ember.Route.extend({
     return this.get('_reservationService').createChargeRequest();
   },
 
+  beforeModel(){
+    if(!this.get('session.isAuthenticated'))
+      this.transitionTo('showing');
+  },
   setupController(controller, model,transition) {
     // Call _super for default behavior
     this._super(controller, model);

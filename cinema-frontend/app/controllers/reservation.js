@@ -42,12 +42,28 @@ export default Ember.Controller.extend(SweetAlertMixin,{
             });
         },
         reserveTicket(cId, uId, token) {
-            let reservation = Ember.Object.create({
-              cinemaShowingId: cId,
-              userId: uId,
-              seats: this.get('seats')
-            });
+
             let sweetAlert = this.get('sweetAlert');
+            console.log(token);
+            if(!token) {
+                sweetAlert({ 
+                    title: 'Login required',
+                    text: 'Only logged in users can reserve seats',
+                    confirmButtonColor: '#DC5154',
+                    confirmButtonText: 'OK',
+                    type: 'error',
+                }).then((confirm)=>{
+                    this.set('seats',[]);
+                    this.get('router').transitionTo('login');
+                })
+            }
+            else{
+
+            let reservation = Ember.Object.create({
+                cinemaShowingId: cId,
+                userId: uId,
+                seats: this.get('seats')
+              });
             sweetAlert({
                 title: 'You selected the following seats: ' + this.get('seats'),
                 confirmButtonText: 'Reserve seats',
@@ -64,7 +80,6 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                         confirmButtonColor: '#DC5154',
                         type: 'success',
                     }).then((confirm)=> {
-                        let seats = [];
                         this.set('seats',[]);
                         console.log(reservationId);
                         this.get('router').transitionTo('payment',[reservationId]); // response is reservationId        
@@ -78,6 +93,7 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                     }                
                 })
             })
+        }
         }      
     }
 });

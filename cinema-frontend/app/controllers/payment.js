@@ -31,6 +31,7 @@ export default Controller.extend({
         set(this,'model.description', 'Cinema Ticket');
         set(this,'model.amount', '100');
         this.get('_reservationService').payReservation(this.get('reservationId'), this.get('model'), authToken).then(()=> {
+          this.set('token', null);
           this.get('router').transitionTo('receipt');}
         );;
       });
