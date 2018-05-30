@@ -28,6 +28,7 @@
                 <li> {{genre.name}} </li>
               {{/each}}
             </div>
+            {{#if model.showings}}
             <div class="row">
               <h2>Showings</h2>
                <div class="form-group col-md-3">
@@ -40,6 +41,7 @@
                 </select>
               </div>
             </div>
+            {{/if}}
             <div class="row">
               <div class="column column-md">
                 <h2>Runtime</h2>

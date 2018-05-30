@@ -46,7 +46,11 @@ export default Ember.Route.extend({
 
   actions: {
     seeDetails: function(id) {
+      if(Ember.isBlank(this.get('currDate'))){
+        this.transitionTo('movie', id);
+      } else {
       this.transitionTo('movie', id,  { queryParams: { date: this.get('currDate') }});
+      }
     },
     generateReport() {
       this.get('_reportService').generateReport();

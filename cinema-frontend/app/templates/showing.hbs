@@ -1,11 +1,5 @@
 <div class="container-fluid body">
   <div class="row">
-    <div class="column-md-11 col-md-offset-1">
-      <button class="btn btn-default list-item-btn" {{action "generateReport"}}>PRETISNI ME</button>
-    </div>
-  </div>
-
-  <div class="row">
 
 <!--   left panel   -->
 <div class="col-md-3 sidebar">
@@ -24,6 +18,12 @@
     <li class="s-explore__title"><h3>CATEGORIES</h3></li>
     <li class="s-explore__list"><a href="#" >Newest</a></li>
     <li class="s-explore__list"><a href="#" >Most Popular</a></li><br>
+      <div class="row">
+    <div class="column-md-11 col-md-offset-1">
+      <button class="btn btn-danger list-item-btn" {{action "generateReport"}}>Generate PDF</button>
+    </div>
+  </div>
+
   </ul>
 
 <!--  2nd box  -->
