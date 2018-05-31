@@ -118,4 +118,13 @@ public class User {
         map.put("email", email);
         return map;
     }
+    public String jsonUserAccountDTOAuthService() {
+        return "{" +
+                "\"username\":" + '"' + username + '"' +
+                ",\"passwordHash\":" +  '"' + passwordHash + '"' +
+                ",\"email\":" + '"' + email + '"' +
+                ", \"role\":" + '"' + role.getName() + '"' +
+                '}';
+    }
+
 }

@@ -9,6 +9,8 @@ import ba.etf.unsa.nwt.userservice.models.ErrorResponseWrapper;
 import ba.etf.unsa.nwt.userservice.models.User;
 import ba.etf.unsa.nwt.userservice.services.UserService;
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -70,8 +72,9 @@ public class UserRestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(error));
         }
         User registeredUser = userService.register(user);
-        // for now it's not needed to inform other services
-        // rabbitTemplate.convertAndSend("users-exchange","users.created.#",registeredUser.getId());
+        Logger log = LoggerFactory.getLogger(this.getClass());
+        log.info(registeredUser.toString());
+        rabbitTemplate.convertAndSend("users-exchange","users.created.#", registeredUser.jsonUserAccountDTOAuthService());
         return ResponseEntity.ok(registeredUser);
     }
 

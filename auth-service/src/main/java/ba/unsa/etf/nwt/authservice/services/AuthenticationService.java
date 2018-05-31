@@ -54,7 +54,7 @@ public class AuthenticationService {
                     return null;
             Optional<UserAccount> userAccount = userAccountService.findByUsername(tokenUsername);
             if (userAccount.isPresent())
-                return new UserAccountDTO(userAccount.get().getUsername(), userAccount.get().getPasswordHash(),
+                return new UserAccountDTO(userAccount.get().getUsername(), userAccount.get().getPasswordHash(), userAccount.get().getEmail(),
                         userAccount.get().getRole().getName());
         } catch (Exception e) {
             return null;
