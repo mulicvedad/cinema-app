@@ -1,6 +1,6 @@
 <header class="l-header">
   <div class="l-header__logo">
-<img width="1101" alt="logo2" src="https://image.ibb.co/jszFWJ/Untitled_1.png">
+<a href="showing"><img width="1101" alt="logo2" src="https://image.ibb.co/jszFWJ/Untitled_1.png"></a>
 </div>
 
 <ul class="l-header__nav">
@@ -8,6 +8,7 @@
     <li>{{#link-to 'showing'}}Movies{{/link-to}}</li>
     {{#if session.isAuthenticated }}
       {{#if (eq session.data.authenticated.user.roles "ROLE_ADMIN")}}
+        <li>{{#link-to 'new-movie'}}Add new movie{{/link-to}}</li>
         <li>{{#link-to 'new-showing'}}Add new showing{{/link-to}}</li>
       {{/if}}
     <div class="dropdown">

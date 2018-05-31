@@ -1,0 +1,21 @@
+.padded-first{
+    width: 50%;
+    border-right:1px solid #e50914;
+}
+.padded-second{
+    width: 50%;
+}
+.nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus {
+    border-color: #e50914;
+    border-bottom-color: transparent;
+}
+.nav-tabs {
+   border-bottom: 2px solid #e50914;
+}
+
+.nav-tabs > li > a{
+    margin-right: 0px;
+}
+.after-title{
+    margin-bottom: 100px;
+}

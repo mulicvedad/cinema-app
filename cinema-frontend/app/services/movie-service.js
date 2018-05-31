@@ -3,7 +3,7 @@ import BaseHttpService from './base-http-service';
 
 export default BaseHttpService.extend({
 	getAllGenres: function() {
-		return this.ajax('GET', '/movie/movies/genres');
+		return this.ajax('GET', '/movie/genres');
 	},
 
 	getMostPopularMovies: function() {
