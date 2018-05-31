@@ -4,13 +4,15 @@ public class UserAccountDTO {
 
     private String username;
     private String passwordHash;
+    private String email;
     private String role;
 
     public UserAccountDTO() { }
 
-    public UserAccountDTO(String username, String passwordHash, String role) {
+    public UserAccountDTO(String username, String passwordHash, String email, String role) {
         this.username = username;
         this.passwordHash = passwordHash;
+        this.email = email;
         this.role = role;
     }
 
@@ -38,4 +40,11 @@ public class UserAccountDTO {
         this.role = role;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

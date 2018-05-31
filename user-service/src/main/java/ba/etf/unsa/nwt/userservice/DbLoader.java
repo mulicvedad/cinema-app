@@ -29,13 +29,13 @@ public class DbLoader implements CommandLineRunner {
 
             // Password of all users is pw = password
             Role role = roleService.find("ROLE_ADMIN");
-            User user = new User(role, "Admin", "Admin", "admin", "$2a$10$iIFEUH6ORbNM7HSy7cpDcuPqHPQL4l9hxR/TLz9lz.RK/fMlkxA5G", "admin@etf.unsa.ba");
+            User user = new User(role, "Admin", "Admin", "admin", "$2a$10$iIFEUH6ORbNM7HSy7cpDcuPqHPQL4l9hxR/TLz9lz.RK/fMlkxA5G", "admin@leva.etf.unsa.ba");
             userService.save(user);
 
             role = roleService.find("ROLE_USER");
-            user = new User(role, "Jeffery", "Carter", "jcarter", "$2a$10$iIFEUH6ORbNM7HSy7cpDcuPqHPQL4l9hxR/TLz9lz.RK/fMlkxA5G", "JefferyCarter@rhyta.com");
+            user = new User(role, "Jeffery", "Carter", "user", "$2a$10$iIFEUH6ORbNM7HSy7cpDcuPqHPQL4l9hxR/TLz9lz.RK/fMlkxA5G", "user@leva.etf.unsa.ba");
             userService.save(user);
-
+/*
             role = roleService.find("ROLE_USER");
             user = new User(role, "Susan", "Nagy", "Dichanny", "$2a$10$iIFEUH6ORbNM7HSy7cpDcuPqHPQL4l9hxR/TLz9lz.RK/fMlkxA5G", "SusanKNagy@jourrapide.com");
             userService.save(user);
@@ -79,7 +79,7 @@ public class DbLoader implements CommandLineRunner {
             role = roleService.find("ROLE_USER");
             user = new User(role, "Christopher", "Woods", "user", "$2a$10$iIFEUH6ORbNM7HSy7cpDcuPqHPQL4l9hxR/TLz9lz.RK/fMlkxA5G", "user@test.ba");
             userService.save(user);
-
+*/
         }
     }
 }
