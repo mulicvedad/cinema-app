@@ -52,6 +52,7 @@ public class MovieService {
             movie.setGenres(movieGenres);
         if (moviePeople != null)
             movie.setMoviePeople(moviePeople);
+
         movieRepository.save(movie);
     }
 
@@ -59,13 +60,10 @@ public class MovieService {
         return movieRepository.findByTitle(title);
     }
 
-    public List<String> getPopularMovies() {
+    public List<Movie> getPopularMovies() {
         String url = DISCOVER_URL + API_KEY + apiKey + POPULARITY_FILTER;
         List<Movie> mostPopularMovies = restTemplate.getForObject(url, TmdbMovieResponse.class).getResults();
-        return mostPopularMovies
-                .stream()
-                .map(Movie::getTitle)
-                .collect(Collectors.toList());
+        return mostPopularMovies;
     }
 
     public Movie getMovieByTmdbId(String id) {

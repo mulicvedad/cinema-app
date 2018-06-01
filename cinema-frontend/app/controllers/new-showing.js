@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
   session: Ember.inject.service(),
   today: moment().format('YYYY-MM-DD'),
   actions: {
-    createShowing(token) {
+    createShowing(movie, token) {
       if (!this.validateInputs()) {
         this.get('_swalService').error("You must fill all the fields.");
         return;
@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
       this.set('model.cinemaShowing.movieId', movieId);
       let movie =  this.get('model.movies').find( m => m.id == movieId);
       this.set('model.cinemaShowing.movieTitle', movie.title);
-      this.set('model.cinemaShowing.posterPath', movie.posterPath);
+      this.set('model.cinemaShowing.posterPath', movie.poster_path);
     },
     setSelectedRoom(roomId) {
       this.set('model.cinemaShowing.roomId', roomId);

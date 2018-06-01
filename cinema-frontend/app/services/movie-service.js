@@ -4,6 +4,25 @@ import BaseHttpService from './base-http-service';
 export default BaseHttpService.extend({
 
   movie: null,
+	movieReqObj: null,
+
+	createMovie() {
+		let newMovie = Ember.Object.create({
+		title: null,
+		overview: null,
+		largePosterPath: null,
+		tmdbId: null,
+		genres: null,
+		reviews: null,
+		moviePeople: null,
+		release_date: null,
+		poster_path: null,
+		original_title: null,
+		vote_average: null
+		});
+		this.set('movie', newMovie);
+		return this.get('movie');
+	},
 
 	getAllGenres: function() {
 		return this.ajax('GET', '/movie/genres');
@@ -49,7 +68,7 @@ export default BaseHttpService.extend({
 		return this.ajax('POST', '/movie/review/', review, token);
   },
 
-  createMovie() {
+  createMovieRequestObj() {
     let newMovie = Ember.Object.create({
       movie: {
         title: null,
@@ -60,7 +79,7 @@ export default BaseHttpService.extend({
       },
       genres: []
     });
-    this.set('movie', newMovie);
-    return this.get('movie');
+    this.set('movieReqObj', newMovie);
+    return this.get('movieReqObj');
   }
 });
