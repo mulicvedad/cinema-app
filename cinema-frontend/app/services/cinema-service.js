@@ -5,40 +5,39 @@ export default BaseHttpService.extend({
 
   showing: null,
 
-	getShowingById(id) {
-		return this.ajax('GET', `/cinema/cinema-showings/${id}`);
-	},
+  getShowingById(id) {
+    return this.ajax('GET', `/cinema/cinema-showings/${id}`);
+  },
 
   getShowingByDate: function(date, page, size) {
-		return this.ajax('GET', '/cinema/cinema-showings?date=' + date + '&page=' + page + '&size=' + size,null);
-	},
+    return this.ajax('GET', '/cinema/cinema-showings?date=' + date + '&page=' + page + '&size=' + size,null);
+  },
 
-	getShowingByDateAndMovieId: function(date, id) {
-		return this.ajax('GET', `/cinema/cinema-showings/movie/${id}?date=` + date);
-	},
+  getShowingByDateAndMovieId: function(date, id) {
+    return this.ajax('GET', `/cinema/cinema-showings/movie/${id}?date=` + date);
+  },
 
-	getUpcomingShowing: function(page, size) {
-		return this.ajax('GET', '/cinema/cinema-showings/upcoming?page=' + page + '&size=' + size,null);
-	},
+  getUpcomingShowing: function(page, size) {
+    return this.ajax('GET', '/cinema/cinema-showings/upcoming?page=' + page + '&size=' + size,null);
+  },
 
-	getAvailableSeats: function(id) {
-		return this.ajax('GET', `/cinema/cinema-showings/${id}/available-seats`);
-	},
+  getAvailableSeats: function(id) {
+    return this.ajax('GET', `/cinema/cinema-showings/${id}/available-seats`);
+  },
 
-	getCinemaSeat: function(id) {
-		return this.ajax('GET', `/cinema/cinema-seats/${id}`);
-	},
+  getCinemaSeat: function(id) {
+    return this.ajax('GET', `/cinema/cinema-seats/${id}`);
+  },
 
-	createCinemaSeat: function(cinemaSeat) {
-		return this.ajax('POST', '/cinema/cinema-seats', cinemaSeat);
-	},
+  createCinemaSeat: function(cinemaSeat) {
+    return this.ajax('POST', '/cinema/cinema-seats', cinemaSeat);
+  },
 
-	deleteCinemaSeat: function(id) {
-		return this.ajax('DELETE', `/cinema/cinema-seats/${id}`);
-	},
-
-	getShowingByDateAndMovieId: function(date, id) {
-		return this.ajax('GET', '/cinema/cinema-showings/movie/' + id + '?date=' + date);
+  deleteCinemaSeat: function(id) {
+    return this.ajax('DELETE', `/cinema/cinema-seats/${id}`);
+  },
+  getShowingByDateAndMovieId: function(date, id) {
+    return this.ajax('GET', '/cinema/cinema-showings/movie/' + id + '?date=' + date);
   },
 
   createShowing() {
@@ -76,13 +75,17 @@ export default BaseHttpService.extend({
     return this.ajax('POST', 'cinema/cinema-showings', showing,token);
   },
 
-	getAllShowingSeats(id) {
-		return this.ajax('GET', `/cinema/cinema-showings/${id}/all-seats`);
-	},
+  getAllShowingSeats(id) {
+    return this.ajax('GET', `/cinema/cinema-showings/${id}/all-seats`);
+  },
 
-	createReservation(reservation,token) {
-		return this.ajax('POST', `/cinema/reservations`,reservation,token);
-	}
+  createReservation(reservation,token) {
+    return this.ajax('POST', `/cinema/reservations`,reservation,token);
+  },
+
+  getAllNews() {
+    return this.ajax('GET', '/cinema/news');
+  }
 
 });
 

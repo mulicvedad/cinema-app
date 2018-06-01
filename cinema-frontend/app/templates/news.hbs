@@ -1,0 +1,11 @@
+<div class="container news-container">
+{{#each model as |news|}}
+  <div class="panel panel-default">
+    <div class="panel-heading">{{news.title}}</div>
+    <div class="panel-body">
+    <img src={{news.imageUrl}}/>
+    <p>{{news.contentText}}</p>
+    </div>
+  </div>
+{{/each}}
+</div>
