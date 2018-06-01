@@ -44,8 +44,9 @@ public class MovieService {
         Movie movie = movieRequest.getMovie();
         Set<Genre> movieGenres = getGenres(movieRequest.getGenres());
         Set<MoviePerson> moviePeople = getPeople(movieRequest.getMoviePeople());
-        movie.setPosterPath("http://image.tmdb.org/t/p/w185/" + movie.getPosterPath());
-        movie.setLargePosterPath("http://image.tmdb.org/t/p/w342/" + movie.getPosterPath());
+        String moviePosterPath = movie.getPosterPath();
+        movie.setPosterPath("http://image.tmdb.org/t/p/w342" + moviePosterPath);
+        movie.setLargePosterPath("http://image.tmdb.org/t/p/w780" + moviePosterPath);
         movie.setGenres(movieGenres);
         movie.setMoviePeople(moviePeople);
         movieRepository.save(movie);
@@ -55,13 +56,10 @@ public class MovieService {
         return movieRepository.findByTitle(title);
     }
 
-    public List<String> getPopularMovies() {
+    public List<Movie> getPopularMovies() {
         String url = DISCOVER_URL + API_KEY + apiKey + POPULARITY_FILTER;
         List<Movie> mostPopularMovies = restTemplate.getForObject(url, TmdbMovieResponse.class).getResults();
-        return mostPopularMovies
-                .stream()
-                .map(Movie::getTitle)
-                .collect(Collectors.toList());
+        return mostPopularMovies;
     }
 
     public Movie getMovieByTmdbId(String id) {

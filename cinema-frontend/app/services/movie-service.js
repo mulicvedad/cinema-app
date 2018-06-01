@@ -2,6 +2,27 @@ import Ember from 'ember';
 import BaseHttpService from './base-http-service';
 
 export default BaseHttpService.extend({
+
+	movie: null,
+
+	createMovie() {
+		let newMovie = Ember.Object.create({
+		title: null,
+		overview: null,
+		largePosterPath: null,
+		tmdbId: null,
+		genres: null,
+		reviews: null,
+		moviePeople: null,
+		release_date: null,
+		poster_path: null,
+		original_title: null,
+		vote_average: null
+		});
+		this.set('movie', newMovie);
+		return this.get('movie');
+	},
+
 	getAllGenres: function() {
 		return this.ajax('GET', '/movie/genres');
 	},
@@ -38,8 +59,8 @@ export default BaseHttpService.extend({
 		return this.ajax('GET', `/movie/review/user/${id}`);
 	},
 
-	createNewMovie: function(movie) {
-		return this.ajax('POST', '/movie/movies/new', movie);
+	createNewMovie: function(movie,token) {
+		return this.ajax('POST', '/movie/movies/new', movie,token);
 	},
 	createReview(review, token) {
 		return this.ajax('POST', '/movie/review/', review, token);

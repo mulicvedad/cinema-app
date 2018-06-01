@@ -14,12 +14,12 @@
             <a class="nav-link active" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="true">Manual</a>
         </li>
         <li class="nav-item padded-second">
-            <a class="nav-link" id="tmdb-tab" data-toggle="tab" href="#tmdb" role="tab" aria-controls="tmdb" aria-selected="false">TMDB</a>
+            <a class="nav-link" id="tmdb-tab" data-toggle="tab" href="#tmdb" role="tab" aria-controls="tmdb" aria-selected="true">TMDB</a>
         </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-
-        <div class="tab-pane fade show active" id="manual" role="tabpanel" aria-labelledby="manual-tab">
+        <!-- MANUAL -->
+        <div class="tab-pane fade active in" id="manual" role="tabpanel" aria-labelledby="manual-tab">
             <div class="col-lg-12 login-form">
                 <div class="form-group">
                     <label class="form-control-label">Title</label>
@@ -60,8 +60,52 @@
               </div>
             </div>
         </div>
+        <!-- TMDB -->
         <div class="tab-pane fade" id="tmdb" role="tabpanel" aria-labelledby="tmdb-tab">
-
+            <div class="col-lg-12 login-form">
+                <div class="form-group">
+                    <label class="form-control-label">SELECT LATEST MOVIES FROM The MovieDB</label>
+                    <select required class="form-control input-dark" onchange={{action "setSelectedMovie" value="target.value"}} >
+                        <option disabled selected> -- movie --</option>
+                        {{#each model.moviesTMDB as |movie|}}
+                        <option value={{movie.id}}>{{movie.title}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-8 login-form">
+                <div class="form-group">
+                    <label class="form-control-label">Original title</label>
+                    {{input type="text" class="form-control input-dark" value=model.movie.original_title readonly=true}}
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Overview</label>
+                    {{textarea  class="form-control input-dark" value=model.movie.overview readonly=true rows=overviewLength}}
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Release date</label>
+                    <div class="form-control input dark">
+                    {{moment-format model.movie.release_date 'MMMM D, YYYY' class="form-control input-dark"}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Vote average</label>
+                    {{input type="number" class="form-control input-dark" value=model.movie.vote_average readonly=true}}
+                </div>
+                </div>
+                <div class="col-lg-4 login-form">
+                <div class="form-group left-padded">
+                    <label class="form-control-label">Poster</label>
+                    {{#if  poster}}
+                        <img src={{poster}} alt="" class="bordered">
+                    {{else}}
+                        <img src="/assets/images/placeholder.png" alt="" class="bordered">
+                    {{/if}}
+                </div>
+                </div>
+                <div class="col-lg-6 login-btm login-button">
+                <button type="submit" class="btn btn-danger" {{action "addMovieFromTMDB" session.data.authenticated.jwt}}>ADD</button>  
+                </div> 
         </div>
         </div>
       <div class="col-lg-3 col-md-2"></div>

@@ -19,3 +19,13 @@
 .after-title{
     margin-bottom: 100px;
 }
+.bordered{
+    border: 2px solid #e50914;
+    width: 182px;
+}
+.left-padded{
+    padding-left: 10px;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{
+    background-color: transparent;
+}
