@@ -39,6 +39,9 @@ export default BaseHttpService.extend({
   getShowingByDateAndMovieId: function(date, id) {
     return this.ajax('GET', '/cinema/cinema-showings/movie/' + id + '?date=' + date);
   },
+  search: function(title) {
+    return this.ajax('GET', '/cinema/cinema-showings/search?title=' + title);
+  },
 
   createShowing() {
     let newShowing = Ember.Object.create({
