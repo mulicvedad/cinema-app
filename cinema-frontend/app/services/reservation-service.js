@@ -26,13 +26,14 @@ export default BaseHttpService.extend({
   },
 
   payReservation: function(id, chargeRequest, token) {
-    console.log('usao u rezervaciju');
-    console.log(id);
-    console.log(chargeRequest);
     return this.ajax('POST', `/cinema/reservations/${id}/pay`, chargeRequest, token);
   },
 
   charge: function(chargeRequest) {
     return this.ajax('POST', '/payment/charge', chargeRequest);
+  },
+
+  deleteReservation(id,token) {
+    return this.ajax('DELETE', `/cinema/reservations/${id}`,null,token);
   }
 });

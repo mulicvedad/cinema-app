@@ -10,5 +10,10 @@ export default Ember.Route.extend({
         return Ember.RSVP.hash({
             reservations: this.get('_reservationService').getAllReservationsForUser(params.id,this.get('session.data.authenticated.jwt')),
         })
+    },
+
+    beforeModel() {
+        if(!this.get('session.isAuthenticated'))
+            this.transitionTo('showing');
     }
 });
