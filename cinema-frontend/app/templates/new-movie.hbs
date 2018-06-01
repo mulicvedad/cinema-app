@@ -20,45 +20,54 @@
         <div class="tab-content" id="myTabContent">
 
         <div class="tab-pane fade show active" id="manual" role="tabpanel" aria-labelledby="manual-tab">
-            <div class="col-lg-12 login-form">
-                <div class="form-group">
-                    <label class="form-control-label">Title</label>
-                    {{input type="text" class="form-control input-dark"}}
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label">Overview</label>
-                    {{textarea  class="form-control input-dark"}}
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label">Genres</label>
-                    <select required class="form-control input-dark" >
-                        <option disabled selected> -- genre --</option>
-                        {{#each model.genres as |genre|}}
-                        <option value={{genre.id}}>{{genre.name}}</option> 
-                        {{/each}}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label">Release date</label>
-                    {{input type="text" class="form-control input-dark"}}
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label">Poster path</label>
-                    {{input type="text" class="form-control input-dark"}}
-                </div>
-                <div class="form-group"> <!-- Average vote mozda i nema smisla kad se rucno dodaje film-->
-                    <label class="form-control-label">Average vote</label>
-                    {{input type="number" class="form-control input-dark"}}
-                </div>
-                <div class="col-lg-12">
-                <div class="col-lg-6 login-btm login-text">
-                  <!-- Error Message -->
-                </div>
-                <div class="col-lg-6 login-btm login-button">
-                  <button type="submit" class="btn btn-danger">ADD</button>
+            <form {{action "addNewMovie" session.data.authenticated.jwt on="submit"}}>
+              <div class="col-lg-12 login-form">
+                  <div class="form-group">
+                      <label class="form-control-label">Title</label>
+                      {{input type="text" required=true class="form-control input-dark" value=model.newMovie.movie.title}}
+                  </div>
+                  <div class="form-group">
+                      <label class="form-control-label">Overview</label>
+                      {{textarea required=true class="form-control input-dark" value=model.newMovie.movie.overview}}
+                  </div>
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-10">
+                        <label class="form-control-label">Genres</label>
+                        <select required class="form-control input-dark" id="dropdownGenre" onchange={{action "setSelectedGenre" value="target.value"}}>
+                            <option disabled selected> -- genre --</option>
+                            {{#each model.genres as |genre|}}
+                                <option value={{genre.id}}>{{genre.name}}</option>
+                            {{/each}}
+                        </select>
+                      </div>
+                      <div class="col-md-2 text-right">
+                          <button class="btn btn-info clear-button" {{action "clearSelectedGenres"}}>Clear</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="form-control-label">Release date</label>
+                      {{input type="date" required=true class="form-control input-dark" value=model.newMovie.movie.releaseDate max=today}}
+                  </div>
+                  <div class="form-group">
+                      <label class="form-control-label">Poster path</label>
+                      {{input type="text" required=true class="form-control input-dark" value=model.newMovie.movie.posterPath}}
+                  </div>
+                  <div class="form-group"> <!-- Average vote mozda i nema smisla kad se rucno dodaje film-->
+                      <label class="form-control-label">Average vote</label>
+                      {{input type="number" class="form-control input-dark" value=model.newMovie.movie.averageVote}}
+                  </div>
+                  <div class="col-lg-12">
+                  <div class="col-lg-6 login-btm login-text">
+                    <!-- Error Message -->
+                  </div>
+                  <div class="col-lg-6 login-btm login-button">
+                    <button type="submit" class="btn btn-danger">ADD</button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
         </div>
         <div class="tab-pane fade" id="tmdb" role="tabpanel" aria-labelledby="tmdb-tab">
 

@@ -7,6 +7,7 @@ export default Ember.Route.extend({
     model(){
         return Ember.RSVP.hash({
             genres: this.get('_movieService').getAllGenres(), // for now, only genres
+            newMovie: this.get('_movieService').createMovie()
           });
           }
 });

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -21,24 +21,21 @@ public class Movie {
     private String title;
 
     @NotNull
-    @JsonProperty("release_date")
-    private Timestamp releaseDate;
+    //@JsonProperty("release_date")
+    private Date releaseDate;
 
     @NotNull
     @Size(max = 255555555)
     private String overview;
 
     @NotNull
-    @JsonProperty("poster_path")
     private String posterPath;
 
     @NotNull
     private String largePosterPath;
 
-    @JsonProperty("original_title")
     private String originalTitle;
 
-    @JsonProperty("vote_average")
     private Float averageVote;
 
     private Long tmdbId;
@@ -60,7 +57,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, String largePosterPath, String originalTitle, Float averageVote) {
+    public Movie(@NotNull String title, Date releaseDate, String overview, String posterPath, String largePosterPath, String originalTitle, Float averageVote) {
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
@@ -70,7 +67,7 @@ public class Movie {
         this.averageVote = averageVote;
     }
 
-    public Movie(@NotNull String title, Timestamp releaseDate, String overview, String posterPath, String largePosterPath, Set<Genre> genres) {
+    public Movie(@NotNull String title, Date releaseDate, String overview, String posterPath, String largePosterPath, Set<Genre> genres) {
         this.title = title;
         this.releaseDate = releaseDate;
         this.overview = overview;
@@ -95,11 +92,11 @@ public class Movie {
         this.title = title;
     }
 
-    public Timestamp getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Timestamp releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 

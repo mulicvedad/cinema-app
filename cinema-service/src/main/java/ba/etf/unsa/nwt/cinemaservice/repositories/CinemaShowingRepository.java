@@ -20,11 +20,10 @@ public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Lo
     @Query("select cs from CinemaShowing cs where cs.timetable.startDateTime >= current_date ")
     Page<CinemaShowing> findUpcoming(Pageable pageable);
 
-    @Query(value = "select * from cinema_showing cs, timetable tt where cs.timetable_id = tt.id" +
-            " and DATE_FORMAT(tt.start_datetime, '%d-%m-%Y') = :startDate", nativeQuery = true)
-    Collection<CinemaShowing> findAllByDateNative(@Param("startDate") Date startDate);
-
-    @Query("select  cs from CinemaShowing cs, Timetable t where  cs.timetable = t and t.startDateTime > :date")
+    @Query("select  cs from CinemaShowing cs, Timetable t where  cs.timetable = t " +
+            "and function('YEAR', t.startDateTime) = function('YEAR', :date) " +
+            "and function('MONTH', t.startDateTime) = function('MONTH', :date) " +
+            "and function('DAY', t.startDateTime) = function('DAY', :date) ")
     Page<CinemaShowing> findAllByDate(@Param("date") Date date, Pageable pageable);
 
     @Query("select count(cs) from CinemaShowing cs, Timetable t where cs.timetable =  t and " +
