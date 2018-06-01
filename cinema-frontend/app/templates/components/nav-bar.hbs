@@ -16,7 +16,8 @@
         <b class="caret"></b>
       </li>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="logout"><li {{action 'logout'}}>Log out</li></a>
+        <li>{{#link-to 'reserved-tickets' session.data.authenticated.user.id}}Reserved tickets{{/link-to}}</li>
+        <li {{action 'logout'}}><a class="logout">Log out</a></li>
       </div>
     </div>
 

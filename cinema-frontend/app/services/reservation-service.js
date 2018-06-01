@@ -21,6 +21,10 @@ export default BaseHttpService.extend({
     return this.ajax('GET', `/cinema/reservations/${id}`);
   },
 
+  getAllReservationsForUser(userId,token) {
+    return this.ajax('GET', `/cinema/reservations/?userId=${userId}`,null,token);
+  },
+
   payReservation: function(id, chargeRequest, token) {
     console.log('usao u rezervaciju');
     console.log(id);
