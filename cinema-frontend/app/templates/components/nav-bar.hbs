@@ -4,7 +4,14 @@
 </div>
 
 <ul class="l-header__nav">
-    <input class="l-header__search" type="text" placeholder="Seach movies...">
+
+  {{searchable-select
+    content=movies
+    optionLabelKey='movieTitle'
+    on-change=(action "updateSelection")
+    on-search=(action "updateSearch")
+    on-close=(action "clearResultsList")}}
+
     <li>{{#link-to 'showing'}}Movies{{/link-to}}</li>
     {{#if session.isAuthenticated }}
       {{#if (eq session.data.authenticated.user.roles "ROLE_ADMIN")}}
@@ -26,3 +33,5 @@
     {{/if}}
   </ul>
 </header>
+
+{{log movies}}

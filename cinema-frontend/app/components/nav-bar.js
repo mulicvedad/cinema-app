@@ -1,7 +1,10 @@
 import Ember from 'ember';
 import SweetAlertMixin from 'ember-sweetalert/mixins/sweetalert-mixin';
+const { inject: {service}} = Ember;
 
 export default Ember.Component.extend(SweetAlertMixin, {
+    movies: null,
+    _cinemaService: service('cinema-service'),
     session: Ember.inject.service('session'),
     router: Ember.inject.service('-routing'),
     classNames: ['nav-bar'],
@@ -31,8 +34,19 @@ export default Ember.Component.extend(SweetAlertMixin, {
         updateEmail() {
             let sweetalert = this.get('sweetAlert');
             sweetalert({
-
             })
+        },
+
+        updateSelection(selection) {
+            this.set('movies', selection);
+        },
+
+        updateSearch(title) {
+            let results = this.get('_cinemaService').search(title);
+            this.set('movies', Ember.A(results));
+        },
+        clearResultsList() {
+            this.set('movies', null);
         }
     }
 
