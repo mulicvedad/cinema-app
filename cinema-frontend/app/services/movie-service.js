@@ -72,10 +72,11 @@ export default BaseHttpService.extend({
     let newMovie = Ember.Object.create({
       movie: {
         title: null,
-        releaseDate: null,
+        release_date: null,
         overview: null,
-        posterPath: null,
-        largePosterPath: null
+        poster_path: null,
+        largePosterPath: null,
+        vote_average: null
       },
       genres: []
     });

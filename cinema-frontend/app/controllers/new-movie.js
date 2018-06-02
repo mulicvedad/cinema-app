@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
       }
     },
     addNewMovie(token) {
-      this.set('model.newMovie.movie.largePosterPath', this.get('model.newMovie.movie.posterPath'));
+      this.set('model.newMovie.movie.largePosterPath', this.get('model.newMovie.movie.poster_path'));
       this.get('_movieService').createNewMovie(this.get('model.newMovie'), token).then( response => {
         this.get('_swalService').succes("New movie added successfully");
       }).catch( error => {

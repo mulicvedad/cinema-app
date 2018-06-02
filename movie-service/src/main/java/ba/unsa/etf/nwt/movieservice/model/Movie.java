@@ -21,7 +21,7 @@ public class Movie {
     private String title;
 
     @NotNull
-    //@JsonProperty("release_date")
+    @JsonProperty("release_date")
     private Date releaseDate;
 
     @NotNull
@@ -29,13 +29,16 @@ public class Movie {
     private String overview;
 
     @NotNull
+    @JsonProperty("poster_path")
     private String posterPath;
 
     @NotNull
     private String largePosterPath;
 
+    @JsonProperty("original_title")
     private String originalTitle;
 
+    @JsonProperty("vote_average")
     private Float averageVote;
 
     private Long tmdbId;

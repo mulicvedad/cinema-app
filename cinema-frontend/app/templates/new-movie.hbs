@@ -10,7 +10,7 @@
       ADD NEW MOVIE
       </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item padded-first">
+          <li class="nav-item active padded-first">
               <a class="nav-link" id="manual-tab" data-toggle="tab" href="#manual" role="tab" aria-controls="manual" aria-selected="true">Manual</a>
           </li>
           <li class="nav-item padded-second">
@@ -19,7 +19,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
 
-        <div class="tab-pane fade show active" id="manual" role="tabpanel" aria-labelledby="manual-tab">
+        <div class="tab-pane fade active in" id="manual" role="tabpanel" aria-labelledby="manual-tab">
           <form {{action "addNewMovie" session.data.authenticated.jwt on="submit"}}>
             <div class="col-lg-12 login-form">
               <div class="form-group">
@@ -48,15 +48,15 @@
               </div>
               <div class="form-group">
                   <label class="form-control-label">Release date</label>
-                  {{input type="date" required=true class="form-control input-dark" value=model.newMovie.movie.releaseDate max=today}}
+                  {{input type="date" required=true class="form-control input-dark" value=model.newMovie.movie.release_date max=today}}
               </div>
               <div class="form-group">
                   <label class="form-control-label">Poster path</label>
-                  {{input type="text" required=true class="form-control input-dark" value=model.newMovie.movie.posterPath}}
+                  {{input type="text" required=true class="form-control input-dark" value=model.newMovie.movie.poster_path}}
               </div>
               <div class="form-group"> <!-- Average vote mozda i nema smisla kad se rucno dodaje film-->
                   <label class="form-control-label">Average vote</label>
-                  {{input type="number" class="form-control input-dark" value=model.newMovie.movie.averageVote}}
+                  {{input type="number" class="form-control input-dark" value=model.newMovie.movie.vote_average}}
               </div>
               <div class="col-lg-12">
                 <div class="col-lg-6 login-btm login-text">
