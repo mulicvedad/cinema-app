@@ -8,6 +8,7 @@
     <li>{{#link-to 'showing'}}Movies{{/link-to}}</li>
     {{#if session.isAuthenticated }}
       {{#if (eq session.data.authenticated.user.roles "ROLE_ADMIN")}}
+        <li>{{#link-to 'new-movie'}}Add new movie{{/link-to}}</li>
         <li>{{#link-to 'new-showing'}}Add new showing{{/link-to}}</li>
       {{/if}}
     <div class="dropdown">
@@ -16,7 +17,8 @@
         <b class="caret"></b>
       </li>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="logout"><li {{action 'logout'}}>Log out</li></a>
+        <li>{{#link-to 'reserved-tickets' session.data.authenticated.user.id}}Reserved tickets{{/link-to}}</li>
+        <li {{action 'logout'}}><a class="logout">Log out</a></li>
       </div>
     </div>
 

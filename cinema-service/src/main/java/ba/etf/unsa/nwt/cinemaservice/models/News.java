@@ -37,7 +37,7 @@ public class News extends BaseModel {
     }
 
     @NotBlank(message = "Table news: Column content_text cannot be blank nor null")
-    @Size(max = 50000, message = "Table news: Column content_text cannot be longer than 5000 characters")
+    @Size(max = 5000, message = "Table news: Column content_text cannot be longer than 5000 characters")
     @Column(name = "content_text")
     public String getContentText() {
         return contentText;

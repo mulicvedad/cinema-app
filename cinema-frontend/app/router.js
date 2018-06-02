@@ -15,6 +15,8 @@ Router.map(function() {
   this.route('payment', { path: '/:id/payment'});
   this.route('receipt');
   this.route('new-showing');
+  this.route('new-movie');
+  this.route('reserved-tickets', {path: '/:id/reserved-tickets'});
   this.route('news');
 });
 
