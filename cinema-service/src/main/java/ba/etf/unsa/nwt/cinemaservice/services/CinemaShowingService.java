@@ -19,6 +19,7 @@ import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -59,7 +60,7 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
     @Autowired
     private TimetableService timetableService;
 
-    static final long ONE_MINUTE_IN_MILLIS=60000;   
+    static final long ONE_MINUTE_IN_MILLIS=60000;
     private final String REPORT_FILENAME = "upcoming_showings";
     private final String REPORT_FILE_EXTENSION = ".pdf";
     private final String REPORT_TITLE = "UPCOMING SHOWINGS";
@@ -155,7 +156,7 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
     public CinemaShowing getCinemaShowing(Long id) {
         return repo.findCinemaShowingById(id);
     }
-    
+
     public String generateReport() {
         try {
             String reportFilename = REPORT_FILENAME + Math.random() + REPORT_FILE_EXTENSION;
@@ -206,27 +207,49 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
         return dateFormat.format(date);
     }
 
-    public List<MovieShowingDTO> getAllShowingMoviesForDate(Date date) {
-        Page<CinemaShowing> showings = repo.findAllByDate(date, null);
-        List<MovieShowingDTO> movieShowings = new ArrayList<>();
-        for (CinemaShowing cs : showings.getContent()) {
-            MovieShowingDTO movieShowingDTO = new MovieShowingDTO(cs);
-            movieShowingDTO.showingTimes = getFormattedShowingTimes(date, cs.getMovieId());
-            movieShowings.add(movieShowingDTO);
+    public Page<CinemaShowing> getAllShowingMoviesForDate(Date date, Pageable pageable) {
+        Page<CinemaShowing> showings = repo.findAllByDate(date, pageable);
+        List<CinemaShowing> cinemaShowings = showings.getContent();
+        List<CinemaShowing> newCinemaShowings = new ArrayList<>();
+        for (int i = 0; i < cinemaShowings.size(); i++) {
+            if (!containsMovieId(newCinemaShowings, cinemaShowings.get(i).getMovieId())) {
+                CinemaShowing csTemp = cinemaShowings.get(i);
+                csTemp.setFormattedShowings(getFormattedShowingTimes(date, csTemp.getMovieId()));
+                newCinemaShowings.add(csTemp);
+            }
         }
-        return movieShowings;
+        showings = new PageImpl<>(newCinemaShowings);
+        return showings;
     }
 
     private String getFormattedShowingTimes(Date date, Long movieId) {
         List<CinemaShowing> showings = repo.findAllByDateAndMovieId(date, movieId);
         String showingTimes = "";
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
-        for (int i = 0; i < showings.size(); i++){
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        for (int i = 0; i < showings.size(); i++) {
             showingTimes += dateFormat.format(showings.get(i).getTimetable().getStartDateTime());
             if (i != showings.size() - 1)
                 showingTimes += ", ";
         }
         return showingTimes;
+    }
+
+    public List<CinemaShowing> getMoviesByTitleLike(String movieTitle) {
+        List<CinemaShowing> cinemaShowings = repo.getMoviesByTitleLike(movieTitle);
+        List<CinemaShowing> newCinemaShowings = new ArrayList<>();
+        for (int i = 0; i < cinemaShowings.size(); i++) {
+            if (!containsMovieId(newCinemaShowings, cinemaShowings.get(i).getMovieId())) {
+                newCinemaShowings.add(cinemaShowings.get(i));
+            }
+        }
+        return newCinemaShowings;
+    }
+
+    private boolean containsMovieId(List<CinemaShowing> cinemaShowings, Long movieId) {
+        for (CinemaShowing cs : cinemaShowings)
+            if (cs.getMovieId() == movieId)
+                return true;
+        return false;
     }
 
 }

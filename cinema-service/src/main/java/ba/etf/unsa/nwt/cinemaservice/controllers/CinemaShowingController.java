@@ -47,7 +47,7 @@ public class CinemaShowingController {
     private final String TIME_PARSING_ERROR = "Time must be in format 'hh:mm'.";
 
     // using ISO 8601 date format
-    @GetMapping
+   // @GetMapping
     public ResponseEntity getAllCinemaShowings(@RequestParam(value = "date", required = false) String date, Pageable pageable)
             throws BadHttpRequest {
         if (date != null)
@@ -60,12 +60,14 @@ public class CinemaShowingController {
         return ResponseEntity.ok(cinemaShowingService.getAllByPage(pageable));
     }
 
-    @GetMapping("/test")
-    public ResponseEntity getAllShowingMoviesForDate(@RequestParam(value = "date") String date,
+    @GetMapping
+    public ResponseEntity getAllShowingMoviesForDate(@RequestParam(value = "date", required = false) String date,
                                                      Pageable pageable) {
+        if (date == null)
+            return ResponseEntity.ok(cinemaShowingService.all());
         try {
             Date newDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-            List<MovieShowingDTO> showings = cinemaShowingService.getAllShowingMoviesForDate(newDate);
+            Page<CinemaShowing> showings = cinemaShowingService.getAllShowingMoviesForDate(newDate, pageable);
             return ResponseEntity.ok(showings);
         } catch (ParseException e) {
             return errorResponse(HttpStatus.BAD_REQUEST, "Parsing failure", "date", DATE_PARSING_ERROR);
@@ -132,7 +134,7 @@ public class CinemaShowingController {
     private ResponseEntity errorResponse(HttpStatus status, String title, String field, String message) {
         return ResponseEntity.status(status.value()).body(new ErrorResponseWrapper(new Error(title, field, message)));
     }
-    
+
     @GetMapping("/{id}/all-seats")
     public Collection<CinemaSeat> getAllSeats(@PathVariable("id") Long id) {
         return cinemaShowingService.getAllShowingSeats(id);
@@ -142,7 +144,7 @@ public class CinemaShowingController {
         CinemaShowing f  = cinemaShowingService.getCinemaShowing(id);
         return f;
     }
-    
+
     @GetMapping("/report")
     public ResponseEntity<byte[]> generateReport() {
         try {
@@ -178,4 +180,11 @@ public class CinemaShowingController {
         responseBody.put("error", error);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity getMoviesByTitleLike(@RequestParam("title") String title) {
+        return ResponseEntity.ok().body( cinemaShowingService.getMoviesByTitleLike(title));
+    }
+
 }

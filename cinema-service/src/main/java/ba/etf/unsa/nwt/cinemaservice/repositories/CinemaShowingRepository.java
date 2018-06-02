@@ -51,4 +51,8 @@ public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Lo
             " order by t.startDateTime asc")
     List<CinemaShowing> customFindAllAfterDate(@Param("date") Date date);
 
+
+    @Query("select cs from CinemaShowing  cs where UPPER(cs.movieTitle) LIKE CONCAT('%',UPPER(:movieTitle),'%')")
+    List<CinemaShowing> getMoviesByTitleLike(@Param("movieTitle") String movieTitle);
+
 }

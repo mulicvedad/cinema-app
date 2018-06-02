@@ -29,7 +29,6 @@ export default Ember.Route.extend({
     if(this.get('session.isAuthenticated'))
       token = this.get('session.data.authenticated.jwt');
     if(params.date) {
-      console.log(params.date);
       this.set('currDate', params.date);
       this.set('nextPage', params.page);
       this.set('numberPerPage', params.perPage);
