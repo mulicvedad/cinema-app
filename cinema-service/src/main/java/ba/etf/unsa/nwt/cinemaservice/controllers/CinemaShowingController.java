@@ -1,6 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.controllers;
 
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.CinemaShowingDTO;
+import ba.etf.unsa.nwt.cinemaservice.controllers.dto.MovieShowingDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
 import ba.etf.unsa.nwt.cinemaservice.models.*;
 import ba.etf.unsa.nwt.cinemaservice.models.Error;
@@ -27,10 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/cinema-showings")
@@ -49,7 +47,7 @@ public class CinemaShowingController {
     private final String TIME_PARSING_ERROR = "Time must be in format 'hh:mm'.";
 
     // using ISO 8601 date format
-    @GetMapping
+   // @GetMapping
     public ResponseEntity getAllCinemaShowings(@RequestParam(value = "date", required = false) String date, Pageable pageable)
             throws BadHttpRequest {
         if (date != null)
@@ -60,6 +58,22 @@ public class CinemaShowingController {
                 return errorResponse(HttpStatus.BAD_REQUEST, "Parsing failure", "date", DATE_PARSING_ERROR);
             }
         return ResponseEntity.ok(cinemaShowingService.getAllByPage(pageable));
+    }
+
+    @GetMapping
+    public ResponseEntity getAllShowingMoviesForDate(@RequestParam(value = "date", required = false) String date,
+                                                     Pageable pageable) {
+        if (date == null)
+            return ResponseEntity.ok(cinemaShowingService.all());
+        try {
+            Date newDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            Page<CinemaShowing> showings = cinemaShowingService.getAllShowingMoviesForDate(newDate, pageable);
+            return ResponseEntity.ok(showings);
+        } catch (ParseException e) {
+            return errorResponse(HttpStatus.BAD_REQUEST, "Parsing failure", "date", DATE_PARSING_ERROR);
+        } catch (Exception e) {
+            return errorResponse(HttpStatus.BAD_REQUEST, "Error occured", "", "");
+        }
     }
 
     @GetMapping("/movie/{movieId}")
@@ -120,7 +134,7 @@ public class CinemaShowingController {
     private ResponseEntity errorResponse(HttpStatus status, String title, String field, String message) {
         return ResponseEntity.status(status.value()).body(new ErrorResponseWrapper(new Error(title, field, message)));
     }
-    
+
     @GetMapping("/{id}/all-seats")
     public Collection<CinemaSeat> getAllSeats(@PathVariable("id") Long id) {
         return cinemaShowingService.getAllShowingSeats(id);
@@ -130,7 +144,7 @@ public class CinemaShowingController {
         CinemaShowing f  = cinemaShowingService.getCinemaShowing(id);
         return f;
     }
-    
+
     @GetMapping("/report")
     public ResponseEntity<byte[]> generateReport() {
         try {
@@ -166,4 +180,11 @@ public class CinemaShowingController {
         responseBody.put("error", error);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity getMoviesByTitleLike(@RequestParam("title") String title) {
+        return ResponseEntity.ok().body( cinemaShowingService.getMoviesByTitleLike(title));
+    }
+
 }

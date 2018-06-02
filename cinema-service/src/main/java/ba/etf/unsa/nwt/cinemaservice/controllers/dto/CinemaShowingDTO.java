@@ -29,9 +29,12 @@ public class CinemaShowingDTO {
     @NotNull
     public Integer duration;
 
+    public String showingTimes;
+
     protected CinemaShowingDTO() {}
 
-    public CinemaShowingDTO(Long movieId, String movieTitle, String posterPath, String startDate, String startTime, Long roomId, Integer duration) {
+    public CinemaShowingDTO(Long movieId, String movieTitle, String posterPath, String startDate, String startTime,
+                            Long roomId, Integer duration, String showingTimes) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.posterPath = posterPath;
@@ -39,5 +42,7 @@ public class CinemaShowingDTO {
         this.startTime = startTime;
         this.roomId = roomId;
         this.duration = duration;
+        this.showingTimes = showingTimes;
     }
+
 }

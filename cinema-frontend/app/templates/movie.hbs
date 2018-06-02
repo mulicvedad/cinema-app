@@ -37,7 +37,7 @@
                 value="target.value"}}>
                   <option value=""></option>
                   {{#each model.showings as |showing|}}
-                    <option value={{showing.id}}>{{showing.room.title}} - {{moment-format showing.timetable.startDateTime 'HH:mm'}}</option>
+                    <option value={{showing.id}}>Room {{showing.room.title}} - {{moment-format showing.timetable.startDateTime 'MMMM D, YYYY - HH:mm'}}</option>
                   {{/each}}
                 </select>
               </div>

@@ -10,7 +10,6 @@ export default Ember.Controller.extend(SweetAlertMixin,{
       login() {
         let sweetAlert = this.get('sweetAlert');
         this.get('session').authenticate('authenticator:application', this.model, (data) => {
-                console.log(data);
                 Ember.set(this, 'errorMessage', '');
                 Ember.set(this, 'model', {});
                 sweetAlert({

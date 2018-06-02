@@ -10,7 +10,7 @@ export default BaseHttpService.extend({
   },
 
   getShowingByDate: function(date, page, size) {
-    return this.ajax('GET', '/cinema/cinema-showings?date=' + date + '&page=' + page + '&size=' + size,null);
+    return this.ajax('GET', '/cinema/cinema-showings?date=' + date + '&page=' + page,null);
   },
 
   getShowingByDateAndMovieId: function(date, id) {
@@ -38,6 +38,9 @@ export default BaseHttpService.extend({
   },
   getShowingByDateAndMovieId: function(date, id) {
     return this.ajax('GET', '/cinema/cinema-showings/movie/' + id + '?date=' + date);
+  },
+  search: function(title) {
+    return this.ajax('GET', '/cinema/cinema-showings/search?title=' + title);
   },
 
   createShowing() {

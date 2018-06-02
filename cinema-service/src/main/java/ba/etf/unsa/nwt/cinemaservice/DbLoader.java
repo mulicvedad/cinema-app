@@ -46,8 +46,6 @@ public class DbLoader implements CommandLineRunner {
             addCinemaShowing(8);
         if (newsService.count() == 0)
             addNews();
-
-
     }
 
     private void addNews() {

@@ -19,6 +19,8 @@ public class CinemaShowing extends BaseModel{
     private Room room;
     private BigDecimal ticketPrice;
     private Collection<Reservation> reservations;
+    @Transient
+    private String formattedShowings;
 
     protected CinemaShowing() {}
 
@@ -116,5 +118,13 @@ public class CinemaShowing extends BaseModel{
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public String getFormattedShowings() {
+        return formattedShowings;
+    }
+
+    public void setFormattedShowings(String formattedShowings) {
+        this.formattedShowings = formattedShowings;
     }
 }
