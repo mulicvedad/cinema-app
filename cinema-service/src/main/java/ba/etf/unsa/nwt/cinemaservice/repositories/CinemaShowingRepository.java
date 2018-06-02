@@ -17,6 +17,7 @@ import java.util.List;
 public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Long>{
 
     CinemaShowing findCinemaShowingById(Long id);
+
     @Query("select cs from CinemaShowing cs where cs.timetable.startDateTime >= current_date ")
     Page<CinemaShowing> findUpcoming(Pageable pageable);
 
@@ -37,6 +38,13 @@ public interface CinemaShowingRepository extends JpaRepository<CinemaShowing, Lo
 
     @Query("select  cs from CinemaShowing cs, Timetable t where  cs.timetable = t and cs.movieId = :movieId and t.startDateTime > :date")
     Collection<CinemaShowing> findByDateAndMovieId(@Param("date") Date date, @Param("movieId") Long movieId);
+
+    @Query("select  cs from CinemaShowing cs, Timetable t where  cs.timetable = t " +
+            "and function('YEAR', t.startDateTime) = function('YEAR', :date) " +
+            "and function('MONTH', t.startDateTime) = function('MONTH', :date) " +
+            "and function('DAY', t.startDateTime) = function('DAY', :date) " +
+            "and cs.movieId = :movieId")
+    List<CinemaShowing> findAllByDateAndMovieId(@Param("date") Date date, @Param("movieId") Long movieId);
 
     // find upcoming v2 (didn't see there was already method for upcoming showings...)
     @Query("select cs from CinemaShowing cs, Timetable t where cs.timetable = t and t.startDateTime > :date" +

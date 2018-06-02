@@ -2,6 +2,7 @@ package ba.etf.unsa.nwt.cinemaservice.services;
 
 import ba.etf.unsa.nwt.cinemaservice.controllers.CinemaShowingController;
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.CinemaShowingDTO;
+import ba.etf.unsa.nwt.cinemaservice.controllers.dto.MovieShowingDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
 import ba.etf.unsa.nwt.cinemaservice.models.*;
 import ba.etf.unsa.nwt.cinemaservice.repositories.CinemaSeatRepository;
@@ -18,6 +19,7 @@ import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -202,6 +204,29 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
     private String getDayFromDate(Date date) {
         DateFormat dateFormat = new SimpleDateFormat("EEEE");
         return dateFormat.format(date);
+    }
+
+    public List<MovieShowingDTO> getAllShowingMoviesForDate(Date date) {
+        Page<CinemaShowing> showings = repo.findAllByDate(date, null);
+        List<MovieShowingDTO> movieShowings = new ArrayList<>();
+        for (CinemaShowing cs : showings.getContent()) {
+            MovieShowingDTO movieShowingDTO = new MovieShowingDTO(cs);
+            movieShowingDTO.showingTimes = getFormattedShowingTimes(date, cs.getMovieId());
+            movieShowings.add(movieShowingDTO);
+        }
+        return movieShowings;
+    }
+
+    private String getFormattedShowingTimes(Date date, Long movieId) {
+        List<CinemaShowing> showings = repo.findAllByDateAndMovieId(date, movieId);
+        String showingTimes = "";
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        for (int i = 0; i < showings.size(); i++){
+            showingTimes += dateFormat.format(showings.get(i).getTimetable().getStartDateTime());
+            if (i != showings.size() - 1)
+                showingTimes += ", ";
+        }
+        return showingTimes;
     }
 
 }

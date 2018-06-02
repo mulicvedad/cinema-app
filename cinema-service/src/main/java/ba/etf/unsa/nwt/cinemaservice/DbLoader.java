@@ -44,17 +44,7 @@ public class DbLoader implements CommandLineRunner {
             addReservationStatuses();
         if (cinemaShowingService.count() == 0)
             addCinemaShowing(8);
-<<<<<<< HEAD
-       // if (reservationService.count() == 0)
-       //    addReservations(10);
-        if (newsService.count() == 0)
-            addNews(10);
-=======
-        //if (reservationService.count() == 0)
-        //    addReservations(10);
-        //if (newsService.count() == 0)
-            addNews();
->>>>>>> origin/master
+        //addNews();
 
     }
 

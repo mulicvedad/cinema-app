@@ -1,6 +1,7 @@
 package ba.etf.unsa.nwt.cinemaservice.controllers;
 
 import ba.etf.unsa.nwt.cinemaservice.controllers.dto.CinemaShowingDTO;
+import ba.etf.unsa.nwt.cinemaservice.controllers.dto.MovieShowingDTO;
 import ba.etf.unsa.nwt.cinemaservice.exceptions.ServiceException;
 import ba.etf.unsa.nwt.cinemaservice.models.*;
 import ba.etf.unsa.nwt.cinemaservice.models.Error;
@@ -27,10 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/cinema-showings")
@@ -60,6 +58,20 @@ public class CinemaShowingController {
                 return errorResponse(HttpStatus.BAD_REQUEST, "Parsing failure", "date", DATE_PARSING_ERROR);
             }
         return ResponseEntity.ok(cinemaShowingService.getAllByPage(pageable));
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity getAllShowingMoviesForDate(@RequestParam(value = "date") String date,
+                                                     Pageable pageable) {
+        try {
+            Date newDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            List<MovieShowingDTO> showings = cinemaShowingService.getAllShowingMoviesForDate(newDate);
+            return ResponseEntity.ok(showings);
+        } catch (ParseException e) {
+            return errorResponse(HttpStatus.BAD_REQUEST, "Parsing failure", "date", DATE_PARSING_ERROR);
+        } catch (Exception e) {
+            return errorResponse(HttpStatus.BAD_REQUEST, "Error occured", "", "");
+        }
     }
 
     @GetMapping("/movie/{movieId}")
