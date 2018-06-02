@@ -16,6 +16,7 @@ Router.map(function() {
   this.route('receipt');
   this.route('new-showing');
   this.route('new-movie');
+  this.route('reserved-tickets', {path: '/:id/reserved-tickets'});
 });
 
 export default Router;
