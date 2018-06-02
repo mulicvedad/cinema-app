@@ -44,10 +44,17 @@ public class DbLoader implements CommandLineRunner {
             addReservationStatuses();
         if (cinemaShowingService.count() == 0)
             addCinemaShowing(8);
+<<<<<<< HEAD
+       // if (reservationService.count() == 0)
+       //    addReservations(10);
+        if (newsService.count() == 0)
+            addNews(10);
+=======
         //if (reservationService.count() == 0)
         //    addReservations(10);
         //if (newsService.count() == 0)
             addNews();
+>>>>>>> origin/master
 
     }
 
@@ -72,7 +79,7 @@ public class DbLoader implements CommandLineRunner {
                 "In the first film, Thomas, along with Newt (Thomas Brodie-Sangster), Teresa (Kaya Scodelario), Minho (Ki Hong Lee) and some nondescript others, were trapped in a walled compound outfitted with a perilous maze; in the sequel, The Scorch Trials, they broke out and rebelled against WCKD, the organization that held them prisoner in search of a self-serving plague vaccine. The Death Cure picks up about half a year later, with Thomas leading some of his old friends on a rescue mission to retrieve their captured buddy Minho—and, he secretly hopes, Teresa, who has betrayed her friends and joined up with WCKD’s Ava Paige (Patricia Clarkson) to pursue further research. Without Teresa around, Scorch Trials newbie Brenda (Rosa Salazar) has officially been promoted to Only Girl duties.", "http://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/maze-runner-the-death-cure-clips.png", new Date(),
                 null));
     }
-
+/*
     private void addReservations(int num) {
         Long numCinemaShowings = cinemaShowingService.count();
         Long numCinemaSeats = cinemaSeatService.count();
@@ -95,7 +102,7 @@ public class DbLoader implements CommandLineRunner {
             }
         }
     }
-
+*/
     private void addCinemaShowing(int num) {
         ArrayList<String> movieTitles = new ArrayList<>(
                 Arrays.asList("", "Deadpool 2", "Red Sparrow", "Coco",
@@ -103,13 +110,13 @@ public class DbLoader implements CommandLineRunner {
                         "Fifty Shades Freed", "Meet Me In St. Gallen"));
 
         ArrayList<String> moviePosterPaths = new ArrayList<>(
-                Arrays.asList("", "http://image.tmdb.org/t/p/w185/to0spRl1CMDvyUbOnbb4fTk3VAd.jpg",
-                        "http://image.tmdb.org/t/p/w185/uZwnaMQTdwZz1kwtrrU3IOqxnDu.jpg",
-                        "http://image.tmdb.org/t/p/w185/eKi8dIrr8voobbaGzDpe8w0PVbC.jpg",
-                        "http://image.tmdb.org/t/p/w185/coss7RgL0NH6g4fC2s5atvf3dFO.jpg",
-                        "http://image.tmdb.org/t/p/w185/y31QB9kn3XSudA15tV7UWQ9XLuW.jpg",
-                        "https://ia.media-imdb.com/images/M/MV5BODI2ZmM5MzMtOWZiMC00ZGE3LTk3MWEtY2U0ZjE3ZWJlNDEzXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX182_CR0,0,182,268_AL_.jpg",
-                        "http://image.tmdb.org/t/p/w185/kZJEQFk6eiZ9X2x70ve6R1dczus.jpg"));
+                Arrays.asList("", "http://image.tmdb.org/t/p/w342/to0spRl1CMDvyUbOnbb4fTk3VAd.jpg",
+                        "http://image.tmdb.org/t/p/w342/uZwnaMQTdwZz1kwtrrU3IOqxnDu.jpg",
+                        "http://image.tmdb.org/t/p/w342/eKi8dIrr8voobbaGzDpe8w0PVbC.jpg",
+                        "http://image.tmdb.org/t/p/w342/coss7RgL0NH6g4fC2s5atvf3dFO.jpg",
+                        "http://image.tmdb.org/t/p/w342/y31QB9kn3XSudA15tV7UWQ9XLuW.jpg",
+                        "http://image.tmdb.org/t/p/w342/jjPJ4s3DWZZvI4vw8Xfi4Vqa1Q8.jpg",
+                        "http://image.tmdb.org/t/p/w342/kZJEQFk6eiZ9X2x70ve6R1dczus.jpg"));
 
         Long numRooms = roomService.count();
         Long numTimeTable = timetableService.count();

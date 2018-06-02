@@ -44,10 +44,16 @@ public class MovieService {
         Movie movie = movieRequest.getMovie();
         Set<Genre> movieGenres = getGenres(movieRequest.getGenres());
         Set<MoviePerson> moviePeople = getPeople(movieRequest.getMoviePeople());
-        movie.setPosterPath("http://image.tmdb.org/t/p/w185/" + movie.getPosterPath());
-        movie.setLargePosterPath("http://image.tmdb.org/t/p/w342/" + movie.getPosterPath());
-        movie.setGenres(movieGenres);
-        movie.setMoviePeople(moviePeople);
+        //movie.setLargePosterPath();
+        if (!movie.getPosterPath().startsWith("http")) {
+            movie.setPosterPath("http://image.tmdb.org/t/p/w185/" + movie.getPosterPath());
+            movie.setLargePosterPath("http://image.tmdb.org/t/p/w342/" + movie.getPosterPath());
+        }
+        if (movieGenres != null)
+            movie.setGenres(movieGenres);
+        if (moviePeople != null)
+            movie.setMoviePeople(moviePeople);
+
         movieRepository.save(movie);
     }
 
@@ -55,13 +61,10 @@ public class MovieService {
         return movieRepository.findByTitle(title);
     }
 
-    public List<String> getPopularMovies() {
+    public List<Movie> getPopularMovies() {
         String url = DISCOVER_URL + API_KEY + apiKey + POPULARITY_FILTER;
         List<Movie> mostPopularMovies = restTemplate.getForObject(url, TmdbMovieResponse.class).getResults();
-        return mostPopularMovies
-                .stream()
-                .map(Movie::getTitle)
-                .collect(Collectors.toList());
+        return mostPopularMovies;
     }
 
     public Movie getMovieByTmdbId(String id) {
@@ -94,7 +97,7 @@ public class MovieService {
 
     private Set<MoviePerson> getPeople(HashSet<MoviePerson> moviePeople) {
         Set<MoviePerson> moviePersonSet = new HashSet<>();
-
+        if (moviePeople == null) return null;
         for (MoviePerson mp : moviePeople) {
             MoviePerson moviePerson = moviePersonRepository.findByName(mp.getName());
             if (moviePerson != null) {
