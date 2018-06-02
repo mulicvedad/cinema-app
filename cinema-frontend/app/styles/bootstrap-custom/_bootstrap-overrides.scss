@@ -93,3 +93,16 @@ a{
 .Searchable-select__search input{
   color: black;
 }
+
+.Searchable-select__matched-text {
+  color: red;
+  font-weight: bold;
+}
+
+.Searchable-select__option-label {
+  color:black;
+}
+
+.Searchable-select {
+  bottom: 7px;
+}

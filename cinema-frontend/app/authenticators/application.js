@@ -19,7 +19,6 @@ export default Base.extend({
     authenticate(credentials, callback) {
         return this.get('cinemaAppHttp').post('auth/login', credentials, (resp) => {
             if (callback) {
-                console.log(resp);
                 callback(resp);
             }
 

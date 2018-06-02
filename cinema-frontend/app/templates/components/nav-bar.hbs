@@ -8,9 +8,12 @@
   {{searchable-select
     content=movies
     optionLabelKey='movieTitle'
+    sortBy="movieTitle"
+    prompt= "Search for a movie"
     on-change=(action "updateSelection")
     on-search=(action "updateSearch")
     on-close=(action "clearResultsList")}}
+
 
     <li>{{#link-to 'showing'}}Movies{{/link-to}}</li>
     {{#if session.isAuthenticated }}
@@ -33,5 +36,3 @@
     {{/if}}
   </ul>
 </header>
-
-{{log movies}}

@@ -57,7 +57,7 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
     @Autowired
     private TimetableService timetableService;
 
-    static final long ONE_MINUTE_IN_MILLIS=60000;   
+    static final long ONE_MINUTE_IN_MILLIS=60000;
     private final String REPORT_FILENAME = "upcoming_showings";
     private final String REPORT_FILE_EXTENSION = ".pdf";
     private final String REPORT_TITLE = "UPCOMING SHOWINGS";
@@ -153,7 +153,7 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
     public CinemaShowing getCinemaShowing(Long id) {
         return repo.findCinemaShowingById(id);
     }
-    
+
     public String generateReport() {
         try {
             String reportFilename = REPORT_FILENAME + Math.random() + REPORT_FILE_EXTENSION;
@@ -202,6 +202,10 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
     private String getDayFromDate(Date date) {
         DateFormat dateFormat = new SimpleDateFormat("EEEE");
         return dateFormat.format(date);
+    }
+
+    public List<CinemaShowing> getMoviesByTitleLike(String movieTitle) {
+        return repo.getMoviesByTitleLike(movieTitle);
     }
 
 }

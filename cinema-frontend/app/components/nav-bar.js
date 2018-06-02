@@ -38,12 +38,12 @@ export default Ember.Component.extend(SweetAlertMixin, {
         },
 
         updateSelection(selection) {
-            this.set('movies', selection);
+            Ember.getOwner(this).lookup('router:main').transitionTo('movie', selection.id);
+            //this.transitionTo('movie', selection.id);
         },
 
         updateSearch(title) {
-            let results = this.get('_cinemaService').search(title);
-            this.set('movies', Ember.A(results));
+            this.get('_cinemaService').search(title).then(response => this.set('movies', Ember.A(response)));
         },
         clearResultsList() {
             this.set('movies', null);
