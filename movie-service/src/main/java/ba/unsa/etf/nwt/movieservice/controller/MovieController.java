@@ -46,10 +46,8 @@ public class MovieController {
     public Movie getMovieByTmdbId(@PathVariable(name = "id") String id) {return movieService.getMovieByTmdbId(id);}
 
     @GetMapping("/tmdb/popular")
-    public ResponseEntity getMostPopularMovies() {
-
-        List<Movie> popularMovies =  movieService.getPopularMovies();
-        return ResponseEntity.ok().body(popularMovies);
+    public List<String> getMostPopularMovies() {
+        return movieService.getPopularMovies();
     }
 
     @DeleteMapping("{id}")

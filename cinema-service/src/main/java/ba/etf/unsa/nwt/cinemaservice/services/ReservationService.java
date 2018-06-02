@@ -171,9 +171,6 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
         return true;
     }
 
-    public void deleteReservation(Long id) {
-            repo.deleteById(id);
-    }
     private HttpHeaders generateHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));

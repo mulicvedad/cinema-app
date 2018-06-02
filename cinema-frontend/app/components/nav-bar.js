@@ -10,7 +10,7 @@ export default Ember.Component.extend(SweetAlertMixin, {
 
             let sweetAlert = this.get('sweetAlert');
             sweetAlert({
-                title: 'Are you sure you want to log out',
+                title: 'Do you really want to log out',
                 confirmButtonText: 'Yes',
                 showCancelButton: true,
                 cancelButtonText: 'No',

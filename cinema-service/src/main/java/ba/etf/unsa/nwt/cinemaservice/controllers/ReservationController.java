@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.ServletException;
 import javax.validation.Valid;
 import java.util.Collection;
 
@@ -95,24 +94,6 @@ public class ReservationController {
 
         return ResponseEntity.ok().build();
 
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
-        String message = "Deleting reservation not successful";
-        boolean valid = true;
-        try {
-            reservationService.deleteReservation(id);
-        }
-        catch (Exception e) {
-            valid = false;
-            message += ": " + e.getMessage();
-        }
-        if (!valid)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponseWrapper(
-                    new Error("none", "unknown", message)));
-
-        return ResponseEntity.ok().build();
     }
 
 
