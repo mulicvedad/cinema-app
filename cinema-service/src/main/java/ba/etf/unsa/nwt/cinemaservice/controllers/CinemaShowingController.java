@@ -120,7 +120,7 @@ public class CinemaShowingController {
     private ResponseEntity errorResponse(HttpStatus status, String title, String field, String message) {
         return ResponseEntity.status(status.value()).body(new ErrorResponseWrapper(new Error(title, field, message)));
     }
-    
+
     @GetMapping("/{id}/all-seats")
     public Collection<CinemaSeat> getAllSeats(@PathVariable("id") Long id) {
         return cinemaShowingService.getAllShowingSeats(id);
@@ -130,7 +130,7 @@ public class CinemaShowingController {
         CinemaShowing f  = cinemaShowingService.getCinemaShowing(id);
         return f;
     }
-    
+
     @GetMapping("/report")
     public ResponseEntity<byte[]> generateReport() {
         try {
@@ -166,4 +166,11 @@ public class CinemaShowingController {
         responseBody.put("error", error);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity getMoviesByTitleLike(@RequestParam("title") String title) {
+        return ResponseEntity.ok().body( cinemaShowingService.getMoviesByTitleLike(title));
+    }
+
 }
