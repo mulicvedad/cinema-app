@@ -71,3 +71,21 @@ a{
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
+
+.panel{
+  background-color: #000000;
+}
+
+.panel-heading {
+  font-size:16px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.panel-body {
+  font-size: 14px;
+}
+
+.panel-body p {
+    padding: 20px;
+}
