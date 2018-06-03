@@ -1,4 +1,10 @@
 <div class="container">
+      <div class="row theatre-heading ">
+         <div class="card card-name">
+          ROOM: {{model.showing.room.title}}<br>
+          TICKET PRICE: ${{model.showing.ticketPrice}}
+          </div>
+    </div>
   <div class="theatre">
     <div class="cinema-seats left">
       {{#each model.allSeats as |seats|}}

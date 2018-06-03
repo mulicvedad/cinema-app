@@ -72,8 +72,10 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                 confirmButtonColor: '#DC5154',
                 type: 'info'
             }).then((confirm)=>{
-                this.get('_cinemaService').createReservation(reservation,token).then((response)=>{
+                this.get('_cinemaService').createReservation(reservation,token).then(response=>{
                     let reservationId = String(response);
+                    console.log("TEMP");
+
                     sweetAlert({
                         title: 'Successfuly reserved seats',
                         confirmButtonText: 'OK',
@@ -83,15 +85,16 @@ export default Ember.Controller.extend(SweetAlertMixin,{
                         this.set('seats',[]);
                         console.log(reservationId);
                         this.get('router').transitionTo('payment',[reservationId]); // response is reservationId        
-                    }),
-                    function(reason){
-                        sweetAlert({
-                            title: "Seats couldn't be reserved. Please try again.",
-                            confirmButtonText: 'OK',
-                            type: 'error'
-                        });
-                    }                
-                })
+                    })     
+                }).catch((error) =>{
+                    let message =JSON.parse(error.responseText);
+                    sweetAlert({
+                    title: message.error.description,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#DC5154',
+                    type: 'error'
+                });  
+            })         
             })
         }
         }      

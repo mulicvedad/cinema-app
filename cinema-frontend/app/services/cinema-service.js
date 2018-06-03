@@ -51,7 +51,8 @@ export default BaseHttpService.extend({
       posterPath: null,
       startDate: null,
       startTime: null,
-      duration: null
+      duration: null,
+      ticketPrice: null,
     });
     this.set('showing', newShowing);
     return this.get('showing');

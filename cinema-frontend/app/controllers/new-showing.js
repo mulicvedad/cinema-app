@@ -14,6 +14,8 @@ export default Ember.Controller.extend({
   today: moment().format('YYYY-MM-DD'),
   actions: {
     createShowing(movie, token) {
+
+      console.log(this.get('model.cinemaShowing'));
       if (!this.validateInputs()) {
         this.get('_swalService').error("You must fill all the fields.");
         return;
@@ -22,7 +24,8 @@ export default Ember.Controller.extend({
         this.get('_swalService').success("Cinema showing successfully added",
           confirm => { this.transitionToRoute('showing'); });
       }).catch( errorResponse => {
-        this.get('_swalService').error("An error occured while creating new cinema showing.\n Error details:\n" + errorResponse);
+        let message = JSON.parse(errorResponse.responseText);
+        this.get('_swalService').error("An error occured while creating new cinema showing.\n Error details:\n" + message.error.description);
       });
     },
     setSelectedMovie(movieId) {
@@ -43,7 +46,8 @@ export default Ember.Controller.extend({
         this.get('model.cinemaShowing.roomId'),
         this.get('model.cinemaShowing.startDate'),
         this.get('model.cinemaShowing.startTime'),
-        this.get('model.cinemaShowing.duration')
+        this.get('model.cinemaShowing.duration'),
+        this.get('model.cinemaShowing.ticketPrice'),
       ).then( response => {
         this.get('_swalService').success('Requested room is available in given time interval', confirm => { });
       }).catch( error => {
@@ -52,8 +56,11 @@ export default Ember.Controller.extend({
     }
   },
   validateInputs() {
+    console.log("VALIDATE INPUTS: ");
+    console.log(this.get('model.cinemaShowing.ticketPrice'));
     if (this.get('model.cinemaShowing.roomId') == null || this.get('model.cinemaShowing.startDate') == null
-        || this.get('model.cinemaShowing.startTime') == null || this.get('model.cinemaShowing.duration') == null)
+        || this.get('model.cinemaShowing.startTime') == null || this.get('model.cinemaShowing.duration') == null 
+        || this.get('model.cinemaShowing.ticketPrice') == null)
       return false;
     return true;
   }

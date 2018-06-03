@@ -1,11 +1,27 @@
 
 .theatre {
   display: flex;
-  margin-top: 240px;
-  margin-left: 500px;  top: 70%;
+  margin-top: 70px;
+  margin-left: 550px;  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.theatre-heading{
+  padding-top: 5em !important;
+  padding-bottom: 0em !important;
+  padding-right: 83%;
+  font-size: 20px;
+}
+
+.card-name{
+  -webkit-box-shadow: inset -5px 9px 16px -4px rgba(252,252,252,0.72);
+  -moz-box-shadow: inset -5px 9px 16px -4px rgba(252,252,252,0.72);
+  box-shadow: inset -5px 9px 16px -4px rgba(252,252,252,0.72);
+      background: #245fb3 !important;
+  color: whitesmoke !important;
+}
+  
 
 .cinema-seats {
   display: flex;
@@ -357,5 +373,6 @@
 .proceed-div{
     margin: auto;
     width: fit-content;
+    padding-left: 8em;
     margin-bottom: 50px;
 }

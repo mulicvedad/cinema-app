@@ -120,7 +120,7 @@ public class CinemaShowingService extends BaseService<CinemaShowing, CinemaShowi
         Timetable cinemaShowingTimeTable = new Timetable(startDateTime, endDateTime);
         timetableService.save(cinemaShowingTimeTable);
         repo.save(new CinemaShowing(cinemaShowingDTO.movieId, cinemaShowingDTO.movieTitle, cinemaShowingDTO.posterPath,
-                cinemaShowingTimeTable, null, room.get(), new BigDecimal(5)));
+                cinemaShowingTimeTable, null, room.get(), cinemaShowingDTO.ticketPrice));
     }
 
     public Collection<CinemaSeat> getAvailableSeats(Long id) {
