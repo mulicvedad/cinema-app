@@ -1,5 +1,17 @@
 version: '2.2'
 services:
+  apache-server:
+    container_name: apache-server
+    build:
+      context: .
+      dockerfile: Dockerfile-apache
+    image: apache-server:latest
+    expose:
+      - 8080
+    ports:
+      - 80:80
+    networks:
+      - cinema-app-network
   eureka-service:
     container_name: eureka-service
     build:
@@ -25,6 +37,18 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=user_service_db
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=user
+  mysql-auth-service:
+    image: mysql:5.7.22
+    container_name: mysql-auth-service
+    ports:
+      - 3310:3306
+    networks:
+      - cinema-app-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=auth_service_db
       - MYSQL_USER=user
       - MYSQL_PASSWORD=user
   mysql-cinema-service:
@@ -105,6 +129,40 @@ services:
       - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
       - SPRING_RABBITMQ_HOST=rabbitmq-server
+      - JWT_SECRET_KEY = yetanothersecretkey
+  auth-service:
+    container_name: auth-service
+    build:
+      context: .
+      dockerfile: Dockerfile-authservice
+    image: auth-service:latest
+    expose:
+      - 9099
+    ports:
+      - 9099:9099
+    networks:
+      - cinema-app-network
+    links:
+      - "eureka-service"
+    depends_on:
+      - eureka-service
+      - mysql-auth-service
+      - rabbitmq-server
+    environment:
+      - DATABASE_HOST=mysql-auth-service
+      - DATABASE_USER=user
+      - DATABASE_PASSWORD=user
+      - DATABASE_NAME=auth_service_db
+      - DATABASE_PORT=3306
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-auth-service:3306/auth_service_db
+      - SPRING_APPLICATION_NAME=auth-service
+      - SPRING_PROFILES_ACTIVE=enableEureka
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
+      - SPRING_RABBITMQ_HOST=rabbitmq-server
+      - JWT_SECRET_KEY=yetanothersecretkey
+      - JWT_TOKEN_DURATION=3600
+      - JWt_TOKEN_ISSUER=lev@nwt.etf.unsa.ba
   cinema-service:
     container_name: cinema-service
     build:
@@ -135,6 +193,7 @@ services:
       - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
       - SPRING_RABBITMQ_HOST=rabbitmq-server
+      - JWT_SECRET_KEY = yetanothersecretkey
   movie-service:
     container_name: movie-service
     build:
@@ -166,6 +225,7 @@ services:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
       - SPRING_RABBITMQ_HOST=rabbitmq-server
       - TMDB_APIKEY=5b5a9f89ddd9f24679aa33e73cdd0a7a
+      - JWT_SECRET_KEY = yetanothersecretkey
   payment-service:
     container_name: payment-service
     build:
@@ -196,7 +256,8 @@ services:
       - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
       - SPRING_RABBITMQ_HOST=rabbitmq-server
-  gatway:
+      - JWT_SECRET_KEY = yetanothersecretkey
+  gateway:
     container_name: gateway
     build:
       context: .
@@ -217,7 +278,11 @@ services:
       - SPRING_PROFILES_ACTIVE=enableEureka
       - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka
-
+      - ZUUL_HOST_CONNECT_TIMEOUT_MILLIS=10000
+      - ZUUL_HOST_SOCKET_TIMEOUT_MILLIS=30000
+      - RIBBON_READ_TIMEOUT = 10000
+      - RIBBON_CONNECT_TIMEOUT = 10000
+      - JWT_SECRET_KEY = yetanothersecretkey
     logging:
       driver: json-file
 networks: 

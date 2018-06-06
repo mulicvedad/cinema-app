@@ -1,0 +1,9 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+RUN apk --no-cache add netcat-openbsd
+COPY ./auth-service.jar /opt/lib/
+COPY ./auth-service-entrypoint.sh /opt/bin/auth-service-entrypoint.sh
+RUN chmod 755 /opt/bin/auth-service-entrypoint.sh
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/auth-service.jar"]
+EXPOSE 9099
